@@ -1,0 +1,31 @@
+body {
+    background-color: rgb(238, 234, 234);
+    font-family: Arial, sans-serif;
+}
+
+.formulario{
+    background: #ffecec;
+    width: 90%;
+    margin: 50px auto;
+    padding: 50px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px  rgb(94, 93, 93);
+    gap: 15px;
+    
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+     border: 1px solid #ccc;
+}
+
+#titulo{
+    text-align: center;
+}
+
+#sub_titulo{
+    text-align: center;
+}
