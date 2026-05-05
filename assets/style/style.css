@@ -1,9 +1,9 @@
 body {
-    background-color: rgb(238, 234, 234);
+    background-color:rgb(126, 126, 49) ;
     font-family: Arial, sans-serif;
 }
 
-.formulario{
+.cadastro{
     background: #ffecec;
     width: 90%;
     margin: 50px auto;
@@ -12,6 +12,15 @@ body {
     box-shadow: 2px 2px 3px  rgb(94, 93, 93);
     gap: 15px;
     
+}
+
+.caixa {
+    background-color:white;
+    padding: 40px;
+    border-radius: 10px;
+    width: 500px;
+    margin: 300px auto;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 input, select, textarea {
@@ -28,4 +37,21 @@ input, select, textarea {
 
 #sub_titulo{
     text-align: center;
+}
+
+p{
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+button {
+    margin-top: 20px;
+    padding: 8px;
+    background-color:  rgb(184, 113, 71);
+    color: #dfdfe9;;
+    border: nono;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    width: 500px;
+    border-radius: 10px;
+    
 }
