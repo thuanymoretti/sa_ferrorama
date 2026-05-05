@@ -1,11 +1,12 @@
-body {
+body{
     background-color:rgb(126, 126, 49) ;
     font-family: Arial, sans-serif;
 }
 
+
 .cadastro{
     background: #ffecec;
-    width: 90%;
+    width: 70%;
     margin: 50px auto;
     padding: 50px;
     border-radius: 5px;
