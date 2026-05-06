@@ -1,58 +1,111 @@
-body{
-    background-color:rgb(126, 126, 49) ;
+body {
+    background-image: url("../Situação de aprendizagem.png");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: Arial, sans-serif;
 }
 
-
-.cadastro{
-    background: #ffecec;
-    width: 70%;
-    margin: 50px auto;
-    padding: 50px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 3px  rgb(94, 93, 93);
-    gap: 15px;
-    
+a {
+    color: rgb(255, 162, 99);
 }
+
+
+h1 {
+    text-align: center;
+}
+
+
+p {
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #ffecec;
+}
+
+
+#titulo {
+    text-align: center;
+}
+
+
+#sub_titulo {
+    text-align: center;
+}
+
+
+.cadastro {
+    background: rgba(110, 73, 49, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 25px;
+    width: 600px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    border: none !important;
+    padding: 10px !important;
+}
+
 
 .caixa {
-    background-color:white;
-    padding: 40px;
-    border-radius: 10px;
-    width: 500px;
-    margin: 300px auto;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: rgba(110, 73, 49, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 70px;
+    border-radius: 25px;
+    width: 450px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-     border: 1px solid #ccc;
+
+input::placeholder {
+    color: #ffffff;
+    opacity: 1;
 }
 
-#titulo{
-    text-align: center;
+
+button:hover {
+    background-color: rgb(160, 95, 55);
+
 }
 
-#sub_titulo{
-    text-align: center;
-}
-
-p{
-    text-align: center;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
 
 button {
-    margin-top: 20px;
-    padding: 8px;
-    background-color:  rgb(184, 113, 71);
-    color: #dfdfe9;;
-    border: nono;
+    display: block;
+    margin: 20px auto;
+    padding: 12px;
+    background-color: rgb(184, 113, 71);
+    color: #ffffff;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    width: 500px;
-    border-radius: 10px;
-    
+    width: 80%;
+    border-radius: 10px !important;
+    text-align: center;
+    border: none;
+}
+
+
+label {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
 }
