@@ -14,9 +14,17 @@ Scrum Master;
 O Scrum Master promove o Scrum na equipe da qual faz parte. Ele orienta nossa equipe e procura uma maneira de melhorar a prática. Uma responsabilidade fundamental do Scrum Master é treinar a equipe, remover impedimentos e viabilizar os processos do Scrum para aumentar a eficácia. Isso ajuda a equipe a melhorar o desempenho geral e a entrega.
 
 Development Team;
+O Time de Desenvolvimento no Scrum é um grupo auto-organizado e multifuncional, composto por profissionais (desenvolvedores, designers, testers) responsáveis por criar um incremento de produto funcional e de valor a cada Sprint. Eles têm autonomia para definir como realizar o trabalho técnico.
+
 Eventos do SCRUM:
+A estrutura do Scrum inclui práticas, cerimônias e reuniões que nós conduzimos com regularidade. É nas cerimônias ágeis que vimos as maiores diferenças entre as equipes. É aconselhavel usar todas as cerimônias em dois sprints e ver como é. Você pode então fazer uma revisão rápida e verificar onde fazer ajustes.
+
 Sprint;
+
+
 Sprint Planning;
+Toda a equipe de desenvolvimento planeja o trabalho a ser realizado (escopo) durante o sprint atual na reunião. O Scrum Master lidera essa reunião, que é conhecida como evento de planejamento de sprint. Durante essa reunião, a equipe determina a meta do sprint e planeja o trabalho a ser concluído. Histórias específicas do usuário são, então, acrescentadas ao sprint a partir do backlog do produto.
+
 Daily Scrum;
 Sprint Review;
 Sprint Retrospective;
