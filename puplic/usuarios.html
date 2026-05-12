@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Painel Ferroviário</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/style/style.css">
+</head>
+
+<body>
+
+<div class="d-flex">
+
+  <!-- MENU -->
+  <aside class="sidebar p-4">
+
+    <h3 class="mb-5">
+      <i class="fa-solid fa-train text-warning"></i>
+      AdminPanel
+    </h3>
+
+    <ul class="list-unstyled">
+
+      <li class="menu active">
+        <i class="fa-solid fa-house"></i>
+        Dashboard
+      </li>
+
+      <li class="menu">
+        <i class="fa-solid fa-users"></i>
+        Usuários
+      </li>
+
+      <li class="menu">
+        <i class="fa-solid fa-train-subway"></i>
+        Locomotivas
+      </li>
+
+      <li class="menu">
+        <i class="fa-solid fa-location-dot"></i>
+        Viagens
+      </li>
+
+      <li class="menu">
+        <i class="fa-solid fa-gear"></i>
+        Configurações
+      </li>
+
+    </ul>
+
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="main p-4">
+
+    <!-- TOPO -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+      <h1>Dashboard</h1>
+
+      <input type="text"
+      class="form-control w-25"
+      placeholder="Buscar...">
+
+    </div>
+
+    <!-- CARDS -->
+    <div class="row g-4 mb-4">
+
+      <div class="col-md-3">
+        <div class="card-box">
+          <i class="fa-solid fa-train fs-2 text-warning"></i>
+
+          <div>
+            <h3>24</h3>
+            <p>Locomotivas</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card-box">
+          <i class="fa-solid fa-location-dot fs-2 text-warning"></i>
+
+          <div>
+            <h3>18</h3>
+            <p>Viagens</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card-box">
+          <i class="fa-solid fa-dollar-sign fs-2 text-warning"></i>
+
+          <div>
+            <h3>R$12 mil</h3>
+            <p>Faturamento</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card-box">
+          <i class="fa-solid fa-screwdriver-wrench fs-2 text-warning"></i>
+
+          <div>
+            <h3>7</h3>
+            <p>Manutenções</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TABELA -->
+    <div class="box p-4">
+
+      <div class="d-flex justify-content-between mb-3">
+
+        <h3>Usuários</h3>
+
+        <button class="btn btn-warning">
+          Novo Usuário
+        </button>
+
+      </div>
+
+      <table class="table table-dark table-hover">
+
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Status</th>
+        </tr>
+
+        <tr>
+          <td>Julia</td>
+          <td>julia@email.com</td>
+          <td class="text-success">Ativo</td>
+        </tr>
+
+        <tr>
+          <td>Thuany</td>
+          <td>thuany@email.com</td>
+          <td class="text-danger">Inativo</td>
+        </tr>
+
+      </table>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>

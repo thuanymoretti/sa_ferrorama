@@ -1,3 +1,4 @@
+/*GERAL*/
 body {
     background-image: url("../Situação de aprendizagem.png");
     background-size: cover;
@@ -8,6 +9,8 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
+    color:#fff;
+    background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
 }
 
 a {
@@ -36,6 +39,7 @@ p {
     text-align: center;
 }
 
+/*CADASTRO*/
 
 .cadastro {
     background: rgba(110, 73, 49, 0.4);
@@ -55,6 +59,7 @@ p {
     padding: 10px !important;
 }
 
+/*LOGIN*/
 
 .caixa {
     background: rgba(110, 73, 49, 0.4);
@@ -108,4 +113,68 @@ textarea {
     border-radius: 12px;
     border: none;
     background: rgba(255, 255, 255, 0.2);
+}
+
+/*HOME*/
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+.sidebar{
+  width:250px;
+  min-height:100vh;
+
+  background:rgba(0,0,0,.6);
+}
+
+.menu{
+  padding:12px;
+  margin-bottom:10px;
+
+  border-radius:10px;
+
+  cursor:pointer;
+  transition:.3s;
+}
+
+.menu:hover,
+.active{
+  background:rgba(255,255,255,.1);
+}
+
+
+
+.main{
+  width:100%;
+}
+
+
+
+.card-box{
+  padding:20px;
+
+  border-radius:20px;
+
+  background:rgba(0,0,0,.5);
+
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+
+
+.box{
+  border-radius:20px;
+
+  background:rgba(0,0,0,.5);
+}
+
+
+
+#fixed{
+    justify-content: flex-start;
 }
