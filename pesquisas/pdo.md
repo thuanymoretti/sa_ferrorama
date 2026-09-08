@@ -57,7 +57,7 @@ Em vez de colocar diretamente uma informação recebida pelo usuário dentro da 
 
 ### Exemplo:
 
-```php
+
 $sql = "SELECT * FROM usuarios WHERE email = :email";
 
 $stmt = $pdo->prepare($sql);
@@ -66,7 +66,9 @@ $stmt->execute([
     'email' => $email
 ]);
 
-* Links da Pesquisa
+
+## Links da Pesquisa
+
 [PHP PDO: Como criar sua primeira conexão]("https://www.devmedia.com.br/php-pdo-como-criar-sua-primeira-conexao/39007")
 
 [Tudo sobre o PHP Data Object PDO – Hospedagem de Sites]("https://www.locaweb.com.br/ajuda/wiki/tudo-sobre-o-php-data-object-pdo-hospedagem-de-sites/")
