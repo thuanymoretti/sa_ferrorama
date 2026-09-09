@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferroma | Acesso ao sistema</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { min-height: 100vh; margin: 0; padding: 40px 20px; font-family: Arial, sans-serif; color: #fff; background: linear-gradient(rgba(15, 23, 42, .9), rgba(15, 23, 42, .9)), url("assets/Situação de aprendizagem.png") center / cover; }
+        main { max-width: 1000px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 42px; }
+        h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.5rem); }
+        header p { color: #cbd5e1; font-size: 1.1rem; }
+        .atalhos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .atalho { min-height: 180px; padding: 25px; border: 1px solid rgba(255,255,255,.18); border-radius: 18px; background: rgba(30, 41, 59, .88); color: #fff; text-decoration: none; transition: transform .2s, background .2s; }
+        .atalho:hover, .atalho:focus { transform: translateY(-5px); background: #334155; color: #fff; }
+        .atalho i { display: block; margin-bottom: 16px; color: #38bdf8; font-size: 2.2rem; }
+        .atalho h2 { margin: 0 0 10px; font-size: 1.3rem; }
+        .atalho p { margin: 0; color: #cbd5e1; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <main>
+        <header><h1><i class="bi bi-train-front-fill"></i> Ferroma</h1><p>Escolha uma área do sistema para continuar.</p></header>
+        <section class="atalhos" aria-label="Páginas do sistema">
+            <a class="atalho" href="puplic/login.html"><i class="bi bi-box-arrow-in-right"></i><h2>Entrar</h2><p>Acesse o sistema pelo login.</p></a>
+            <a class="atalho" href="puplic/home.php"><i class="bi bi-grid-1x2-fill"></i><h2>Dashboard</h2><p>Veja sensores, trens em operação e alertas.</p></a>
+            <a class="atalho" href="puplic/cadastrar_sensores.html"><i class="bi bi-cpu-fill"></i><h2>Sensores</h2><p>Cadastre e gerencie sensores ferroviários.</p></a>
+            <a class="atalho" href="puplic/tela_de_cadastro.html"><i class="bi bi-person-plus-fill"></i><h2>Cadastrar usuário</h2><p>Registre novos usuários no sistema.</p></a>
+            <a class="atalho" href="puplic/usuarios.html"><i class="bi bi-people-fill"></i><h2>Usuários</h2><p>Consulte os usuários cadastrados.</p></a>
+        </section>
+    </main>
+</body>
+</html>
