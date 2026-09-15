@@ -42,10 +42,11 @@ function e(string $texto): string { return htmlspecialchars($texto, ENT_QUOTES, 
     <div class="layout">
         <aside class="menu-lateral" aria-label="Menu principal">
             <a href="home.php" class="item ativo"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
-            <a href="cadastrar_sensores.html" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
-            <a href="#" class="item"><i class="bi bi-file-earmark-bar-graph-fill"></i> Relatórios</a>
+            <a href="cadastrar_sensores.html" class="item"><i class="bi bi-cpu-fill"></i> Visualizar Sensores</a>
+            <a href="#" class="item"><i class="bi bi-file-earmark-bar-graph-fill"></i> Visualização de Trens</a>
             <a href="tela_de_cadastro.html" class="item"><i class="bi bi-person-plus-fill"></i> Cadastrar usuários</a>
-            <a href="usuarios.html" class="item"><i class="bi bi-people-fill"></i> Usuários cadastrados</a>
+            <a href="usuarios.html" class="item"><i class="bi bi-people-fill"></i> Visualizar cadastrados</a>
+            <a href="configuracoes.html" class="item"><i class="bi bi-gear-fill"></i> Visualização da viagem</a>
         </aside>
         <main class="conteudo">
             <section class="informacoes_dashboard" aria-label="Resumo do sistema">
