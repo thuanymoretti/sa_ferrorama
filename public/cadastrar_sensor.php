@@ -7,6 +7,7 @@ $sensores = $conexao->query($sql);
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -49,6 +50,7 @@ echo "Tipo de Dado:";
 
 echo "<select name='tipoDado'>";
 
+echo "<option value='Selecione'>Selecione</option>";
 echo "<option value='Velocidade'>Velocidade</option>";
 echo "<option value='Temperatura'>Temperatura</option>";
 echo "<option value='Pressão'>Pressão</option>";
@@ -62,8 +64,10 @@ echo "</select>";
 
 echo "Trem vinculado:";
 
-echo "<select name='tipoDado'>";
+echo "<select name='trem'>";
 
+
+echo "<option value='Selecione'>Selecione</option>";
 echo "<option value='Trem 03 - Linha Vermelha'>Vermelha</option>";
 echo "<option value='Trem 07 - Linha Azul'>Azul</option>";
 echo "<option value='Trem 12 - Linha Verde'>Verde</option>";
@@ -76,16 +80,10 @@ echo "</select>";
         <br>
         <br>
         
-        <button type="submit">
-            Cadastrar
-        </button>
+        <button type="submit">  Cadastrar </button>
     </form>
 <br>
-    <a href="../index.php">
-        <button type="button">
-            Voltar para o início
-        </button>
-    </a>
+    <a href="../index.php"> <button type="button"> Voltar para o início </button> </a>
 
 <?php } ?>
 
