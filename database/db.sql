@@ -18,13 +18,13 @@ CREATE TABLE sensores (
     dados_adicionais VARCHAR(100)
 );
 
-CREATE TABLE trens(
+CREATE TABLE trens (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    identificação VARCHAR(100) NOT NULL,
+    identificacao VARCHAR(100) NOT NULL,
     modelo VARCHAR(50) NOT NULL,
     capacidade INT NOT NULL,
     status ENUM('Ativo', 'Inativo', 'Em Manutenção') NOT NULL
-)
+);
 
 CREATE TABLE viagens (
     id INT AUTO_INCREMENT PRIMARY KEY,
