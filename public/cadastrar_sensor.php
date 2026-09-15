@@ -60,22 +60,27 @@ echo "</select>";
 ?>
         <br>
 <br>
-<?php
+     <label>Trem vinculado:</label>
 
-echo "Trem vinculado:";
+<select name="trem_id" required>
 
-echo "<select name='trem'>";
+    <option value="">Selecione um trem</option>
 
+    <?php
 
-echo "<option value='Selecione'>Selecione</option>";
-echo "<option value='Trem 03 - Linha Vermelha'>Vermelha</option>";
-echo "<option value='Trem 07 - Linha Azul'>Azul</option>";
-echo "<option value='Trem 12 - Linha Verde'>Verde</option>";
+    $trens = $conexao->query(  "SELECT id, identificacao   FROM trens  ORDER BY identificacao" );
+   while ($trem = $trens->fetch_assoc()) {
 
-echo "</select>";
+    ?>
+   <option value="<?php echo $trem['id']; ?>"> <?php echo $trem['identificacao']; ?>  </option>
 
-?>
-        <br>
+    <?php
+
+    }
+
+    ?>
+
+</select>
 
         <br>
         <br>
