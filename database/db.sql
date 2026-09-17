@@ -23,8 +23,7 @@ CREATE TABLE sensores (
     tipo_sensor ENUM('Temperatura', 'Umidade', 'Pressao', 'Velocidade') NOT NULL,
     localizacao VARCHAR(100) NOT NULL,
     dados_adicionais VARCHAR(100),
-    trem_id INT NOT NULL,
- FOREIGN KEY (trem_id) REFERENCES trens(id)
+    trem_id INT NOT NULL
 );
 
 
