@@ -14,7 +14,7 @@ $sensores = $conexao->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Animal</title>
+    <title>Cadastrar Sensores</title>
 
 </head>
 
@@ -23,15 +23,13 @@ $sensores = $conexao->query($sql);
 <main>
 <?php if (isset($_GET["sucesso"])) { ?>
     <h2>Sensor cadastrado com sucesso!</h2>
-    <a href="../index.php">
-        <button>Voltar para o início</button>
-    </a>
+       <a href="../index.html"> <button type="button">Voltar para o início</button> </a>
 
 <?php } else { ?>
 
     <h1>~ Cadastre um novo Sensor ~</h1>
 
-    <form action="cadastrar.php" method="POST">
+    <form action="salvar_sensor.php" method="POST">
        <input type="hidden" name="tipo" value="sensor">
 
         <label>Nome do Sensor:</label>
@@ -67,13 +65,13 @@ echo "</select>";
     <option value="">Selecione um trem</option>
 
     <?php
-
+    echo "<option value='Temperatura'>Temperatura</option>";
     $trens = $conexao->query(  "SELECT id, identificacao   FROM trens  ORDER BY identificacao" );
    while ($trem = $trens->fetch_assoc()) {
 
     ?>
    <option value="<?php echo $trem['id']; ?>"> <?php echo $trem['identificacao']; ?>  </option>
-
+ 
     <?php
 
     }
