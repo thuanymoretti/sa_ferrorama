@@ -2,25 +2,7 @@
 declare(strict_types=1);
 
 $administrador = 'Administrador';
-$sensores = [
-    ['id' => '001', 'localizacao' => 'Estação Central - Eixo A', 'tipo' => 'Velocidade', 'status' => 'Ativo'],
-    ['id' => '002', 'localizacao' => 'Ponte de Ferro do Rio Paraty', 'tipo' => 'Temperatura', 'status' => 'Ativo'],
-    ['id' => '003', 'localizacao' => 'Pátio Sul', 'tipo' => 'Falha', 'status' => 'Alerta'],
-    ['id' => '004', 'localizacao' => 'Linha Oeste - Km 12', 'tipo' => 'Velocidade', 'status' => 'Ativo'],
-    ['id' => '005', 'localizacao' => 'Estação Leste - Plataforma 2', 'tipo' => 'Temperatura', 'status' => 'Ativo'],
-    ['id' => '006', 'localizacao' => 'Trecho Sul - Km 78', 'tipo' => 'Pressão', 'status' => 'Ativo'],
-    ['id' => '007', 'localizacao' => 'Pátio Norte', 'tipo' => 'Energia', 'status' => 'Ativo'],
-    ['id' => '008', 'localizacao' => 'Estação Jardim Azul', 'tipo' => 'Velocidade', 'status' => 'Ativo'],
-    ['id' => '009', 'localizacao' => 'Trecho Central - Km 101', 'tipo' => 'Vibração', 'status' => 'Ativo'],
-    ['id' => '010', 'localizacao' => 'Estação Rio Verde', 'tipo' => 'Temperatura', 'status' => 'Ativo'],
-    ['id' => '011', 'localizacao' => 'Trecho Industrial - Km 56', 'tipo' => 'Energia', 'status' => 'Ativo'],
-    ['id' => '012', 'localizacao' => 'Pátio Ferroviário Oeste', 'tipo' => 'Pressão', 'status' => 'Ativo'],
-    ['id' => '013', 'localizacao' => 'Estação Bela Vista', 'tipo' => 'Velocidade', 'status' => 'Ativo'],
-    ['id' => '014', 'localizacao' => 'Trecho Norte - Km 89', 'tipo' => 'Falha no sensor', 'status' => 'Alerta'],
-    ['id' => '015', 'localizacao' => 'Estação Vale do Sol', 'tipo' => 'Superaquecimento', 'status' => 'Alerta'],
-    ['id' => '016', 'localizacao' => 'Pátio Técnico Leste', 'tipo' => 'Falha elétrica', 'status' => 'Alerta'],
-    ['id' => '017', 'localizacao' => 'Trecho Sul - Km 132', 'tipo' => 'Baixa pressão', 'status' => 'Alerta'],
-];
+
 $quantidadeAlertas = count(array_filter($sensores, fn(array $sensor): bool => $sensor['status'] === 'Alerta'));
 function e(string $texto): string { return htmlspecialchars($texto, ENT_QUOTES, 'UTF-8'); }
 ?>
