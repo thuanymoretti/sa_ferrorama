@@ -52,8 +52,6 @@ p {
     text-align: center;
 }
 
-/*CADASTRO|*/
-
 .cadastro {
     background: rgba(110, 73, 49, 0.4);
     backdrop-filter: blur(15px);
@@ -72,7 +70,6 @@ p {
     padding: 10px !important;
 }
 
-/*LOGIN*/
 
 .caixa {
     background: rgba(110, 73, 49, 0.4);
