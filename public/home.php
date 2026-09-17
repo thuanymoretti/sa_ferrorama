@@ -78,7 +78,7 @@ function e(string $texto): string
         Dashboard
     </a>
 
-    <a href="cadastrar_sensor.php" class="item">
+    <a href="crud_sensor.php" class="item">
         <i class="bi bi-cpu-fill"></i>
         Sensores
     </a>
