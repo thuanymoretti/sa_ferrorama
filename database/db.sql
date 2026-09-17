@@ -9,17 +9,6 @@ CREATE TABLE usuarios (
     tipo_usuario ENUM('Administrador', 'Funcionario') NOT NULL
 );
 
-CREATE TABLE sensores (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    identificacao VARCHAR(50) NOT NULL,
-    tipo_sensor ENUM('Temperatura', 'Umidade', 'Pressao', 'Velocidade') NOT NULL,
-    localizacao VARCHAR(100) NOT NULL,
-    dados_adicionais VARCHAR(100),
-    trem_id INT NOT NULL,
- FOREIGN KEY (trem_id) REFERENCES trens(id)
-);
-
 CREATE TABLE trens (
     id INT AUTO_INCREMENT PRIMARY KEY,
     identificacao VARCHAR(100) NOT NULL,
@@ -27,6 +16,16 @@ CREATE TABLE trens (
     capacidade INT NOT NULL,
     status ENUM('Ativo', 'Inativo', 'Em Manutenção') NOT NULL
 );
+CREATE TABLE sensores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    identificacao VARCHAR(50) NOT NULL,
+    tipo_sensor ENUM('Temperatura', 'Umidade', 'Pressao', 'Velocidade') NOT NULL,
+    localizacao VARCHAR(100) NOT NULL,
+    dados_adicionais VARCHAR(100),
+    trem_id INT NOT NULL
+);
+
 
 CREATE TABLE viagens (
     id INT AUTO_INCREMENT PRIMARY KEY,

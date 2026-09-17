@@ -2,11 +2,21 @@
 
 include "../infra/conexao.php";
 
-$sql = "SELECT * FROM sensores ORDER BY nome";
-$sensores = $conexao->query($sql);
+$id = $_GET["id"];
+
+// Busca o sensor
+$sql = "SELECT * FROM sensores WHERE id = ?";
+$stmt = $conexao->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+$sensor = mysqli_fetch_assoc($resultado);
+
+// Busca os usuários
+$usuarios = mysqli_query($conexao, "SELECT * FROM sensores ORDER BY identificacao");
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -14,22 +24,24 @@ $sensores = $conexao->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Sensores</title>
 
+    <title>Editar sensor</title>
+
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 
 <body>
 
+
 <main>
-<?php if (isset($_GET["sucesso"])) { ?>
-    <h2>Sensor cadastrado com sucesso!</h2>
-       <a href="../index.html"> <button type="button">Voltar para o início</button> </a>
 
-<?php } else { ?>
+    <h2>Editar sensor</h2>
 
-    <h1>~ Cadastre um novo Sensor ~</h1>
+    <form action="atualizar.php" method="POST">
 
-    <form action="salvar_sensor.php" method="POST">
+        <input type="hidden" name="id" value="<?= $sensor['id'] ?>">
+
+          <form action="salvar_sensor.php" method="POST">
        <input type="hidden" name="tipo" value="sensor">
 
         <label>Nome do Sensor:</label>
@@ -65,7 +77,6 @@ echo "</select>";
     <option value="">Selecione um trem</option>
 
     <?php
-    echo "<option value='Temperatura'>Temperatura</option>";
     $trens = $conexao->query(  "SELECT id, identificacao   FROM trens  ORDER BY identificacao" );
    while ($trem = $trens->fetch_assoc()) {
 
@@ -75,21 +86,24 @@ echo "</select>";
     <?php
 
     }
+ ?>
 
-    ?>
+        </select>
 
-</select>
+        <br><br>
 
-        <br>
-        <br>
-        
-        <button type="submit">  Cadastrar </button>
+        <input type="submit" value="Atualizar">
+
     </form>
-<br>
-    <a href="../index.php"> <button type="button"> Voltar para o início </button> </a>
 
-<?php } ?>
+    <br>
+
+    <a href="../index.html">
+        <button type="button">Voltar para o início</button>
+    </a>
 
 </main>
+
 </body>
+
 </html>
