@@ -483,7 +483,143 @@ button:hover {
     margin-top: 60px;
 }
 
+/* ==========================================================
+   TABELA DE SENSORES
+   ========================================================== */
 
+.planilha_dashboard {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: var(--cinza-trilho-escuro);
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    min-width: 850px;
+    margin: 0;
+    border-collapse: collapse;
+    background-color: var(--preto-fuligem) !important;
+}
+
+.table th {
+    padding: 16px 12px;
+    background-color: var(--preto-fuligem) !important;
+    color: var(--branco-creme) !important;
+    text-align: left;
+}
+
+.table td {
+    padding: 15px 12px;
+    background-color: var(--preto-fuligem) !important;
+    color: var(--branco-creme) !important;
+    border-bottom: 1px solid var(--cinza-trilho-escuro);
+}
+
+.table tr:hover td {
+    background-color: var(--cinza-trilho) !important;
+}
+
+
+/* ==========================================================
+   AÇÕES
+   ========================================================== */
+
+.table td:last-child,
+.table th:last-child {
+    text-align: center;
+}
+
+.table td a {
+    padding: 6px 10px;
+    margin: 2px;
+    border-radius: 7px;
+    text-decoration: none;
+}
+
+.table td a:first-child {
+    background-color: var(--cinza-trilho);
+    color: var(--branco-creme);
+}
+
+.table td a:first-child:hover {
+    background-color: var(--laranja-ferrugem);
+}
+
+.table td a:last-child {
+    background-color: var(--perigo);
+    color: var(--branco-creme);
+}
+
+
+/* ==========================================================
+   BOTÃO CADASTRAR
+   ========================================================== */
+
+.planilha_dashboard button {
+    width: auto;
+    padding: 10px 20px;
+    margin: 20px 0 0;
+}
+
+/* ==========================================================
+   CADASTRAR SENSOR
+   ========================================================== */
+
+.container-sensor {
+    width: 90%;
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: var(--cinza-trilho-escuro);
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.titulo-sensor {
+    margin-bottom: 35px;
+    color: var(--branco-creme);
+}
+
+.form-sensor {
+    width: 100%;
+}
+
+.grupo-input {
+    margin-bottom: 20px;
+}
+
+.grupo-input label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--branco-creme);
+}
+
+.grupo-input input,
+.grupo-input select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 2px solid var(--cinza-trilho);
+    border-radius: 10px;
+    background-color: var(--branco-creme);
+    color: var(--preto-fuligem);
+}
+
+.grupo-input input:focus,
+.grupo-input select:focus {
+    outline: none;
+    border-color: var(--laranja-ferrugem);
+}
+
+.container-sensor button {
+    width: 100%;
+    margin: 10px 0;
+}
 
 /* ==========================================================
    VIAGENS
