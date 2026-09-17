@@ -567,3 +567,122 @@ button:hover {
     }
 
 }
+
+/* ========================================
+   PÁGINA DE LOGIN
+   ======================================== */
+
+.pagina-login {
+    min-height: 100vh;
+    margin: 0;
+
+    background-color: #0d162b;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagina-login main {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagina-login form {
+    width: 550px;
+}
+
+.pagina-login .caixa {
+    background-color: #303a4d;
+
+    padding: 45px 65px;
+
+    border-radius: 22px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.pagina-login .caixa h1 {
+    color: white;
+
+    text-align: center;
+
+    font-size: 30px;
+
+    margin-bottom: 25px;
+}
+
+.pagina-login .caixa label {
+    color: white;
+
+    font-size: 16px;
+
+    margin-bottom: 5px;
+}
+
+.pagina-login .caixa input {
+    width: 100%;
+    height: 42px;
+
+    border: none;
+    border-radius: 12px;
+
+    padding: 0 15px;
+
+    margin-bottom: 14px;
+
+    box-sizing: border-box;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+.pagina-login .caixa input::placeholder {
+    color: #d8d8d8;
+}
+
+.pagina-login .caixa button {
+    width: 75%;
+    height: 38px;
+
+    margin: 18px auto;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #c47746;
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.pagina-login .caixa button:hover {
+    background-color: #d28755;
+}
+
+.pagina-login .caixa p {
+    color: white;
+
+    text-align: center;
+
+    font-size: 15px;
+}
+
+.pagina-login .caixa a {
+    color: #d88750;
+
+    font-weight: bold;
+}
+
+.pagina-login .caixa a:hover {
+    color: #f0a06a;
+}
