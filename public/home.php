@@ -1,4 +1,3 @@
-
 <?php
 
 include "../infra/conexao.php";
@@ -79,7 +78,7 @@ function e(string $texto): string
         Dashboard
     </a>
 
-    <a href="cadastrar_sensores.html" class="item">
+    <a href="cadastrar_sensor.php" class="item">
         <i class="bi bi-cpu-fill"></i>
         Sensores
     </a>
@@ -94,7 +93,7 @@ function e(string $texto): string
         Cadastrados
     </a>
 
-    <a href="crud_viagens.php" class="item">
+    <a href="viagens.php" class="item">
         <i class="bi bi-calendar-check-fill"></i>
         Viagens
     </a>
@@ -146,7 +145,7 @@ function e(string $texto): string
 
                 <h3>
 
-                    17
+                    15
 
                 </h3>
 
