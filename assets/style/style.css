@@ -1,11 +1,7 @@
-/* ==========================================================
-   SA_FERRORAMA — Paleta de cores central
-   ========================================================== */
 :root {
-    /* Laranja Ferrugem */
     --laranja-ferrugem: #B87147;
-    --laranja-ferrugem-escuro: #8F5836; /* hover/active */
-    --laranja-ferrugem-claro: #FFA263; /* já usado nos links originais */
+    --laranja-ferrugem-escuro: #8F5836; 
+    --laranja-ferrugem-claro: #FFA263; 
 
     /* Cinza Trilho */
     --cinza-trilho: #6E7580;
@@ -26,9 +22,6 @@
     --perigo: #C62828;
 }
 
-/* ==========================================================
-   Base
-   ========================================================== */
 
 body {
     background-color: var(--preto-fuligem);
@@ -38,7 +31,6 @@ body {
     color: var(--branco-creme);
 }
 
-/* Tela de login/cadastro com imagem de fundo */
 .login {
     background-image:
         linear-gradient(rgba(15, 23, 42, .75), rgba(15, 23, 42, .75)),
@@ -74,11 +66,8 @@ p {
     text-align: center;
 }
 
-/* ==========================================================
-   Cadastro / Login — cartões com glassmorphism
-   ========================================================== */
 .cadastro {
-    background: rgba(110, 117, 128, 0.35); /* cinza-trilho translúcido */
+    background: rgba(110, 117, 128, 0.35); 
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     padding: 40px;
@@ -124,9 +113,7 @@ textarea {
     border: none;
 }
 
-/* ==========================================================
-   Botões
-   ========================================================== */
+
 button {
     display: block;
     margin: 20px auto;
@@ -191,9 +178,6 @@ button:hover {
     color: var(--branco-creme);
 }
 
-/* ==========================================================
-   Cabeçalho / Layout / Menu lateral
-   ========================================================== */
 .cabecalho {
     display: flex;
     justify-content: space-between;
@@ -306,9 +290,6 @@ button:hover {
     overflow-x: auto;
 }
 
-/* ==========================================================
-   Dashboard
-   ========================================================== */
 .informacoes_dashboard {
     display: flex;
     gap: 20px;
@@ -360,9 +341,6 @@ button:hover {
     font-weight: bold;
 }
 
-/* ==========================================================
-   Tabelas
-   ========================================================== */
 .table {
     background-color: transparent !important;
 }
@@ -380,9 +358,7 @@ button:hover {
     color: var(--branco-creme);
 }
 
-/* ==========================================================
-   Exclusão (modal/confirmação)
-   ========================================================== */
+
 .excluir {
     width: 600px;
     margin: 50px auto;
@@ -397,9 +373,6 @@ button:hover {
     width: 240px;
 }
 
-/* ==========================================================
-   Campo com ícone (busca)
-   ========================================================== */
 .campo-com-icone {
     background-image: url(../icons/lupa.svg);
     background-repeat: no-repeat;
@@ -409,9 +382,7 @@ button:hover {
     width: 250px;
 }
 
-/* ==========================================================
-   Sensores
-   ========================================================== */
+
 .titulo_sensores {
     display: flex;
     align-items: center;
@@ -484,10 +455,6 @@ button:hover {
 }
 
 
-
-/* ==========================================================
-   VIAGENS
-   ========================================================== */
 
 .mapa-ferrorama {
     margin-top: 30px;
