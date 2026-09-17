@@ -93,7 +93,7 @@ function e(string $texto): string
         Cadastrados
     </a>
 
-    <a href="viagens.php" class="item">
+    <a href="crud_viagens.php" class="item">
         <i class="bi bi-calendar-check-fill"></i>
         Viagens
     </a>
