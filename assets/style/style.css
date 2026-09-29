@@ -1160,3 +1160,8 @@ button:hover {
     text-align: left;
     line-height: 1.5;
 }
+
+.cabecalho form { margin: 0; }
+.cabecalho form button.item { width: auto; margin: 0; background: transparent; font-family: Arial, sans-serif; }
+.acoes form { display: inline-block; margin: 0 0 0 6px; }
+.acoes form button { width: auto; margin: 0; }

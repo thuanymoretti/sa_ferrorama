@@ -1,16 +1,23 @@
 <?php
+require_once "../infra/auth.php";
+exigir_login();
+require_once "../infra/conexao.php";
+exigir_administrador($conexao);
 
-include "../infra/conexao.php";
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405);
+    exit("Método não permitido.");
+}
+validar_token_csrf();
+$id = filter_var(valor_post("id"), FILTER_VALIDATE_INT);
+if (!$id || $id < 1) {
+    header("Location: crud_sensor.php?erro=1");
+    exit;
+}
 
-$id = $_GET["id"];
-
-$sql = "DELETE FROM sensores WHERE id = ?";
-
-$stmt = $conexao->prepare($sql);
+$stmt = $conexao->prepare("DELETE FROM sensores WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
-
-header("Location: crud_sensor.php");
-exit();
-
-?>
+$stmt->close();
+header("Location: crud_sensor.php?sucesso=1");
+exit;

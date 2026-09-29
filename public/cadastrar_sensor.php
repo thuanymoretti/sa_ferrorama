@@ -1,9 +1,11 @@
 <?php
 
+require_once "../infra/auth.php";
+exigir_login();
 include "../infra/conexao.php";
+exigir_administrador($conexao);
 
-$sql = "SELECT * FROM sensores ORDER BY nome";
-$sensores = $conexao->query($sql);
+$csrf = token_csrf();
 
 ?>
 
@@ -32,9 +34,12 @@ $sensores = $conexao->query($sql);
 
 <?php } else { ?>
 
+    <?php if (isset($_GET["erro"])) { ?><p role="alert">Não foi possível cadastrar o sensor. Confira os dados e tente novamente.</p><?php } ?>
+
     <h1 class="titulo-sensor">  Cadastre um novo Sensor  </h1>
 
     <form action="salvar_sensor.php" method="POST" class="form-sensor">
+ <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
  <input type="hidden" name="tipo" value="sensor">
 
   <div class="grupo-input">
@@ -54,11 +59,12 @@ $sensores = $conexao->query($sql);
         <div class="grupo-input">
             <label>Tipo de Dado:</label>
 
-            <select name="tipoDado">
-                <option value="Selecione">Selecione</option>
+            <select name="tipoDado" required>
+                <option value="" selected disabled>Selecione</option>
                 <option value="Velocidade">Velocidade</option>
                 <option value="Temperatura">Temperatura</option>
-                <option value="Pressão">Pressão</option>
+                <option value="Pressao">Pressão</option>
+                <option value="Umidade">Umidade</option>
             </select>
         </div>
 

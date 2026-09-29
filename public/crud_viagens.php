@@ -1,5 +1,7 @@
 <?php
 
+require_once "../infra/auth.php";
+exigir_login();
 include "../infra/conexao.php";
 
 $mensagem = "";
