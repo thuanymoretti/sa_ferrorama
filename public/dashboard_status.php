@@ -1,6 +1,12 @@
 <?php
 
 header("Content-Type: application/json; charset=UTF-8");
+require_once "../infra/auth.php";
+if (!usuario_autenticado()) {
+    http_response_code(401);
+    echo json_encode(["erro" => "Autenticação necessária."]);
+    exit;
+}
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 try {
