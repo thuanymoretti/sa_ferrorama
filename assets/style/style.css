@@ -786,7 +786,6 @@ button:hover {
 .pagina-login .caixa a:hover {
     color: #f0a06a;
 }
-<<<<<<< HEAD
 /* ==========================================================
    PÁGINA DE CADASTRO DE USUÁRIOS
    ========================================================== */
@@ -1072,7 +1071,6 @@ button:hover {
 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
-=======
 
 /* Dashboard: visão operacional */
 .dashboard-apresentacao, .dashboard-tabela-cabecalho { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
@@ -1094,4 +1092,71 @@ button:hover {
 .planilha_dashboard .table { margin-bottom: 0; color: var(--branco-creme); }.planilha_dashboard .table thead { color: #bdb6aa; font-size: 12px; }.planilha_dashboard .table tbody tr { border-top: 1px solid #484848; }.planilha_dashboard .table td, .planilha_dashboard .table th { padding: 15px 10px; vertical-align: middle; }.dashboard-tag { display: inline-block; padding: 5px 9px; border-radius: 999px; background: rgba(197, 74, 45, .15); color: #ffc5b7; font-size: 12px; }
 @media (max-width: 950px) { .dashboard-cards { grid-template-columns: repeat(2, minmax(190px, 1fr)); } }
 @media (max-width: 600px) { .conteudo { padding: 20px; }.dashboard-apresentacao, .dashboard-tabela-cabecalho { flex-direction: column; }.dashboard-cards { grid-template-columns: 1fr; } }
->>>>>>> d292d0ddc238048d5ba6fdc5fcbaee505ce026a9
+
+/* Página inicial */
+.pagina-inicial {
+    display: grid;
+    place-items: center;
+    padding: 40px 24px;
+    box-sizing: border-box;
+}
+
+.pagina-inicial main {
+    width: min(100%, 1100px);
+}
+
+.inicio-cabecalho {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.inicio-cabecalho h1 {
+    margin: 4px 0 10px;
+    font-size: clamp(36px, 6vw, 56px);
+}
+
+.inicio-cabecalho p {
+    margin: 0;
+}
+
+.inicio-cabecalho .inicio-sobrelinha {
+    color: var(--laranja-ferrugem-claro);
+    font: 700 12px Arial, sans-serif;
+    letter-spacing: 1.5px;
+}
+
+.atalhos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 18px;
+}
+
+.atalho {
+    display: block;
+    min-height: 125px;
+    padding: 22px;
+    border: 1px solid #414a5b;
+    border-radius: 16px;
+    background: #202b40;
+    color: var(--branco-creme);
+    text-decoration: none;
+    transition: transform .2s ease, border-color .2s ease;
+}
+
+.atalho:hover {
+    transform: translateY(-3px);
+    border-color: var(--laranja-ferrugem-claro);
+}
+
+.atalho h2 {
+    margin: 0 0 10px;
+    color: var(--laranja-ferrugem-claro);
+    font-size: 21px;
+}
+
+.atalho p {
+    margin: 0;
+    color: var(--branco-creme-suave);
+    text-align: left;
+    line-height: 1.5;
+}

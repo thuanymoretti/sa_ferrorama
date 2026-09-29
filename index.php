@@ -1,88 +1,40 @@
 <!doctype html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Login</title>
-
+    <title>Ferrorama | Início</title>
     <link rel="stylesheet" href="assets/style/style.css">
 </head>
-
-<body class="pagina-login">
-
+<body class="pagina-inicial">
     <main>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        <header>
-            <h1><i class="bi bi-train-front-fill"></i> Ferroma</h1>
+        <header class="inicio-cabecalho">
+            <p class="inicio-sobrelinha">SISTEMA FERROVIÁRIO</p>
+            <h1>Ferrorama</h1>
             <p>Escolha uma área do sistema para continuar.</p>
         </header>
-        <section class="atalhos" aria-label="Páginas do sistema">
-            <a class="atalho" href="public/login.html"><i class="bi bi-box-arrow-in-right"></i>
-                <h2>Entrar</h2>
-                <p>Acesse o sistema pelo login.</p>
-            </a>
-            <a class="atalho" href="public/crud_sensor.php"><i class="bi bi-grid-1x2-fill"></i>
+        <nav class="atalhos" aria-label="Áreas do sistema">
+            <a class="atalho" href="public/home.php">
                 <h2>Dashboard</h2>
-                <p>Veja sensores, trens em operação e alertas.</p>
+                <p>Acompanhe sensores, trens e alertas.</p>
             </a>
-            <a class="atalho" href="public/cadastrar_sensor.php"><i class="bi bi-cpu-fill"></i>
+            <a class="atalho" href="public/crud_sensor.php">
                 <h2>Sensores</h2>
-                <p>Cadastre e gerencie sensores ferroviários.</p>
+                <p>Consulte e gerencie sensores ferroviários.</p>
             </a>
-            <a class="atalho" href="public/tela_de_cadastro.html"><i class="bi bi-person-plus-fill"></i>
-                <h2>Cadastrar usuário</h2>
-                <p>Registre novos usuários no sistema.</p>
+            <a class="atalho" href="public/crud_trens.php">
+                <h2>Trens</h2>
+                <p>Consulte e gerencie os trens.</p>
             </a>
-            <a class="atalho" href="public/usuarios.html"><i class="bi bi-people-fill"></i>
+            <a class="atalho" href="public/crud_usuarios.php">
                 <h2>Usuários</h2>
-                <p>Consulte os usuários cadastrados.</p>
+                <p>Consulte e gerencie os usuários cadastrados.</p>
             </a>
-        </section>
-
-
-=======
->>>>>>> be20942f41a52b5b564db26dfced3e534fda13a1
->>>>>>> d292d0ddc238048d5ba6fdc5fcbaee505ce026a9
-
-        <form>
-
-            <div class="caixa">
-
-                <h1>Login</h1>
-
-                <label for="email">Email:</label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Digite seu email..."
-                >
-
-                <label for="senha">Senha:</label>
-
-                <input
-                    type="password"
-                    id="senha"
-                    placeholder="Digite sua senha..."
-                >
-
-                <button type="submit">Entrar</button>
-
-                <p>
-                    Não tem conta?
-                    <a href="">Entre em contato</a>
-                </p>
-
-            </div>
-
-        </form>
-
+            <a class="atalho" href="public/crud_viagens.php">
+                <h2>Viagens</h2>
+                <p>Consulte e gerencie as viagens.</p>
+            </a>
+        </nav>
     </main>
-
 </body>
-
 </html>

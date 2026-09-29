@@ -89,7 +89,7 @@ $sensores = $conexao->query($sql);
 
     </form>
 
- <a href="crud_sensores.php"> <button type="button"> Voltar para o início </button>  </a>
+ <a href="crud_sensor.php"> <button type="button"> Voltar para os sensores </button>  </a>
 
 
 <?php } ?>

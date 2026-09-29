@@ -1,8 +1,16 @@
 <?php
 include "../infra/conexao.php";
-$administrador = "Administrador";
-$resultado = $conexao->query("SELECT * FROM sensores ORDER BY nome");
+$resultado = $conexao->query("SELECT id, nome, identificacao, localizacao, tipo_sensor FROM sensores ORDER BY nome");
 $sensores = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
+$usuariosPorPerfil = ["Administrador" => 0, "Funcionario" => 0];
+$resultadoUsuarios = $conexao->query("SELECT tipo_usuario, COUNT(*) AS total FROM usuarios GROUP BY tipo_usuario");
+if ($resultadoUsuarios) {
+    while ($usuario = $resultadoUsuarios->fetch_assoc()) {
+        if (array_key_exists($usuario["tipo_usuario"], $usuariosPorPerfil)) {
+            $usuariosPorPerfil[$usuario["tipo_usuario"]] = (int) $usuario["total"];
+        }
+    }
+}
 $estatisticas = ["sensores" => count($sensores), "trens_ativos" => 0, "trens_manutencao" => 0, "disponibilidade" => 0];
 $resultadoEstatisticas = $conexao->query("SELECT COUNT(*) AS total, SUM(status = 'Ativo') AS ativos, SUM(status = 'Em Manutenção') AS manutencao FROM trens");
 if ($resultadoEstatisticas) {
@@ -26,8 +34,8 @@ function e(string $texto): string { return htmlspecialchars($texto, ENT_QUOTES, 
 </head>
 <body>
 <header class="cabecalho">
-    <h2><i class="bi bi-train-front-fill"></i> Bem-vindo, <?= e($administrador) ?></h2>
-    <a href="login.html" class="item"><i class="bi bi-box-arrow-right"></i> Sair</a>
+    <h2><i class="bi bi-train-front-fill"></i> Painel do Ferrorama</h2>
+    <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Gerenciar usuários</a>
 </header>
 <div class="layout">
     <aside class="menu-lateral">
@@ -39,7 +47,7 @@ function e(string $texto): string { return htmlspecialchars($texto, ENT_QUOTES, 
     </aside>
     <main class="conteudo">
         <section class="dashboard-apresentacao" aria-labelledby="titulo-dashboard">
-            <div><p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p><h1 id="titulo-dashboard">Visão geral do Ferrorama</h1><p>Acompanhe o estado da operação em um único lugar.</p></div>
+            <div><p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p><h1 id="titulo-dashboard">Visão geral do Ferrorama</h1><p>Acompanhe a operação e os acessos: <?= array_sum($usuariosPorPerfil) ?> usuários, <?= $usuariosPorPerfil["Administrador"] ?> administradores e <?= $usuariosPorPerfil["Funcionario"] ?> funcionários.</p></div>
             <div class="dashboard-atualizacao" aria-live="polite"><span class="dashboard-ponto"></span><span id="ultima-atualizacao">Atualizado agora</span></div>
         </section>
         <section class="dashboard-cards" aria-label="Resumo do sistema">

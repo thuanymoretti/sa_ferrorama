@@ -4,7 +4,7 @@ $host = "localhost";
 $usuario = "root";
 $senha = "";
 $banco = "sa_ferrorama";
-$porta = 200;
+$porta = 3306;
 //trocr o numro da porta cnforme a porta do banco de dados que você está usando
 
 $conexao = new mysqli($host, $usuario, $senha, $banco, $porta);

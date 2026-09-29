@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Dashboard
             </a>
 
-            <a href="cadastrar_sensor.html" class="item">
+            <a href="crud_sensor.php" class="item">
                 <i class="bi bi-cpu-fill"></i>
                 Sensores
             </a>

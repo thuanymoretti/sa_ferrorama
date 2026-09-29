@@ -45,7 +45,7 @@ if ($busca != "") {
             <a href="home.php" class="item">
                 <i class="bi bi-grid-1x2-fill"></i> Dashboard </a>
 
-            <a href="cadastrar_sensor.html" class="item">
+            <a href="crud_sensor.php" class="item">
                 <i class="bi bi-cpu-fill"></i>Sensores</a>
 
 
