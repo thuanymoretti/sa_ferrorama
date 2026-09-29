@@ -1,11 +1,7 @@
-/* ==========================================================
-   SA_FERRORAMA — Paleta de cores central
-   ========================================================== */
 :root {
-    /* Laranja Ferrugem */
     --laranja-ferrugem: #B87147;
-    --laranja-ferrugem-escuro: #8F5836; /* hover/active */
-    --laranja-ferrugem-claro: #FFA263; /* já usado nos links originais */
+    --laranja-ferrugem-escuro: #8F5836; 
+    --laranja-ferrugem-claro: #FFA263; 
 
     /* Cinza Trilho */
     --cinza-trilho: #6E7580;
@@ -26,9 +22,6 @@
     --perigo: #C62828;
 }
 
-/* ==========================================================
-   Base
-   ========================================================== */
 
 body {
     background-color: var(--preto-fuligem);
@@ -38,7 +31,6 @@ body {
     color: var(--branco-creme);
 }
 
-/* Tela de login/cadastro com imagem de fundo */
 .login {
     background-color:rgba(15, 23, 42, .75); 
     background-position: center;
@@ -71,11 +63,8 @@ p {
     text-align: center;
 }
 
-/* ==========================================================
-   Cadastro / Login — cartões com glassmorphism
-   ========================================================== */
 .cadastro {
-    background: rgba(110, 117, 128, 0.35); /* cinza-trilho translúcido */
+    background: rgba(110, 117, 128, 0.35); 
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     padding: 40px;
@@ -121,9 +110,7 @@ textarea {
     border: none;
 }
 
-/* ==========================================================
-   Botões
-   ========================================================== */
+
 button {
     display: block;
     margin: 20px auto;
@@ -188,9 +175,6 @@ button:hover {
     color: var(--branco-creme);
 }
 
-/* ==========================================================
-   Cabeçalho / Layout / Menu lateral
-   ========================================================== */
 .cabecalho {
     display: flex;
     justify-content: space-between;
@@ -303,9 +287,6 @@ button:hover {
     overflow-x: auto;
 }
 
-/* ==========================================================
-   Dashboard
-   ========================================================== */
 .informacoes_dashboard {
     display: flex;
     gap: 20px;
@@ -357,9 +338,6 @@ button:hover {
     font-weight: bold;
 }
 
-/* ==========================================================
-   Tabelas
-   ========================================================== */
 .table {
     background-color: transparent !important;
 }
@@ -377,9 +355,7 @@ button:hover {
     color: var(--branco-creme);
 }
 
-/* ==========================================================
-   Exclusão (modal/confirmação)
-   ========================================================== */
+
 .excluir {
     width: 600px;
     margin: 50px auto;
@@ -394,9 +370,6 @@ button:hover {
     width: 240px;
 }
 
-/* ==========================================================
-   Campo com ícone (busca)
-   ========================================================== */
 .campo-com-icone {
     background-image: url(../icons/lupa.svg);
     background-repeat: no-repeat;
@@ -406,9 +379,7 @@ button:hover {
     width: 250px;
 }
 
-/* ==========================================================
-   Sensores
-   ========================================================== */
+
 .titulo_sensores {
     display: flex;
     align-items: center;
@@ -480,11 +451,143 @@ button:hover {
     margin-top: 60px;
 }
 
+/* ==========================================================
+   TABELA DE SENSORES
+   ========================================================== */
+
+.planilha_dashboard {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: var(--cinza-trilho-escuro);
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    min-width: 850px;
+    margin: 0;
+    border-collapse: collapse;
+    background-color: var(--preto-fuligem) !important;
+}
+
+.table th {
+    padding: 16px 12px;
+    background-color: var(--preto-fuligem) !important;
+    color: var(--branco-creme) !important;
+    text-align: left;
+}
+
+.table td {
+    padding: 15px 12px;
+    background-color: var(--preto-fuligem) !important;
+    color: var(--branco-creme) !important;
+    border-bottom: 1px solid var(--cinza-trilho-escuro);
+}
+
+.table tr:hover td {
+    background-color: var(--cinza-trilho) !important;
+}
 
 
 /* ==========================================================
-   VIAGENS
+   AÇÕES
    ========================================================== */
+
+.table td:last-child,
+.table th:last-child {
+    text-align: center;
+}
+
+.table td a {
+    padding: 6px 10px;
+    margin: 2px;
+    border-radius: 7px;
+    text-decoration: none;
+}
+
+.table td a:first-child {
+    background-color: var(--cinza-trilho);
+    color: var(--branco-creme);
+}
+
+.table td a:first-child:hover {
+    background-color: var(--laranja-ferrugem);
+}
+
+.table td a:last-child {
+    background-color: var(--perigo);
+    color: var(--branco-creme);
+}
+
+
+/* ==========================================================
+   BOTÃO CADASTRAR
+   ========================================================== */
+
+.planilha_dashboard button {
+    width: auto;
+    padding: 10px 20px;
+    margin: 20px 0 0;
+}
+
+/* ==========================================================
+   CADASTRAR SENSOR
+   ========================================================== */
+
+.container-sensor {
+    width: 90%;
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: var(--cinza-trilho-escuro);
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.titulo-sensor {
+    margin-bottom: 35px;
+    color: var(--branco-creme);
+}
+
+.form-sensor {
+    width: 100%;
+}
+
+.grupo-input {
+    margin-bottom: 20px;
+}
+
+.grupo-input label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--branco-creme);
+}
+
+.grupo-input input,
+.grupo-input select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 2px solid var(--cinza-trilho);
+    border-radius: 10px;
+    background-color: var(--branco-creme);
+    color: var(--preto-fuligem);
+}
+
+.grupo-input input:focus,
+.grupo-input select:focus {
+    outline: none;
+    border-color: var(--laranja-ferrugem);
+}
+
+.container-sensor button {
+    width: 100%;
+    margin: 10px 0;
+}
 
 .mapa-ferrorama {
     margin-top: 30px;
@@ -683,6 +786,7 @@ button:hover {
 .pagina-login .caixa a:hover {
     color: #f0a06a;
 }
+<<<<<<< HEAD
 /* ==========================================================
    PÁGINA DE CADASTRO DE USUÁRIOS
    ========================================================== */
@@ -968,3 +1072,26 @@ button:hover {
 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
+=======
+
+/* Dashboard: visão operacional */
+.dashboard-apresentacao, .dashboard-tabela-cabecalho { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.dashboard-apresentacao { margin-bottom: 26px; }
+.dashboard-apresentacao h1 { margin: 4px 0 8px; font-size: clamp(28px, 4vw, 38px); font-weight: 700; }
+.dashboard-apresentacao p { margin: 0; color: #d7d0c5; }
+.dashboard-sobrelinha { color: var(--laranja-ferrugem) !important; font-size: 12px; font-weight: 800; letter-spacing: 1.2px; }
+.dashboard-atualizacao { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; padding: 9px 12px; border: 1px solid #4a4a4a; border-radius: 999px; font-size: 13px; color: #d7d0c5; }
+.dashboard-ponto { width: 8px; height: 8px; border-radius: 50%; background: #57b65f; box-shadow: 0 0 0 4px rgba(87, 182, 95, .15); }
+.dashboard-cards { display: grid; grid-template-columns: repeat(4, minmax(190px, 1fr)); gap: 18px; }
+.dashboard-card { position: relative; overflow: hidden; min-height: 180px; padding: 22px; border: 1px solid #4a4a4a; border-radius: 18px; background: linear-gradient(145deg, #343434, #292929); transition: transform .2s ease, border-color .2s ease; }
+.dashboard-card:hover { transform: translateY(-4px); border-color: var(--laranja-ferrugem); }
+.dashboard-icone { display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: 22px; border-radius: 11px; color: #fff; background: var(--laranja-ferrugem); }
+.dashboard-card-trens .dashboard-icone { background: #2e7d32; }.dashboard-card-alertas .dashboard-icone { background: #b74332; }.dashboard-card-disponibilidade .dashboard-icone { background: #306f9f; }
+.dashboard-card-cabecalho { display: flex; justify-content: space-between; gap: 8px; color: #d7d0c5; }.dashboard-card-cabecalho p { margin: 0; font-size: 14px; }.dashboard-card-cabecalho > i { color: var(--laranja-ferrugem); }
+.dashboard-card strong { display: block; margin: 5px 0 2px; font-size: 37px; line-height: 1.1; color: var(--branco-creme); }.dashboard-card small { color: #bdb6aa; font-size: 12px; }
+.dashboard-progresso { height: 7px; margin: 11px 0 5px; overflow: hidden; border-radius: 99px; background: #171717; }.dashboard-progresso span { display: block; height: 100%; border-radius: inherit; background: #4eaeec; transition: width .35s ease; }
+.dashboard-tabela-cabecalho { align-items: center; margin-bottom: 14px; }.dashboard-tabela-cabecalho h2 { margin: 2px 0 0; font-size: 22px; }.dashboard-link { color: var(--laranja-ferrugem); font-weight: 700; text-decoration: none; white-space: nowrap; }.dashboard-link:hover { color: var(--branco-creme); }
+.planilha_dashboard .table { margin-bottom: 0; color: var(--branco-creme); }.planilha_dashboard .table thead { color: #bdb6aa; font-size: 12px; }.planilha_dashboard .table tbody tr { border-top: 1px solid #484848; }.planilha_dashboard .table td, .planilha_dashboard .table th { padding: 15px 10px; vertical-align: middle; }.dashboard-tag { display: inline-block; padding: 5px 9px; border-radius: 999px; background: rgba(197, 74, 45, .15); color: #ffc5b7; font-size: 12px; }
+@media (max-width: 950px) { .dashboard-cards { grid-template-columns: repeat(2, minmax(190px, 1fr)); } }
+@media (max-width: 600px) { .conteudo { padding: 20px; }.dashboard-apresentacao, .dashboard-tabela-cabecalho { flex-direction: column; }.dashboard-cards { grid-template-columns: 1fr; } }
+>>>>>>> d292d0ddc238048d5ba6fdc5fcbaee505ce026a9
