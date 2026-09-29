@@ -37,7 +37,7 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM sensores ORDER BY identificaca
 
     <h2>Editar sensor</h2>
 
-    <form action="atualizar.php" method="POST">
+    <form action="atualizar_sensor.php" method="POST">
 
         <input type="hidden" name="id" value="<?= $sensor['id'] ?>">
 
@@ -75,6 +75,7 @@ echo "</select>";
 <select name="trem_id" required>
 
     <option value="">Selecione um trem</option>
+      <option >trem 05</option>
 
     <?php
     $trens = $conexao->query(  "SELECT id, identificacao   FROM trens  ORDER BY identificacao" );
@@ -98,9 +99,7 @@ echo "</select>";
 
     <br>
 
-    <a href="../index.html">
-        <button type="button">Voltar para o início</button>
-    </a>
+    <a href="crud_sensor.php"> <button type="button">Voltar para o início</button> </a>
 
 </main>
 

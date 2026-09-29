@@ -26,7 +26,7 @@ $sensores = $conexao->query($sql);
 
     <h2 class="titulo-sensor">  Sensor cadastrado com sucesso! </h2>
 
-    <a href="../index.html">
+    <a href="crud_sensor.php">
         <button type="button">Voltar para o início</button>
     </a>
 
@@ -67,6 +67,7 @@ $sensores = $conexao->query($sql);
             <label>Trem vinculado:</label>
             <select name="trem_id" required>
                 <option value="">Selecione um trem</option>
+             
 
                 <?php
                 $trens = $conexao->query(
@@ -88,7 +89,7 @@ $sensores = $conexao->query($sql);
 
     </form>
 
- <a href="../index.php"> <button type="button"> Voltar para o início </button>  </a>
+ <a href="crud_sensores.php"> <button type="button"> Voltar para o início </button>  </a>
 
 
 <?php } ?>

@@ -31,7 +31,7 @@ $stmt = $conexao->query($sql);
 
     <header class="cabecalho">
 
-        <h2>  Bem-vindo! </h2>
+        <h2>  Bem-vindo Adiministrador! </h2>
 
     </header>
 
