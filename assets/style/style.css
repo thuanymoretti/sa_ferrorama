@@ -233,7 +233,7 @@ button:hover {
 
 .item.ativo {
     background-color: var(--laranja-ferrugem);
-    color: white;
+    color: rgba(255, 255, 255, 0.747);
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -707,7 +707,7 @@ button:hover {
 }
 
 .pagina-login .caixa h1 {
-    color: white;
+    color: rgba(255, 255, 255, 0.726);
 
     text-align: center;
 
@@ -717,7 +717,7 @@ button:hover {
 }
 
 .pagina-login .caixa label {
-    color: white;
+    color: rgba(255, 255, 255, 0.808);
 
     font-size: 16px;
 
@@ -743,7 +743,7 @@ button:hover {
 }
 
 .pagina-login .caixa input::placeholder {
-    color: #d8d8d8;
+    color: #d8d8d8c5;
 }
 
 .pagina-login .caixa button {
@@ -757,7 +757,7 @@ button:hover {
 
     background-color: #c47746;
 
-    color: white;
+    color: rgba(255, 255, 255, 0.726);
 
     font-size: 15px;
     font-weight: bold;
@@ -770,7 +770,7 @@ button:hover {
 }
 
 .pagina-login .caixa p {
-    color: white;
+    color: rgba(255, 255, 255, 0.74);
 
     text-align: center;
 
