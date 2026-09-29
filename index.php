@@ -19,7 +19,7 @@
                 <h2>Entrar</h2>
                 <p>Acesse o sistema pelo login.</p>
             </a>
-            <a class="atalho" href="public/home.php"><i class="bi bi-grid-1x2-fill"></i>
+            <a class="atalho" href="public/crud_sensor.php"><i class="bi bi-grid-1x2-fill"></i>
                 <h2>Dashboard</h2>
                 <p>Veja sensores, trens em operação e alertas.</p>
             </a>
