@@ -4,12 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Login</title>
-    <link rel="stylesheet" href="../assets/style.css">
+
+    <link rel="stylesheet" href="assets/style/style.css">
 </head>
 
-<body class="login">
+<body class="pagina-login">
+
     <main>
+<<<<<<< HEAD
         <header>
             <h1><i class="bi bi-train-front-fill"></i> Ferroma</h1>
             <p>Escolha uma área do sistema para continuar.</p>
@@ -38,24 +42,44 @@
         </section>
 
 
+=======
+>>>>>>> be20942f41a52b5b564db26dfced3e534fda13a1
 
         <form>
+
             <div class="caixa">
+
                 <h1>Login</h1>
 
                 <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="Digite seu email...">
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Digite seu email..."
+                >
 
                 <label for="senha">Senha:</label>
-                <input type="password" id="senha" placeholder="Digite sua senha...">
+
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="Digite sua senha..."
+                >
 
                 <button type="submit">Entrar</button>
 
-                <p>Não tem conta? <a href="">Entre em contato</a></p>
+                <p>
+                    Não tem conta?
+                    <a href="">Entre em contato</a>
+                </p>
+
             </div>
+
         </form>
 
     </main>
+
 </body>
 
 </html>

@@ -11,31 +11,20 @@ if (isset($_POST["cadastrar"])) {
     $trem_id = (int) $_POST["trem_id"];
     $data_inicio = $_POST["data_inicio"];
     $data_chegada = $_POST["data_chegada"];
-    $origem = trim($_POST["origem"] ?? "");
-    $destino = trim($_POST["destino"] ?? "");
-    $status = $_POST["status"] ?? "";
 
-    $statusPermitidos = ["Em Andamento", "Concluída", "Cancelada"];
-
-    if (
-        $trem_id > 0 && !empty($data_inicio) && !empty($data_chegada)
-        && $origem !== "" && $destino !== "" && in_array($status, $statusPermitidos, true)
-    ) {
+    if ($trem_id > 0 && !empty($data_inicio) && !empty($data_chegada)) {
 
         $sql = "INSERT INTO viagens 
-                (trem_id, data_inicio, data_chegada, origem, destino, status)
-                VALUES (?, ?, ?, ?, ?, ?)";
+                (trem_id, data_inicio, data_chegada)
+                VALUES (?, ?, ?)";
 
         $stmt = $conexao->prepare($sql);
 
         $stmt->bind_param(
-            "isssss",
+            "iss",
             $trem_id,
             $data_inicio,
-            $data_chegada,
-            $origem,
-            $destino,
-            $status
+            $data_chegada
         );
 
         if ($stmt->execute()) {
@@ -47,7 +36,7 @@ if (isset($_POST["cadastrar"])) {
         $stmt->close();
 
     } else {
-        $erro = "Preencha todos os campos corretamente.";
+        $erro = "Preencha todos os campos.";
     }
 }
 
@@ -88,9 +77,6 @@ $sqlViagens = "
         viagens.id,
         viagens.data_inicio,
         viagens.data_chegada,
-        viagens.origem,
-        viagens.destino,
-        viagens.status,
         trens.identificacao,
         trens.modelo
     FROM viagens
@@ -367,96 +353,6 @@ function e(string $texto): string
                     </div>
 
 
-                    <div class="grupo-input">
-
-                        <label for="origem">
-
-                            Origem
-
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="origem"
-                            id="origem"
-                            placeholder="Ex.: Estação Central"
-                            maxlength="100"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="grupo-input">
-
-                        <label for="destino">
-
-                            Destino
-
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="destino"
-                            id="destino"
-                            placeholder="Ex.: Estação Norte"
-                            maxlength="100"
-                            required
-                        >
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="linha-formulario">
-
-                    <div class="grupo-input">
-
-                        <label for="status">
-
-                            Status da viagem
-
-                        </label>
-
-
-                        <select
-                            name="status"
-                            id="status"
-                            required
-                        >
-
-                            <option value="">
-
-                                Selecione o status
-
-                            </option>
-
-                            <option value="Em Andamento">
-
-                                Em andamento
-
-                            </option>
-
-                            <option value="Concluída">
-
-                                Concluída
-
-                            </option>
-
-                            <option value="Cancelada">
-
-                                Cancelada
-
-                            </option>
-
-                        </select>
-
-                    </div>
-
                 </div>
 
 
@@ -508,15 +404,9 @@ function e(string $texto): string
 
                             <th>MODELO</th>
 
-                            <th>ORIGEM</th>
-
-                            <th>DESTINO</th>
-
                             <th>INÍCIO</th>
 
                             <th>CHEGADA</th>
-
-                            <th>STATUS</th>
 
                             <th>AÇÕES</th>
 
@@ -532,18 +422,6 @@ function e(string $texto): string
 
 
                         <?php while ($viagem = $viagens->fetch_assoc()): ?>
-
-                            <?php
-                            $classeStatus = "text-bg-secondary";
-
-                            if ($viagem["status"] === "Concluída") {
-                                $classeStatus = "text-bg-success";
-                            } elseif ($viagem["status"] === "Em Andamento") {
-                                $classeStatus = "text-bg-primary";
-                            } elseif ($viagem["status"] === "Cancelada") {
-                                $classeStatus = "text-bg-danger";
-                            }
-                            ?>
 
                             <tr>
 
@@ -570,35 +448,10 @@ function e(string $texto): string
 
                                 <td>
 
-                                    <?= e($viagem["origem"]) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?= e($viagem["destino"]) ?>
-
-                                </td>
-
-
-                                <td>
-
                                     <?= date(
                                         "d/m/Y H:i",
                                         strtotime($viagem["data_inicio"])
                                     ) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="badge <?= $classeStatus ?>">
-
-                                        <?= e($viagem["status"]) ?>
-
-                                    </span>
 
                                 </td>
 
@@ -638,7 +491,7 @@ function e(string $texto): string
                         <tr>
 
                             <td
-                                colspan="9"
+                                colspan="6"
                                 class="text-center"
                             >
 
