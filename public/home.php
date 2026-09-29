@@ -1,5 +1,7 @@
 <?php
-include "../infra/conexao.php";
+require_once "../infra/auth.php";
+exigir_login();
+require_once "../infra/conexao.php";
 $resultado = $conexao->query("SELECT id, nome, identificacao, localizacao, tipo_sensor FROM sensores ORDER BY nome");
 $sensores = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 $usuariosPorPerfil = ["Administrador" => 0, "Funcionario" => 0];
@@ -34,20 +36,25 @@ function e(string $texto): string { return htmlspecialchars($texto, ENT_QUOTES, 
 </head>
 <body>
 <header class="cabecalho">
-    <h2><i class="bi bi-train-front-fill"></i> Painel do Ferrorama</h2>
-    <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Gerenciar usuários</a>
+    <h2><i class="bi bi-train-front-fill"></i> Olá, <?= escapar((string) $_SESSION["usuario"]["nome"]) ?></h2>
+    <form method="post" action="logout.php">
+        <input type="hidden" name="token_csrf" value="<?= escapar(token_csrf()) ?>">
+        <button type="submit" class="item"><i class="bi bi-box-arrow-right"></i> Sair</button>
+    </form>
 </header>
 <div class="layout">
     <aside class="menu-lateral">
         <a href="home.php" class="item ativo"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
         <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
         <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
-        <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Cadastrados</a>
+        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+            <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Cadastrados</a>
+        <?php endif; ?>
         <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
     </aside>
     <main class="conteudo">
         <section class="dashboard-apresentacao" aria-labelledby="titulo-dashboard">
-            <div><p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p><h1 id="titulo-dashboard">Visão geral do Ferrorama</h1><p>Acompanhe a operação e os acessos: <?= array_sum($usuariosPorPerfil) ?> usuários, <?= $usuariosPorPerfil["Administrador"] ?> administradores e <?= $usuariosPorPerfil["Funcionario"] ?> funcionários.</p></div>
+            <div><p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p><h1 id="titulo-dashboard">Visão geral do Ferrorama</h1><p>Acompanhe a operação e os acessos: <span id="total-usuarios"><?= array_sum($usuariosPorPerfil) ?></span> usuários, <span id="total-administradores"><?= $usuariosPorPerfil["Administrador"] ?></span> administradores e <span id="total-funcionarios"><?= $usuariosPorPerfil["Funcionario"] ?></span> funcionários.</p></div>
             <div class="dashboard-atualizacao" aria-live="polite"><span class="dashboard-ponto"></span><span id="ultima-atualizacao">Atualizado agora</span></div>
         </section>
         <section class="dashboard-cards" aria-label="Resumo do sistema">
