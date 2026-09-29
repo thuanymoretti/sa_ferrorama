@@ -1,238 +1,74 @@
 <?php
+require_once "../infra/auth.php";
+exigir_login();
 require_once "../infra/conexao.php";
+exigir_administrador($conexao);
 
-// Verifica se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$erro = "";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    validar_token_csrf();
+    $nome = trim(valor_post("nome"));
+    $email = strtolower(trim(valor_post("email")));
+    $telefone = preg_replace("/[^0-9]/", "", valor_post("telefone"));
+    $tipo = valor_post("tipo_usuario");
+    $senha = valor_post("senha");
+    $nomeValido = preg_match("/^[\p{L}\p{M} .'-]{2,100}$/u", $nome) === 1;
 
-    $nome = $_POST["nome"];
-    $email = $_POST["email"];
-    $telefone = $_POST["telefone"];
-    $tipo_usuario = $_POST["tipo_usuario"];
-
-    // Insere o usuário no banco
-    $sql = "INSERT INTO usuarios (nome, email, telefone, tipo_usuario)
-            VALUES (?, ?, ?, ?)";
-
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssss", $nome, $email, $telefone, $tipo_usuario);
-
-    if ($stmt->execute()) {
-
-        echo "<script>
-                alert('Usuário cadastrado com sucesso!');
-                window.location.href = 'crud_usuarios.php';
-              </script>";
-
+    if (!$nomeValido || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100
+        || strlen($telefone) < 8 || strlen($telefone) > 15
+        || !in_array($tipo, ["Administrador", "Funcionario"], true)
+        || strlen($senha) < 10 || strlen($senha) > 72) {
+        $erro = "Confira nome, e-mail e telefone. A senha deve ter de 10 a 72 caracteres.";
     } else {
-
-        echo "<script>
-                alert('Erro ao cadastrar usuário!');
-              </script>";
+        try {
+            $hash = password_hash($senha, PASSWORD_DEFAULT);
+            $stmt = $conexao->prepare("INSERT INTO usuarios (nome, email, telefone, tipo_usuario, senha_hash) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $nome, $email, $telefone, $tipo, $hash);
+            $stmt->execute();
+            $stmt->close();
+            definir_flash("sucesso", "Usuário cadastrado com sucesso.");
+            header("Location: crud_usuarios.php");
+            exit;
+        } catch (mysqli_sql_exception $excecao) {
+            error_log("Falha ao cadastrar usuário: " . $excecao->getMessage());
+            $erro = $excecao->getCode() === 1062 ? "Este e-mail já está cadastrado." : "Não foi possível cadastrar o usuário.";
+        }
     }
-
-    $stmt->close();
 }
+$csrf = token_csrf();
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-
+<!doctype html>
+<html lang="pt-BR">
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Cadastro de Usuários</title>
-
-    <!-- Bootstrap PRIMEIRO -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-        crossorigin="anonymous">
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- CSS DO PROJETO DEPOIS DO BOOTSTRAP -->
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro de usuário | Ferrorama</title>
     <link rel="stylesheet" href="../assets/style/style.css">
-
-    <!-- Favicon -->
-    <link rel="icon" href="../assets/icons/TREM_AZUL.svg" type="image/x-icon">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-
 <body class="pagina-cadastro">
-
-    <!-- CABEÇALHO -->
-    <header class="cabecalho">
-
-        <h2>Bem vindo!!</h2>
-
-    </header>
-
-
-    <!-- LAYOUT -->
+    <header class="cabecalho"><h2>Cadastro de usuário</h2><a class="item" href="crud_usuarios.php">Voltar à lista</a></header>
     <div class="layout">
-
-        <!-- MENU LATERAL -->
-        <aside class="menu-lateral">
-
-            <a href="home.php" class="item">
-                <i class="bi bi-grid-1x2-fill"></i>
-                Dashboard
-            </a>
-
-            <a href="crud_sensor.php" class="item">
-                <i class="bi bi-cpu-fill"></i>
-                Sensores
-            </a>
-
-            <a href="crud_trens.php" class="item">
-                <i class="bi bi-file-earmark-bar-graph-fill"></i>
-                Trens
-            </a>
-
-            <a href="crud_usuarios.php" class="item ativo">
-                <i class="bi bi-people-fill"></i>
-                Cadastrados
-            </a>
-
-            <a href="crud_viagens.php" class="item">
-                <i class="bi bi-gear-fill"></i>
-                Viagens
-            </a>
-
-        </aside>
-
-
-        <!-- CONTEÚDO -->
+        <aside class="menu-lateral"><a href="home.php" class="item">Dashboard</a><a href="crud_usuarios.php" class="item ativo">Usuários</a></aside>
         <main class="conteudo cadastro-conteudo">
-
-            <div class="cadastro">
-
-                <h2 id="titulo">Cadastro</h2>
-
-                <p id="sub_titulo">
-                    Preencha os dados abaixo para realizar o registro no sistema.
-                </p>
-
-
-                <form method="POST">
-
-                    <!-- PRIMEIRA LINHA -->
+            <section class="cadastro">
+                <h1 id="titulo">Novo usuário</h1>
+                <p id="sub_titulo">O perfil administrativo só pode ser definido por um administrador autenticado.</p>
+                <?php if ($erro !== ""): ?><p role="alert"><?= escapar($erro) ?></p><?php endif; ?>
+                <form method="post" autocomplete="off">
+                    <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
                     <div class="linha-cadastro">
-
-                        <div class="campo-cadastro">
-
-                            <label for="nome">
-                                Nome Completo
-                            </label>
-
-                            <input
-                                type="text"
-                                id="nome"
-                                name="nome"
-                                required>
-
-                        </div>
-
-
-                        <div class="campo-cadastro">
-
-                            <label for="email">
-                                E-mail
-                            </label>
-
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                required>
-
-                        </div>
-
+                        <div class="campo-cadastro"><label for="nome">Nome completo</label><input type="text" id="nome" name="nome" maxlength="100" required></div>
+                        <div class="campo-cadastro"><label for="email">E-mail</label><input type="email" id="email" name="email" maxlength="100" required></div>
                     </div>
-
-
-                    <!-- SEGUNDA LINHA -->
                     <div class="linha-cadastro">
-
-                        <div class="campo-cadastro">
-
-                            <label for="telefone">
-                                Telefone
-                            </label>
-
-                            <input
-                                type="tel"
-                                id="telefone"
-                                name="telefone"
-                                required>
-
-                        </div>
-
-
-                        <div class="campo-cadastro">
-
-                            <label for="tipo_usuario">
-                                Tipo de Usuário
-                            </label>
-
-                            <select
-                                id="tipo_usuario"
-                                name="tipo_usuario"
-                                required>
-
-                                <option value="" selected disabled>
-                                    Selecione o tipo
-                                </option>
-
-                                <option value="Administrador">
-                                    Administrador
-                                </option>
-
-                                <option value="Funcionario">
-                                    Funcionário
-                                </option>
-
-                            </select>
-
-                        </div>
-
+                        <div class="campo-cadastro"><label for="telefone">Telefone (somente números)</label><input type="tel" id="telefone" name="telefone" inputmode="numeric" maxlength="15" required></div>
+                        <div class="campo-cadastro"><label for="tipo_usuario">Perfil</label><select id="tipo_usuario" name="tipo_usuario" required><option value="Funcionario">Funcionário</option><option value="Administrador">Administrador</option></select></div>
                     </div>
-
-
-                    <!-- BOTÕES -->
-                    <div class="botoes-cadastro">
-
-                        <button type="submit" class="btn-cadastrar">
-                            <i class="bi bi-person-plus-fill"></i>
-                            Cadastre-se
-                        </button>
-
-                        <a href="crud_usuarios.php" class="btn-voltar">
-                            Voltar
-                        </a>
-
-                    </div>
-
+                    <div class="campo-cadastro"><label for="senha">Senha inicial (mínimo 10 caracteres)</label><input type="password" id="senha" name="senha" minlength="10" maxlength="72" autocomplete="new-password" required></div>
+                    <div class="botoes-cadastro"><button type="submit" class="btn-cadastrar">Cadastrar usuário</button><a href="crud_usuarios.php" class="btn-voltar">Cancelar</a></div>
                 </form>
-
-            </div>
-
+            </section>
         </main>
-
     </div>
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous">
-    </script>
-
 </body>
-
 </html>
