@@ -6,7 +6,8 @@ CREATE TABLE usuarios (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     telefone VARCHAR(15),
-    tipo_usuario ENUM('Administrador', 'Funcionario') NOT NULL
+    tipo_usuario ENUM('Administrador', 'Funcionario') NOT NULL,
+    senha_hash VARCHAR(255) NULL
 );
 
 CREATE TABLE trens (
