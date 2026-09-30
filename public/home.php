@@ -54,8 +54,37 @@ function e(string $texto): string { return htmlspecialchars($texto, ENT_QUOTES, 
     </aside>
     <main class="conteudo">
         <section class="dashboard-apresentacao" aria-labelledby="titulo-dashboard">
-            <div><p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p><h1 id="titulo-dashboard">Visão geral do Ferrorama</h1><p>Acompanhe a operação e os acessos: <span id="total-usuarios"><?= array_sum($usuariosPorPerfil) ?></span> usuários, <span id="total-administradores"><?= $usuariosPorPerfil["Administrador"] ?></span> administradores e <span id="total-funcionarios"><?= $usuariosPorPerfil["Funcionario"] ?></span> funcionários.</p></div>
+            <div><p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p><h1 id="titulo-dashboard">Visão geral do Ferrorama</h1><p>Acompanhe o estado da operação em um único lugar.</p></div>
             <div class="dashboard-atualizacao" aria-live="polite"><span class="dashboard-ponto"></span><span id="ultima-atualizacao">Atualizado agora</span></div>
+        </section>
+        <section class="dashboard-usuarios" aria-labelledby="titulo-usuarios-dashboard">
+            <div class="dashboard-usuarios-resumo">
+                <div class="dashboard-usuarios-identidade">
+                    <span class="dashboard-usuarios-icone" aria-hidden="true"><i class="bi bi-people-fill"></i></span>
+                    <div>
+                        <p class="dashboard-sobrelinha">ACESSOS CADASTRADOS</p>
+                        <h2 id="titulo-usuarios-dashboard">Visão geral de usuários</h2>
+                        <p>Distribuição das contas registradas no sistema.</p>
+                    </div>
+                </div>
+                <div class="dashboard-usuarios-total" aria-live="polite">
+                    <strong id="total-usuarios"><?= array_sum($usuariosPorPerfil) ?></strong>
+                    <span>Usuários no total</span>
+                </div>
+            </div>
+            <div class="dashboard-usuarios-perfis">
+                <article class="dashboard-perfil dashboard-perfil-admin">
+                    <span class="dashboard-perfil-icone" aria-hidden="true"><i class="bi bi-shield-lock-fill"></i></span>
+                    <div><span>Administradores</span><strong id="total-administradores"><?= $usuariosPorPerfil["Administrador"] ?></strong></div>
+                </article>
+                <article class="dashboard-perfil dashboard-perfil-funcionario">
+                    <span class="dashboard-perfil-icone" aria-hidden="true"><i class="bi bi-person-badge-fill"></i></span>
+                    <div><span>Funcionários</span><strong id="total-funcionarios"><?= $usuariosPorPerfil["Funcionario"] ?></strong></div>
+                </article>
+                <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+                    <a class="dashboard-usuarios-link" href="crud_usuarios.php">Gerenciar usuários <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                <?php endif; ?>
+            </div>
         </section>
         <section class="dashboard-cards" aria-label="Resumo do sistema">
             <article class="dashboard-card dashboard-card-sensores"><div class="dashboard-icone"><i class="bi bi-cpu-fill"></i></div><div class="dashboard-card-cabecalho"><p>Sensores cadastrados</p><i class="bi bi-arrow-up-right"></i></div><strong id="total-sensores"><?= $estatisticas["sensores"] ?></strong><small>Dispositivos monitorados</small></article>
