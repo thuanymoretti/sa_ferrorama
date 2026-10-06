@@ -20,12 +20,17 @@ $resultado = mysqli_query($conexao, $sql);
 
     <h1>Trens</h1>
 
-    <table>
+    <a href="cadastrar_trens.php">Cadastrar trem</a>
+
+    <br><br>
+
+    <table border="1">
         <tr>
             <th>Identificação</th>
             <th>Modelo</th>
             <th>Capacidade</th>
             <th>Status</th>
+            <th>Ações</th>
         </tr>
 
         <?php while ($trem = mysqli_fetch_assoc($resultado)) { ?>
@@ -35,6 +40,15 @@ $resultado = mysqli_query($conexao, $sql);
                 <td><?= $trem['modelo'] ?></td>
                 <td><?= $trem['capacidade'] ?></td>
                 <td><?= $trem['status'] ?></td>
+
+                <td>
+                    <a href="editar_trem.php?id=<?= $trem['id'] ?>">Editar</a>
+
+                    <a href="excluir_trem.php?id=<?= $trem['id'] ?>"
+                       onclick="return confirm('Deseja excluir este trem?')">
+                        Excluir
+                    </a>
+                </td>
             </tr>
 
         <?php } ?>
