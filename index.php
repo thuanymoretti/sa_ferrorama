@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Login</title>
+    
+<link rel="stylesheet" href="assets/style/style.css">
 
-    <link rel="stylesheet" href="assets/style/style.css">
 </head>
 
 <body class="pagina-login">
@@ -25,7 +26,7 @@
                 <input
                     type="email"
                     id="email"
-                    placeholder="Digite seu email..."
+                    placeholder="Digite seu email"
                 >
 
                 <label for="senha">Senha:</label>
@@ -33,14 +34,14 @@
                 <input
                     type="password"
                     id="senha"
-                    placeholder="Digite sua senha..."
+                    placeholder="Digite sua senha"
                 >
 
                 <button type="submit">Entrar</button>
 
                 <p>
                     Não tem conta?
-                    <a href="">Entre em contato</a>
+                    <a href="cadastro.php">Cadastre-se</a>
                 </p>
 
             </div>
