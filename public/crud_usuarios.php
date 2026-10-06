@@ -32,18 +32,52 @@ $csrf = token_csrf();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <header class="cabecalho"><h2>Gestão de usuários</h2><a href="home.php" class="item">Voltar ao painel</a></header>
+    <header class="cabecalho">
+        <h2>Gestão de usuários</h2>
+        <a href="home.php" class="item">Voltar ao painel</a>
+    </header>
+
     <div class="layout">
-        <aside class="menu-lateral"><a href="home.php" class="item">Dashboard</a><a href="crud_usuarios.php" class="item ativo">Usuários</a></aside>
+        <aside class="menu-lateral">
+        <a href="home.php" class="item "><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
+        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
+        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill"></i> Cadastrados</a>
+        <?php endif; ?>
+        <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
+    </aside>
+
         <main class="conteudo">
             <section class="planilha_usuarios">
-                <div class="titulo_planilha"><h1>Usuários cadastrados</h1><a href="cadastro_usuario.php" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i> Novo usuário</a></div>
-                <?php if ($flash): ?><p class="alert alert-<?= escapar($flash["tipo"] === "sucesso" ? "success" : "danger") ?>" role="status"><?= escapar($flash["mensagem"]) ?></p><?php endif; ?>
-                <div class="barra-pesquisa">
-                    <form method="get"><input type="search" name="busca" maxlength="100" placeholder="Pesquisar por nome ou e-mail" value="<?= escapar($busca) ?>"><button type="submit"><i class="bi bi-search"></i> Pesquisar</button><?php if ($busca !== ""): ?><a href="crud_usuarios.php" class="btn-limpar">Limpar</a><?php endif; ?></form>
+                <div class="titulo_planilha">
+                    <h1>Usuários cadastrados</h1>
+                    <a href="cadastro_usuario.php" class="btn btn-primary"><i class="bi bi-person-plus-fill">
+                    </i> Novo usuário</a>
                 </div>
-                <div class="tabela-container"><table class="table">
-                    <thead><tr><th>Nome</th><th>E-mail</th><th>Telefone</th><th>Perfil</th><th>Ações</th></tr></thead>
+            
+                <?php if ($flash): ?>
+                    <p class="alert alert-<?= escapar($flash["tipo"] === "sucesso" ? "success" : "danger") ?>" role="status"><?= escapar($flash["mensagem"]) ?></p>
+                    <?php endif; ?>
+
+                <div class="barra-pesquisa">
+                    <form method="get">
+                        <input type="search" name="busca" maxlength="100" placeholder="Pesquisar por nome ou e-mail" value="<?= escapar($busca) ?>">
+                        <button type="submit"><i class="bi bi-search">
+                        </i> Pesquisar</button>
+                        <?php if ($busca !== ""): ?>
+                            <a href="crud_usuarios.php" class="btn-limpar">Limpar</a><?php endif; ?></form>
+                </div>
+
+                <div class="tabela-container">
+                    <table class="table">
+                    <thead>
+                        <tr><th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th>Perfil</th>
+                        <th>Ações</th></tr>
+                    </thead>
                     <tbody>
                     <?php if (!$usuarios): ?>
                         <tr><td colspan="5" class="text-center">Nenhum usuário encontrado.</td></tr>
@@ -53,11 +87,17 @@ $csrf = token_csrf();
                             <td><?= escapar($usuario["email"]) ?></td>
                             <td><?= escapar($usuario["telefone"] ?? "") ?></td>
                             <td><?= escapar($usuario["tipo_usuario"]) ?></td>
+
                             <td class="acoes">
-                                <a href="editar_usuario.php?id=<?= (int) $usuario["id"] ?>" class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill"></i> Editar</a>
+                                <a href="editar_usuario.php?id=<?= (int) $usuario["id"] ?>" class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil-fill">
+                                    </i> Editar</a>
+
                                 <form method="post" action="excluir_usuario.php" onsubmit="return confirm('Confirma a exclusão deste usuário?')">
-                                    <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>"><input type="hidden" name="id" value="<?= (int) $usuario["id"] ?>">
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i> Excluir</button>
+                                    <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
+                                    <input type="hidden" name="id" value="<?= (int) $usuario["id"] ?>">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash-fill"></i> Excluir</button>
                                 </form>
                             </td>
                         </tr>

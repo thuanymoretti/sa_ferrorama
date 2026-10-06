@@ -46,9 +46,22 @@ $csrf = token_csrf();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body class="pagina-cadastro">
-    <header class="cabecalho"><h2>Cadastro de usuário</h2><a class="item" href="crud_usuarios.php">Voltar à lista</a></header>
-    <div class="layout">
-        <aside class="menu-lateral"><a href="home.php" class="item">Dashboard</a><a href="crud_usuarios.php" class="item ativo">Usuários</a></aside>
+    <header class="cabecalho">
+        <h2>Cadastro de usuário</h2>
+        <a class="item" href="crud_usuarios.php">Voltar à lista</a>
+    </header>
+
+   <div class="layout">
+        <aside class="menu-lateral">
+        <a href="home.php" class="item "><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
+        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
+        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill"></i> Cadastrados</a>
+        <?php endif; ?>
+        <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
+    </aside>
+
         <main class="conteudo cadastro-conteudo">
             <section class="cadastro">
                 <h1 id="titulo">Novo usuário</h1>
@@ -56,16 +69,50 @@ $csrf = token_csrf();
                 <?php if ($erro !== ""): ?><p role="alert"><?= escapar($erro) ?></p><?php endif; ?>
                 <form method="post" autocomplete="off">
                     <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
+
                     <div class="linha-cadastro">
-                        <div class="campo-cadastro"><label for="nome">Nome completo</label><input type="text" id="nome" name="nome" maxlength="100" required></div>
-                        <div class="campo-cadastro"><label for="email">E-mail</label><input type="email" id="email" name="email" maxlength="100" required></div>
+                        <div class="campo-cadastro">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" maxlength="100" required>
+                        </div>
+
+                        <div class="campo-cadastro">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" maxlength="100" required>
+                        </div>
                     </div>
+
                     <div class="linha-cadastro">
-                        <div class="campo-cadastro"><label for="telefone">Telefone (somente números)</label><input type="tel" id="telefone" name="telefone" inputmode="numeric" maxlength="15" required></div>
-                        <div class="campo-cadastro"><label for="tipo_usuario">Perfil</label><select id="tipo_usuario" name="tipo_usuario" required><option value="Funcionario">Funcionário</option><option value="Administrador">Administrador</option></select></div>
+                        <div class="campo-cadastro">
+                            <label for="telefone">Telefone (somente números)</label>
+                            <input type="tel" id="telefone" name="telefone" inputmode="numeric" maxlength="15" required>
+                        </div>
+
+                        <div class="campo-cadastro">
+                            <label for="tipo_usuario">Perfil</label>
+                            <select id="tipo_usuario" name="tipo_usuario" required>
+                                <option value="Funcionario">Funcionário</option>
+                                <option value="Administrador">Administrador</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="campo-cadastro"><label for="senha">Senha inicial (mínimo 10 caracteres)</label><input type="password" id="senha" name="senha" minlength="10" maxlength="72" autocomplete="new-password" required></div>
-                    <div class="botoes-cadastro"><button type="submit" class="btn-cadastrar">Cadastrar usuário</button><a href="crud_usuarios.php" class="btn-voltar">Cancelar</a></div>
+
+                    <div class="campo-cadastro">
+                        <label for="senha">Senha inicial (mínimo 10 caracteres)</label>
+                        <input type="password" id="senha" name="senha" minlength="10" maxlength="72" autocomplete="new-password" required>
+                    </div>
+                    <div class="botoes-cadastro">
+                        <button type="submit" class="btn-cadastrar">Cadastrar usuário</button>
+                        <a href="crud_usuarios.php" class="btn-voltar">Cancelar</a>
+                    </div>
+                    <div class="campo-cadastro">
+                        <label for="senha">Senha inicial (mínimo 10 caracteres)</label>
+                        <input type="password" id="senha" name="senha" minlength="10" maxlength="72" autocomplete="new-password" required>
+                    </div>
+                    <div class="botoes-cadastro">
+                        <button type="submit" class="btn-cadastrar">Cadastrar usuário</button>
+                        <a href="crud_usuarios.php" class="btn-voltar">Cancelar</a>
+                    </div>
                 </form>
             </section>
         </main>
