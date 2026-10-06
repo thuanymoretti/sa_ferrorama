@@ -1,10 +1,12 @@
-<!doctype html>
-<html lang="pt-BR">
+<?php
+require_once "infra/auth.php";
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+if (usuario_autenticado()) {
+    header("Location: public/home.php");
+    exit;
+}
 
+<<<<<<< HEAD
     <title>Login</title>
     
 <link rel="stylesheet" href="assets/style/style.css">
@@ -53,3 +55,7 @@
 </body>
 
 </html>
+=======
+header("Location: public/login.php");
+exit;
+>>>>>>> af564e55b5004dc244b36e64d678666c3f18d38b

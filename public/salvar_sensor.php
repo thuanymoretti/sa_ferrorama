@@ -1,37 +1,47 @@
 <?php
 
+require_once "../infra/auth.php";
+exigir_login();
 include "../infra/conexao.php";
+exigir_administrador($conexao);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405);
+    exit("Método não permitido.");
+}
+validar_token_csrf();
 
-    $nome = $_POST["nome_sensor"];
-    $localizacao = $_POST["localizacao"];
-    $tipo = $_POST["tipoDado"];
-    $trem_id = $_POST["trem_id"];
-
-    $identificacao = $nome;
-
-    $sql = "INSERT INTO sensores 
-            (nome, identificacao, tipo_sensor, localizacao, trem_id)
-            VALUES (?, ?, ?, ?, ?)";
-
-    $stmt = $conexao->prepare($sql);
-
-    $stmt->bind_param(  "ssssi",  $nome, $identificacao,  $tipo,  $localizacao, $trem_id  );
-
-    if ($stmt->execute()) {
-
-        header("Location: cadastrar_sensor.php?sucesso=1");
-        exit;
-
-    } else {
-
-        echo "Erro ao salvar sensor: " . $stmt->error;
-    }
-
-    $stmt->close();
+$nome = trim(valor_post("nome_sensor"));
+$localizacao = trim(valor_post("localizacao"));
+$tipo = valor_post("tipoDado");
+$tremId = filter_var(valor_post("trem_id"), FILTER_VALIDATE_INT);
+$tipos = ["Temperatura", "Umidade", "Pressao", "Velocidade"];
+if ($nome === "" || strlen($nome) > 100 || $localizacao === "" || strlen($localizacao) > 100
+    || !in_array($tipo, $tipos, true) || !$tremId || $tremId < 1) {
+    header("Location: cadastrar_sensor.php?erro=1");
+    exit;
 }
 
-$conexao->close();
+try {
+    $verificarTrem = $conexao->prepare("SELECT id FROM trens WHERE id = ?");
+    $verificarTrem->bind_param("i", $tremId);
+    $verificarTrem->execute();
+    $tremExiste = $verificarTrem->get_result()->num_rows > 0;
+    $verificarTrem->close();
+    if (!$tremExiste) {
+        header("Location: cadastrar_sensor.php?erro=1");
+        exit;
+    }
 
-?>
+    $identificacao = $nome;
+    $stmt = $conexao->prepare("INSERT INTO sensores (nome, identificacao, tipo_sensor, localizacao, trem_id) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssi", $nome, $identificacao, $tipo, $localizacao, $tremId);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: cadastrar_sensor.php?sucesso=1");
+    exit;
+} catch (mysqli_sql_exception $erro) {
+    error_log("Falha ao cadastrar sensor: " . $erro->getMessage());
+    header("Location: cadastrar_sensor.php?erro=1");
+    exit;
+}

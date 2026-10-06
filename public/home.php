@@ -1,8 +1,18 @@
 <?php
-include "../infra/conexao.php";
-$administrador = "Administrador";
-$resultado = $conexao->query("SELECT * FROM sensores ORDER BY nome");
+require_once "../infra/auth.php";
+exigir_login();
+require_once "../infra/conexao.php";
+$resultado = $conexao->query("SELECT id, nome, identificacao, localizacao, tipo_sensor FROM sensores ORDER BY nome");
 $sensores = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
+$usuariosPorPerfil = ["Administrador" => 0, "Funcionario" => 0];
+$resultadoUsuarios = $conexao->query("SELECT tipo_usuario, COUNT(*) AS total FROM usuarios GROUP BY tipo_usuario");
+if ($resultadoUsuarios) {
+    while ($usuario = $resultadoUsuarios->fetch_assoc()) {
+        if (array_key_exists($usuario["tipo_usuario"], $usuariosPorPerfil)) {
+            $usuariosPorPerfil[$usuario["tipo_usuario"]] = (int) $usuario["total"];
+        }
+    }
+}
 $estatisticas = ["sensores" => count($sensores), "trens_ativos" => 0, "trens_manutencao" => 0, "disponibilidade" => 0];
 $resultadoEstatisticas = $conexao->query("SELECT COUNT(*) AS total, SUM(status = 'Ativo') AS ativos, SUM(status = 'Em Manutenção') AS manutencao FROM trens");
 if ($resultadoEstatisticas) {
@@ -26,21 +36,55 @@ function e(string $texto): string { return htmlspecialchars($texto, ENT_QUOTES, 
 </head>
 <body>
 <header class="cabecalho">
-    <h2><i class="bi bi-train-front-fill"></i> Bem-vindo, <?= e($administrador) ?></h2>
-    <a href="login.html" class="item"><i class="bi bi-box-arrow-right"></i> Sair</a>
+    <h2><i class="bi bi-train-front-fill"></i> Olá, <?= escapar((string) $_SESSION["usuario"]["nome"]) ?></h2>
+    <form method="post" action="logout.php">
+        <input type="hidden" name="token_csrf" value="<?= escapar(token_csrf()) ?>">
+        <button type="submit" class="item"><i class="bi bi-box-arrow-right"></i> Sair</button>
+    </form>
 </header>
 <div class="layout">
     <aside class="menu-lateral">
         <a href="home.php" class="item ativo"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
         <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
         <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
-        <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Cadastrados</a>
+        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+            <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Cadastrados</a>
+        <?php endif; ?>
         <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
     </aside>
     <main class="conteudo">
         <section class="dashboard-apresentacao" aria-labelledby="titulo-dashboard">
             <div><p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p><h1 id="titulo-dashboard">Visão geral do Ferrorama</h1><p>Acompanhe o estado da operação em um único lugar.</p></div>
             <div class="dashboard-atualizacao" aria-live="polite"><span class="dashboard-ponto"></span><span id="ultima-atualizacao">Atualizado agora</span></div>
+        </section>
+        <section class="dashboard-usuarios" aria-labelledby="titulo-usuarios-dashboard">
+            <div class="dashboard-usuarios-resumo">
+                <div class="dashboard-usuarios-identidade">
+                    <span class="dashboard-usuarios-icone" aria-hidden="true"><i class="bi bi-people-fill"></i></span>
+                    <div>
+                        <p class="dashboard-sobrelinha">ACESSOS CADASTRADOS</p>
+                        <h2 id="titulo-usuarios-dashboard">Visão geral de usuários</h2>
+                        <p>Distribuição das contas registradas no sistema.</p>
+                    </div>
+                </div>
+                <div class="dashboard-usuarios-total" aria-live="polite">
+                    <strong id="total-usuarios"><?= array_sum($usuariosPorPerfil) ?></strong>
+                    <span>Usuários no total</span>
+                </div>
+            </div>
+            <div class="dashboard-usuarios-perfis">
+                <article class="dashboard-perfil dashboard-perfil-admin">
+                    <span class="dashboard-perfil-icone" aria-hidden="true"><i class="bi bi-shield-lock-fill"></i></span>
+                    <div><span>Administradores</span><strong id="total-administradores"><?= $usuariosPorPerfil["Administrador"] ?></strong></div>
+                </article>
+                <article class="dashboard-perfil dashboard-perfil-funcionario">
+                    <span class="dashboard-perfil-icone" aria-hidden="true"><i class="bi bi-person-badge-fill"></i></span>
+                    <div><span>Funcionários</span><strong id="total-funcionarios"><?= $usuariosPorPerfil["Funcionario"] ?></strong></div>
+                </article>
+                <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+                    <a class="dashboard-usuarios-link" href="crud_usuarios.php">Gerenciar usuários <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                <?php endif; ?>
+            </div>
         </section>
         <section class="dashboard-cards" aria-label="Resumo do sistema">
             <article class="dashboard-card dashboard-card-sensores"><div class="dashboard-icone"><i class="bi bi-cpu-fill"></i></div><div class="dashboard-card-cabecalho"><p>Sensores cadastrados</p><i class="bi bi-arrow-up-right"></i></div><strong id="total-sensores"><?= $estatisticas["sensores"] ?></strong><small>Dispositivos monitorados</small></article>

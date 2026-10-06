@@ -6,7 +6,8 @@ CREATE TABLE usuarios (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     telefone VARCHAR(15),
-    tipo_usuario ENUM('Administrador', 'Funcionario') NOT NULL
+    tipo_usuario ENUM('Administrador', 'Funcionario') NOT NULL,
+    senha_hash VARCHAR(255) NULL
 );
 
 CREATE TABLE trens (
@@ -37,6 +38,7 @@ CREATE TABLE viagens (
     status ENUM('Em Andamento', 'Concluída', 'Cancelada') NOT NULL,
     FOREIGN KEY (trem_id) REFERENCES trens(id)
 );
+<<<<<<< HEAD
 
 CREATE TABLE trens (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -45,3 +47,5 @@ CREATE TABLE trens (
     capacidade INT NOT NULL,
     status ENUM('Ativo', 'Inativo', 'Em Manutenção') NOT NULL
 );
+=======
+>>>>>>> af564e55b5004dc244b36e64d678666c3f18d38b

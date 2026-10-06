@@ -1,5 +1,7 @@
 <?php
 
+require_once "../infra/auth.php";
+exigir_login();
 include "../infra/conexao.php";
 
 $mensagem = "";
@@ -178,7 +180,7 @@ function e(string $texto): string
         </a>
 
 
-        <a href="cadastrar_sensores.html" class="item">
+        <a href="crud_sensor.php" class="item">
 
             <i class="bi bi-cpu-fill"></i>
 
