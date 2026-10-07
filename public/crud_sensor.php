@@ -71,8 +71,7 @@ $csrf = token_csrf();
                 </div>
             </div>
 
-            <?php if (isset($_GET["sucesso"])): ?><p role="status">Operação concluída.</p><?php endif; ?>
-            <?php if (isset($_GET["erro"])): ?><p role="alert">Não foi possível concluir a operação. Verifique os dados informados.</p><?php endif; ?>
+          
 
 
             <div class="planilha_dashboard">

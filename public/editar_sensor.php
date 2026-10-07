@@ -21,6 +21,7 @@ if (!$sensor) {
 $trens = $conexao->query("SELECT id, identificacao FROM trens ORDER BY identificacao")->fetch_all(MYSQLI_ASSOC);
 $csrf = token_csrf();
 $tipos = ["Temperatura", "Umidade", "Pressao", "Velocidade"];
+
 ?>
 <!doctype html>
 <html lang="pt-BR">
