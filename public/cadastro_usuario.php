@@ -47,17 +47,17 @@ $csrf = token_csrf();
 </head>
 <body class="pagina-cadastro">
     <header class="cabecalho">
-        <h2>Cadastro de usuário</h2>
+        <h2> Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?> </h2>
         <a class="item" href="crud_usuarios.php">Voltar à lista</a>
     </header>
 
-   <div class="layout">
+    <div class="layout">
         <aside class="menu-lateral">
         <a href="home.php" class="item "><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
         <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
         <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
         <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill"></i> Cadastrados</a>
+            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill"></i> Usuários</a>
         <?php endif; ?>
         <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
     </aside>
@@ -97,14 +97,6 @@ $csrf = token_csrf();
                         </div>
                     </div>
 
-                    <div class="campo-cadastro">
-                        <label for="senha">Senha inicial (mínimo 10 caracteres)</label>
-                        <input type="password" id="senha" name="senha" minlength="10" maxlength="72" autocomplete="new-password" required>
-                    </div>
-                    <div class="botoes-cadastro">
-                        <button type="submit" class="btn-cadastrar">Cadastrar usuário</button>
-                        <a href="crud_usuarios.php" class="btn-voltar">Cancelar</a>
-                    </div>
                     <div class="campo-cadastro">
                         <label for="senha">Senha inicial (mínimo 10 caracteres)</label>
                         <input type="password" id="senha" name="senha" minlength="10" maxlength="72" autocomplete="new-password" required>

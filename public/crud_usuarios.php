@@ -28,12 +28,11 @@ $csrf = token_csrf();
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Usuários | Ferrorama</title>
     <link rel="stylesheet" href="../assets/style/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 </head>
 <body>
     <header class="cabecalho">
-        <h2>Gestão de usuários</h2>
+        <h2> Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?> </h2>
         <a href="home.php" class="item">Voltar ao painel</a>
     </header>
 
@@ -43,7 +42,7 @@ $csrf = token_csrf();
         <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
         <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
         <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill"></i> Cadastrados</a>
+            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill"></i> Usuários</a>
         <?php endif; ?>
         <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
     </aside>
