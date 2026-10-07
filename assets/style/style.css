@@ -108,6 +108,7 @@ textarea {
     margin-bottom: 15px;
     border-radius: 12px;
     border: none;
+    color: #2E3747;
 }
 
 
@@ -848,27 +849,9 @@ button:hover {
 
 .pagina-cadastro #titulo {
     color: var(--branco-creme);
-
     text-align: center;
-
     font-size: 32px;
-
     margin-bottom: 10px;
-}
-
-
-/* Subtítulo */
-
-.pagina-cadastro #sub_titulo {
-    color: var(--branco-creme);
-
-    text-align: center;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 15px;
-
-    margin-bottom: 35px;
 }
 
 
@@ -876,9 +859,7 @@ button:hover {
 
 .linha-cadastro {
     display: flex;
-
     gap: 25px;
-
     margin-bottom: 20px;
 }
 
