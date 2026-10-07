@@ -47,6 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $schemaOk) {
                 "nome" => $usuario["nome"],
                 "tipo_usuario" => $usuario["tipo_usuario"],
             ];
+
+            $_SESSION["mensagem_login"] = "Login realizado com sucesso!";
+
             header("Location: home.php");
             exit;
         }

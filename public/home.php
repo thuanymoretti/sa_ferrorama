@@ -4,6 +4,12 @@ require_once "../infra/auth.php";
 exigir_login();
 require_once "../infra/conexao.php";
 
+$mensagem_login = "";
+if (isset($_SESSION["mensagem_login"])) {
+    $mensagem_login = $_SESSION["mensagem_login"];
+    unset($_SESSION["mensagem_login"]);
+}
+
 $sensores = $conexao->query(
     "SELECT id, nome, identificacao, localizacao, tipo_sensor
      FROM sensores ORDER BY nome"
@@ -59,7 +65,14 @@ function e($texto) {
 </head>
 
 <body>
+<body>
 
+<?php if ($mensagem_login != ""): ?>
+    <script>
+        alert("<?php echo $mensagem_login; ?>");
+    </script>
+
+<?php endif; ?>
 <header class="cabecalho">
 
     <h2>
