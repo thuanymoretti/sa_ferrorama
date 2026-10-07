@@ -33,7 +33,7 @@ try {
         exit;
     }
 
-    $identificacao = $nome;
+$identificacao = trim(valor_post("identificacao"));
     $stmt = $conexao->prepare("UPDATE sensores SET nome = ?, identificacao = ?, localizacao = ?, tipo_sensor = ?, trem_id = ? WHERE id = ?");
     $stmt->bind_param("ssssii", $nome, $identificacao, $localizacao, $tipo, $tremId, $id);
     $stmt->execute();
