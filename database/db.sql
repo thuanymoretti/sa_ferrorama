@@ -39,10 +39,3 @@ CREATE TABLE viagens (
     FOREIGN KEY (trem_id) REFERENCES trens(id)
 );
 
-CREATE TABLE trens (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    identificacao VARCHAR(100) NOT NULL,
-    modelo VARCHAR(50) NOT NULL,
-    capacidade INT NOT NULL,
-    status ENUM('Ativo', 'Inativo', 'Em Manutenção') NOT NULL
-);
