@@ -72,7 +72,8 @@ $csrf = token_csrf();
                 <div class="tabela-container">
                     <table class="table">
                     <thead>
-                        <tr><th>Nome</th>
+                        <tr><th>ID</th>
+                        <th>Nome</th>
                         <th>E-mail</th>
                         <th>Telefone</th>
                         <th>Perfil</th>
@@ -83,6 +84,7 @@ $csrf = token_csrf();
                         <tr><td colspan="5" class="text-center">Nenhum usuário encontrado.</td></tr>
                     <?php else: foreach ($usuarios as $usuario): ?>
                         <tr>
+                            <td><?= (int) $usuario["id"] ?></td>
                             <td><?= escapar($usuario["nome"]) ?></td>
                             <td><?= escapar($usuario["email"]) ?></td>
                             <td><?= escapar($usuario["telefone"] ?? "") ?></td>
