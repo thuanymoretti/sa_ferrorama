@@ -501,26 +501,44 @@ button:hover {
     text-align: center;
 }
 
-.table td a {
-    padding: 6px 10px;
+
+    .btn-editar,
+.btn-excluir {
+    width: 80px;
+    height: 35px;
+    padding: 0;
     margin: 2px;
+    border: none;
     border-radius: 7px;
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    box-sizing: border-box;
+    font-size: 14px;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.table td a:first-child {
+.btn-editar {
     background-color: var(--cinza-trilho);
     color: var(--branco-creme);
 }
 
-.table td a:first-child:hover {
-    background-color: var(--laranja-ferrugem);
-}
-
-.table td a:last-child {
+.btn-excluir {
     background-color: var(--perigo);
     color: var(--branco-creme);
 }
+
+.btn-editar:hover {
+    background-color: var(--laranja-ferrugem);
+}
+
+.btn-excluir:hover {
+    background-color: #a51f1f;
+}
+
 
 
 /* ==========================================================
