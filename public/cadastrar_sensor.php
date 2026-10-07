@@ -48,6 +48,11 @@ $csrf = token_csrf();
                 placeholder="Ex: Sensor Velocidade A1">
         </div>
 
+<div class="grupo-input">
+    <label>Identificação do Sensor:</label>
+    <input type="text" name="identificacao" required
+        placeholder="Ex: SV-A1">
+</div>
 
         <div class="grupo-input">
             <label>Localização:</label>
@@ -57,14 +62,14 @@ $csrf = token_csrf();
 
 
         <div class="grupo-input">
-            <label>Tipo de Dado:</label>
+            <label>Tipo de Sensor:</label>
 
             <select name="tipoDado" required>
                 <option value="" selected disabled>Selecione</option>
                 <option value="Velocidade">Velocidade</option>
                 <option value="Temperatura">Temperatura</option>
                 <option value="Pressao">Pressão</option>
-                <option value="Umidade">Umidade</option>
+                <option value="fotoeletrico"> fotoelétrico</option>
             </select>
         </div>
 
