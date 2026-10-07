@@ -4,8 +4,14 @@ require_once "../infra/auth.php";
 exigir_login();
 require_once "../infra/conexao.php";
 
-
-$stmt = $conexao->query("SELECT id, nome, identificacao, localizacao, tipo_sensor, trem_id FROM sensores ORDER BY nome");
+$stmt = $conexao->query("
+    SELECT sensores.id, sensores.nome, sensores.identificacao,
+           sensores.localizacao, sensores.tipo_sensor,
+           trens.identificacao AS trem_identificacao
+    FROM sensores
+    INNER JOIN trens ON sensores.trem_id = trens.id
+    ORDER BY sensores.nome
+");
 $csrf = token_csrf();
 
 ?>
@@ -23,9 +29,7 @@ $csrf = token_csrf();
 
     <link rel="stylesheet" href="../assets/style/style.css">
 
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+ 
 </head>
 
 <body>
@@ -33,7 +37,7 @@ $csrf = token_csrf();
 
     <header class="cabecalho">
 
-                        <h2>  Sensores do Ferrorama </h2>
+                        <h2><i class="bi bi-train-front-fill"></i> Olá, <?= escapar((string) $_SESSION["usuario"]["nome"]) ?></h2>
 
     </header>
 
@@ -50,7 +54,7 @@ $csrf = token_csrf();
             <a href="crud_trens.php" class="item">  Trens </a>
 
             <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-                <a href="crud_usuarios.php" class="item">Cadastrados</a>
+                <a href="crud_usuarios.php" class="item">Usuarios</a>
             <?php endif; ?>
 
             <a href="crud_viagens.php" class="item">  Viagens </a>
@@ -81,7 +85,7 @@ $csrf = token_csrf();
                              <th>NOME</th>
                              <th>IDENTIFICAÇÃO</th>
                              <th>LOCALIZAÇÃO</th>
-                             <th>TIPO DE DADO</th>
+                             <th>TIPO DE SENSOR</th>
                              <th>TREM VINCULADO</th>
                              <th>AÇÕES</th>
 
@@ -103,16 +107,16 @@ $csrf = token_csrf();
                                 <td> <?= escapar($sensor['identificacao']) ?> </td>
                                 <td> <?= escapar($sensor['localizacao']) ?>  </td>
                                 <td> <?= escapar($sensor['tipo_sensor']) ?> </td>
-                                <td> <?= (int) $sensor['trem_id'] ?>  </td>
-
+                                <td> <?= escapar($sensor['trem_identificacao']) ?> </td>
 
                                <td>
                                     <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-                                        <a href="editar_sensor.php?id=<?= (int) $sensor['id'] ?>">Editar</a>
-                                        <form method="post" action="excluir_sensor.php" onsubmit="return confirm('Confirma a exclusão deste sensor?')" style="display:inline">
-                                            <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>"><input type="hidden" name="id" value="<?= (int) $sensor['id'] ?>">
-                                            <button type="submit">Excluir</button>
-                                        </form>
+                                      <a class="btn-editar" href="editar_sensor.php?id=<?= (int) $sensor['id'] ?>">  Editar </a>
+                                <form method="post" action="excluir_sensor.php" onsubmit="return confirm('Confirma a exclusão deste sensor?')" style="display:inline"> 
+                                <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
+                                <input type="hidden" name="id" value="<?= (int) $sensor['id'] ?>">
+                                <button class="btn-excluir" type="submit">Excluir</button>
+                                </form>
                                     <?php else: ?>—<?php endif; ?>
                                 </td>
                             </tr>
