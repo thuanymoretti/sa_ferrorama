@@ -12,12 +12,15 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 validar_token_csrf();
 
 $nome = trim(valor_post("nome_sensor"));
+$identificacao = trim(valor_post("identificacao"));
 $localizacao = trim(valor_post("localizacao"));
 $tipo = valor_post("tipoDado");
 $tremId = filter_var(valor_post("trem_id"), FILTER_VALIDATE_INT);
-$tipos = ["Temperatura", "Umidade", "Pressao", "Velocidade"];
-if ($nome === "" || strlen($nome) > 100 || $localizacao === "" || strlen($localizacao) > 100
-    || !in_array($tipo, $tipos, true) || !$tremId || $tremId < 1) {
+$tipos = ["Temperatura", "fotoeletrico", "Pressao", "Velocidade"];
+if ($nome === "" || strlen($nome) > 100 || 
+    $identificacao === "" || strlen($identificacao) > 50 ||
+    $localizacao === "" || strlen($localizacao) > 100 ||
+    !in_array($tipo, $tipos, true) || !$tremId || $tremId < 1) {
     header("Location: cadastrar_sensor.php?erro=1");
     exit;
 }
@@ -33,7 +36,7 @@ try {
         exit;
     }
 
-    $identificacao = $nome;
+
     $stmt = $conexao->prepare("INSERT INTO sensores (nome, identificacao, tipo_sensor, localizacao, trem_id) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssi", $nome, $identificacao, $tipo, $localizacao, $tremId);
     $stmt->execute();
