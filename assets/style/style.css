@@ -1165,7 +1165,7 @@ button:hover {
 .acoes form { display: inline-block; margin: 0 0 0 6px; }
 .acoes form button { width: auto; margin: 0; }
 
-/* Destaque para a distribuição dos usuários no painel */
+/* Destaque pra a distribuição dos usuários no painel */
 .dashboard-usuarios {
     margin-bottom: 24px;
     padding: 24px;
@@ -1218,4 +1218,174 @@ button:hover {
     .dashboard-usuarios-total { align-items: flex-start; padding-left: 70px; }
     .dashboard-usuarios-perfis { grid-template-columns: 1fr; }
     .dashboard-usuarios-link { grid-column: auto; }
+}
+
+
+
+/* ========================================
+   TELA DE EDIÇÃO 
+   ======================================== */
+
+.pagina-editar-trens {
+    min-height: 100vh;
+    background-color: var(--preto-fuligem);
+}
+
+.pagina-editar-trens .conteudo-editar-trens {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.pagina-editar-trens .container-sensor {
+    width: 90%;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: var(--cinza-trilho-escuro);
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.pagina-editar-trens .titulo-sensor {
+    margin-bottom: 35px;
+    color: var(--branco-creme);
+    text-align: center;
+    font-size: 32px;
+}
+
+.pagina-editar-trens .grupo-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.pagina-editar-trens .grupo-input label {
+    margin-bottom: 8px;
+    color: var(--branco-creme);
+    font-weight: bold;
+}
+
+.pagina-editar-trens .grupo-input input,
+.pagina-editar-trens .grupo-input select {
+    width: 100%;
+    height: 45px;
+    padding: 0 13px;
+    box-sizing: border-box;
+    border: 2px solid var(--cinza-trilho);
+    border-radius: 10px;
+    background-color: var(--branco-creme);
+    color: var(--preto-fuligem);
+    font-size: 15px;
+}
+
+.pagina-editar-trens .grupo-input input:focus,
+.pagina-editar-trens .grupo-input select:focus {
+    outline: none;
+    border-color: var(--laranja-ferrugem-claro);
+}
+
+.pagina-editar-trens .botoes-formulario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.pagina-editar-trens .btn-salvar {
+    width: 180px;
+    height: 45px;
+    margin: 0;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--laranja-ferrugem);
+    color: var(--branco-creme);
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pagina-editar-trens .btn-salvar:hover {
+    background-color: var(--laranja-ferrugem-escuro);
+}
+
+.pagina-editar-trens .btn-cancelar {
+    width: 120px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: var(--cinza-trilho);
+    color: var(--branco-creme);
+    text-decoration: none;
+}
+
+.pagina-editar-trens .btn-cancelar:hover {
+    background-color: var(--laranja-ferrugem-escuro);
+    color: var(--branco-creme);
+}
+
+/* NOME DO USUÁRIO NO CANTINHO */
+
+.pagina-editar-trens .cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    height: 80px;
+    box-sizing: border-box;
+    background-color: var(--preto-fuligem);
+    color: var(--branco-creme);
+}
+
+.pagina-editar-trens .cabecalho h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.pagina-editar-trens .usuario-logado {
+    padding: 10px 16px;
+    border: 1px solid var(--laranja-ferrugem);
+    border-radius: 20px;
+    background-color: var(--cinza-trilho-escuro);
+    color: var(--branco-creme);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.pagina-editar-trens .mensagem-erro {
+    padding: 12px;
+    border-radius: 8px;
+    background-color: rgba(198, 40, 40, 0.15);
+    color: #ffaaaa;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+@media (max-width: 600px) {
+    .pagina-editar-trens .container-sensor {
+        width: 100%;
+        padding: 25px 20px;
+    }
+
+    .pagina-editar-trens .botoes-formulario {
+        flex-direction: column;
+    }
+
+    .pagina-editar-trens .btn-salvar,
+    .pagina-editar-trens .btn-cancelar {
+        width: 100%;
+    }
+
+    .pagina-editar-trens .cabecalho {
+        padding: 0 15px;
+    }
+
+    .pagina-editar-trens .cabecalho h2 {
+        font-size: 20px;
+    }
 }
