@@ -1,95 +1,212 @@
+
 <?php
-include("../infra/conexao.php");
+require_once "../infra/auth.php";
+require_once "../infra/conexao.php";
 
-$id = $_GET['id'];
+exigir_login();
 
-$sql = "SELECT * FROM trens WHERE id = $id";
-$resultado = mysqli_query($conexao, $sql);
-$trem = mysqli_fetch_assoc($resultado);
+$erro = "";
+$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
-if (isset($_POST['editar'])) {
-
-    $identificacao = $_POST['identificacao'];
-    $modelo = $_POST['modelo'];
-    $capacidade = $_POST['capacidade'];
-    $status = $_POST['status'];
-
-    $sql = "UPDATE trens SET
-            identificacao = '$identificacao',
-            modelo = '$modelo',
-            capacidade = '$capacidade',
-            status = '$status'
-            WHERE id = $id";
-
-    mysqli_query($conexao, $sql);
-
+if (!$id || $id < 1) {
     header("Location: crud_trens.php");
     exit;
 }
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    validar_token_csrf();
+
+    $identificacao = trim(valor_post("identificacao"));
+    $modelo = trim(valor_post("modelo"));
+    $capacidadeTexto = valor_post("capacidade");
+    $status = valor_post("status");
+
+    $capacidade = filter_var(
+        $capacidadeTexto,
+        FILTER_VALIDATE_INT
+    );
+
+    $statusPermitidos = [
+        "Ativo",
+        "Inativo",
+        "Em Manutenção"
+    ];
+
+    if (
+        $identificacao === "" ||
+        $modelo === "" ||
+        $capacidade === false ||
+        $capacidade < 1 ||
+        !in_array($status, $statusPermitidos, true)
+    ) {
+        $erro = "Preencha todos os campos corretamente.";
+    } else {
+        $sql = "UPDATE trens
+                SET identificacao = ?,
+                    modelo = ?,
+                    capacidade = ?,
+                    status = ?
+                WHERE id = ?";
+
+        $stmt = $conexao->prepare($sql);
+        $stmt->bind_param(
+            "ssisi",
+            $identificacao,
+            $modelo,
+            $capacidade,
+            $status,
+            $id
+        );
+
+        if ($stmt->execute()) {
+            $stmt->close();
+
+            definir_flash(
+                "sucesso",
+                "Trem atualizado com sucesso!"
+            );
+
+            header("Location: crud_trens.php");
+            exit;
+        }
+
+        $stmt->close();
+        $erro = "Não foi possível atualizar o trem.";
+    }
+}
+
+$sql = "SELECT identificacao, modelo, capacidade, status
+        FROM trens
+        WHERE id = ?";
+
+$stmt = $conexao->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$trem = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+if (!$trem) {
+    header("Location: crud_trens.php");
+    exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $trem["identificacao"] = $identificacao;
+    $trem["modelo"] = $modelo;
+    $trem["capacidade"] = $capacidadeTexto;
+    $trem["status"] = $status;
+}
+
+$csrf = token_csrf();
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
-    <title>Editar Trem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar trem | Ferrorama</title>
+    <link rel="stylesheet" href="../assets/style/style.css">
 </head>
 
-<body>
+<body class="pagina-editar-trens">
 
-    <h1>Editar Trem</h1>
+    <header class="cabecalho">
+        <h2>Ferrorama</h2>
 
-    <form method="POST">
+        <div class="usuario-logado">
+            Olá, <?= escapar($_SESSION["usuario"]["nome"] ?? "Usuário") ?>
+        </div>
+    </header>
 
-        <label>Identificação:</label>
-        <input type="text" name="identificacao"
-               value="<?= $trem['identificacao'] ?>" required>
+    <main class="conteudo-editar-trens">
+        <section class="container-sensor">
+            <h1 class="titulo-sensor">Editar trem</h1>
 
-        <br><br>
+            <?php if ($erro !== ""): ?>
+                <p class="mensagem-erro" role="alert">
+                    <?= escapar($erro) ?>
+                </p>
+            <?php endif; ?>
 
-        <label>Modelo:</label>
-        <input type="text" name="modelo"
-               value="<?= $trem['modelo'] ?>" required>
+            <form method="POST" class="form-sensor">
+                <input
+                    type="hidden"
+                    name="token_csrf"
+                    value="<?= escapar($csrf) ?>"
+                >
 
-        <br><br>
+                <div class="grupo-input">
+                    <label for="identificacao">Identificação</label>
+                    <input
+                        type="text"
+                        id="identificacao"
+                        name="identificacao"
+                        maxlength="100"
+                        value="<?= escapar((string)$trem["identificacao"]) ?>"
+                        required
+                    >
+                </div>
 
-        <label>Capacidade:</label>
-        <input type="number" name="capacidade"
-               value="<?= $trem['capacidade'] ?>" required>
+                <div class="grupo-input">
+                    <label for="modelo">Modelo</label>
+                    <input
+                        type="text"
+                        id="modelo"
+                        name="modelo"
+                        maxlength="50"
+                        value="<?= escapar((string)$trem["modelo"]) ?>"
+                        required
+                    >
+                </div>
 
-        <br><br>
+                <div class="grupo-input">
+                    <label for="capacidade">Capacidade</label>
+                    <input
+                        type="number"
+                        id="capacidade"
+                        name="capacidade"
+                        min="1"
+                        value="<?= escapar((string)$trem["capacidade"]) ?>"
+                        required
+                    >
+                </div>
 
-        <label>Status:</label>
-        <select name="status" required>
+                <div class="grupo-input">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" required>
+                        <?php
+                        $statusPermitidos = [
+                            "Ativo",
+                            "Inativo",
+                            "Em Manutenção"
+                        ];
+                        ?>
 
-            <option value="Ativo"
-                <?= $trem['status'] == 'Ativo' ? 'selected' : '' ?>>
-                Ativo
-            </option>
+                        <?php foreach ($statusPermitidos as $opcao): ?>
+                            <option
+                                value="<?= escapar($opcao) ?>"
+                                <?= $trem["status"] === $opcao ? "selected" : "" ?>
+                            >
+                                <?= escapar($opcao) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <option value="Inativo"
-                <?= $trem['status'] == 'Inativo' ? 'selected' : '' ?>>
-                Inativo
-            </option>
+                <div class="botoes-formulario">
+                    <button type="submit" class="btn-salvar">
+                        Salvar alterações
+                    </button>
 
-            <option value="Em Manutenção"
-                <?= $trem['status'] == 'Em Manutenção' ? 'selected' : '' ?>>
-                Em Manutenção
-            </option>
-
-        </select>
-
-        <br><br>
-
-        <button type="submit" name="editar">Salvar alterações</button>
-
-    </form>
-
-    <br>
-
-    <a href="crud_trens.php">Voltar</a>
+                    <a href="crud_trens.php" class="btn-cancelar">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </section>
+    </main>
 
 </body>
-
 </html>
