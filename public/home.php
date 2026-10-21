@@ -15,19 +15,16 @@ $sensores = $conexao->query(
      FROM sensores ORDER BY nome"
 )->fetch_all(MYSQLI_ASSOC);
 
-$usuarios = [
-    "Administrador" => 0,
-    "Funcionario" => 0
-];
-
-$resultado = $conexao->query(
-    "SELECT tipo_usuario, COUNT(*) total
-     FROM usuarios GROUP BY tipo_usuario"
-);
-
-while ($usuario = $resultado->fetch_assoc()) {
-    if (isset($usuarios[$usuario["tipo_usuario"]])) {
-        $usuarios[$usuario["tipo_usuario"]] = (int)$usuario["total"];
+$ehAdministrador = $_SESSION["usuario"]["tipo_usuario"] === "Administrador";
+$usuarios = ["Administrador" => 0, "Funcionario" => 0];
+if ($ehAdministrador) {
+    $resultado = $conexao->query(
+        "SELECT tipo_usuario, COUNT(*) total FROM usuarios GROUP BY tipo_usuario"
+    );
+    while ($usuario = $resultado->fetch_assoc()) {
+        if (isset($usuarios[$usuario["tipo_usuario"]])) {
+            $usuarios[$usuario["tipo_usuario"]] = (int)$usuario["total"];
+        }
     }
 }
 
@@ -94,10 +91,9 @@ function e($texto) {
         <a href="crud_sensor.php" class="item">Sensores</a>
         <a href="crud_trens.php" class="item">Trens</a>
 
-        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+        <?php if ($ehAdministrador): ?>
             <a href="crud_usuarios.php" class="item">Usuários</a>
         <?php endif; ?>
-
         <a href="crud_viagens.php" class="item">Viagens</a>
 
     </aside>
@@ -119,6 +115,7 @@ function e($texto) {
 
         </section>
 
+        <?php if ($ehAdministrador): ?>
         <section class="dashboard-usuarios">
 
             <div class="dashboard-usuarios-resumo">
@@ -152,15 +149,14 @@ function e($texto) {
                     </div>
                 </article>
 
-                <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-                    <a class="dashboard-usuarios-link" href="crud_usuarios.php">
-                        Gerenciar usuários
-                    </a>
-                <?php endif; ?>
+                <a class="dashboard-usuarios-link" href="crud_usuarios.php">
+                    Gerenciar usuários
+                </a>
 
             </div>
 
         </section>
+        <?php endif; ?>
 
         <section class="dashboard-cards">
 

@@ -1,14 +1,16 @@
 <?php
 
 require_once "../infra/auth.php";
+require_once "../infra/conexao.php";
 exigir_login();
-include "../infra/conexao.php";
+$ehAdministrador = ($_SESSION["usuario"]["tipo_usuario"] ?? "") === "Administrador";
 
 $mensagem = "";
 $erro = "";
 
 
 if (isset($_POST["cadastrar"])) {
+    exigir_administrador($conexao);
 
     $trem_id = (int) $_POST["trem_id"];
     $data_inicio = $_POST["data_inicio"];
@@ -56,6 +58,7 @@ if (isset($_POST["cadastrar"])) {
 
 
 if (isset($_GET["excluir"])) {
+    exigir_administrador($conexao);
 
     $id = (int) $_GET["excluir"];
 
@@ -198,6 +201,7 @@ function e(string $texto): string
         </a>
 
 
+        <?php if ($ehAdministrador): ?>
         <a href="crud_usuarios.php" class="item">
 
             <i class="bi bi-people-fill"></i>
@@ -205,6 +209,7 @@ function e(string $texto): string
             Cadastrados
 
         </a>
+        <?php endif; ?>
 
 
         <a href="crud_viagens.php" class="item ativo">
@@ -236,7 +241,7 @@ function e(string $texto): string
 
                 <p>
 
-                    Cadastre e acompanhe as viagens realizadas pelos trens.
+                    <?= $ehAdministrador ? "Cadastre e acompanhe as viagens realizadas pelos trens." : "Acompanhe as viagens realizadas pelos trens." ?>
 
                 </p>
 
@@ -269,6 +274,7 @@ function e(string $texto): string
 
 
 
+        <?php if ($ehAdministrador): ?>
         <section class="container-sensor">
 
             <h2 class="titulo-sensor">
@@ -482,6 +488,7 @@ function e(string $texto): string
             </form>
 
         </section>
+        <?php endif; ?>
 
 
 
@@ -520,7 +527,7 @@ function e(string $texto): string
 
                             <th>STATUS</th>
 
-                            <th>AÇÕES</th>
+                            <?php if ($ehAdministrador): ?><th>AÇÕES</th><?php endif; ?>
 
                         </tr>
 
@@ -596,17 +603,6 @@ function e(string $texto): string
 
                                 <td>
 
-                                    <span class="badge <?= $classeStatus ?>">
-
-                                        <?= e($viagem["status"]) ?>
-
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
                                     <?= date(
                                         "d/m/Y H:i",
                                         strtotime($viagem["data_chegada"])
@@ -616,6 +612,17 @@ function e(string $texto): string
 
 
                                 <td>
+
+                                    <span class="badge <?= $classeStatus ?>">
+
+                                        <?= e($viagem["status"]) ?>
+
+                                    </span>
+
+                                </td>
+
+
+                                <?php if ($ehAdministrador): ?><td>
 
                                     <a
                                         class="botao_dashboard"
@@ -628,7 +635,7 @@ function e(string $texto): string
 
                                     </a>
 
-                                </td>
+                                </td><?php endif; ?>
 
                             </tr>
 
@@ -640,7 +647,7 @@ function e(string $texto): string
                         <tr>
 
                             <td
-                                colspan="9"
+                                colspan="<?= $ehAdministrador ? 9 : 8 ?>"
                                 class="text-center"
                             >
 

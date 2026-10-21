@@ -57,7 +57,7 @@ $csrf = token_csrf();
                 <a href="crud_usuarios.php" class="item">Usuarios</a>
             <?php endif; ?>
 
-            <a href="crud_viagens.php" class="item">  Viagens </a>
+            <a href="crud_viagens.php" class="item">Viagens</a>
 
         </aside>
 
