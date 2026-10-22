@@ -71,7 +71,7 @@ function e($texto) {
 
 <?php endif; ?>
 <header class="cabecalho">
-
+<body>
     <h2>
         Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?>
     </h2>
@@ -83,19 +83,15 @@ function e($texto) {
 
 </header>
 
-<div class="layout">
-
-    <aside class="menu-lateral">
-
-        <a href="home.php" class="item ativo">Dashboard</a>
-        <a href="crud_sensor.php" class="item">Sensores</a>
-        <a href="crud_trens.php" class="item">Trens</a>
-
-        <?php if ($ehAdministrador): ?>
-            <a href="crud_usuarios.php" class="item">Usuários</a>
+ <div class="layout">
+        <aside class="menu-lateral">
+        <a href="home.php" class="item ativo"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
+        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
+        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+            <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Usuários</a>
         <?php endif; ?>
-        <a href="crud_viagens.php" class="item">Viagens</a>
-
+        <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
     </aside>
 
     <main class="conteudo">
@@ -284,4 +280,5 @@ function e($texto) {
 <script src="../scripts/script_home.js"></script>
 
 </body>
+                    </body>
 </html>

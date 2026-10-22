@@ -44,23 +44,16 @@ $csrf = token_csrf();
 
 
     <div class="layout">
-
-
         <aside class="menu-lateral">
+        <a href="home.php" class="item "><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        <a href="crud_sensor.php" class="item ativo"><i class="bi bi-cpu-fill"></i> Sensores</a>
+        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
+        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+            <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Usuários</a>
+        <?php endif; ?>
+        <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
+    </aside>
 
-            <a href="home.php" class="item">  Dashboard  </a>
-
-            <a href="crud_sensor.php" class="item ativo"> Sensores  </a>
-
-            <a href="crud_trens.php" class="item">  Trens </a>
-
-            <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-                <a href="crud_usuarios.php" class="item">Usuarios</a>
-            <?php endif; ?>
-
-            <a href="crud_viagens.php" class="item">Viagens</a>
-
-        </aside>
 
 
         <main class="conteudo">
