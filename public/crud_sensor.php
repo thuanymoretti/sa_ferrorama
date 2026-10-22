@@ -38,6 +38,7 @@ $csrf = token_csrf();
     <header class="cabecalho">
 
                         <h2><i class="bi bi-train-front-fill"></i> Olá, <?= escapar((string) $_SESSION["usuario"]["nome"]) ?></h2>
+                        <a href="home.php" class="item">Voltar ao painel</a>
 
     </header>
 

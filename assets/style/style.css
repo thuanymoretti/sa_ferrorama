@@ -203,6 +203,7 @@ button:hover {
 
 .titulo_do_sensores {
     color: var(--branco-creme);
+    align-items: center;
 }
 
 .titulo-sensor {

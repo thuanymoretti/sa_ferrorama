@@ -1,23 +1,23 @@
 <?php
+require_once "../infra/auth.php";
+exigir_login();
 require_once "../infra/conexao.php";
+exigir_administrador($conexao);
 
-$id = $_GET["id"];
-$sql = "DELETE FROM usuarios WHERE id = ?";
-$stmt = $conexao->prepare($sql);
-$stmt->bind_param("i", $id);
-
-if ($stmt->execute()) {
-    echo "<script>
-            alert('Usuário excluído com sucesso!');
-            window.location.href = 'crud_usuarios.php';
-          </script>";
-
-} else {
-    echo "<script>
-            alert('Erro ao excluir usuário!');
-            window.location.href = 'crud_usuarios.php';
-          </script>";
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405);
+    exit("Método não permitido.");
+}
+validar_token_csrf();
+$id = filter_var(valor_post("id"), FILTER_VALIDATE_INT);
+if (!$id || $id < 1) {
+    header("Location: crud_sensor.php?erro=1");
+    exit;
 }
 
+$stmt = $conexao->prepare("DELETE FROM usuarios WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
 $stmt->close();
-?>
+header("Location: crud_usuarios.php?sucesso=1");
+exit;

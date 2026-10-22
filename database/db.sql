@@ -37,3 +37,4 @@ CREATE TABLE viagens (
     destino VARCHAR(100) NOT NULL,
     status ENUM('Em Andamento', 'Concluída', 'Cancelada') NOT NULL,
     FOREIGN KEY (trem_id) REFERENCES trens(id)
+);
