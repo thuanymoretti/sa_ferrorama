@@ -24,7 +24,7 @@ CREATE TABLE sensores (
     tipo_sensor ENUM('Temperatura', 'fotoeletrico', 'Pressao', 'Velocidade') NOT NULL,
     localizacao VARCHAR(100) NOT NULL,
     dados_adicionais VARCHAR(100),
-    trem_id INT NOT NULL
+    trem_id INT NULL
 );
 
 
