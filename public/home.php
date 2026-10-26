@@ -106,7 +106,7 @@ function e($texto) {
 
             <div class="dashboard-atualizacao">
                 <span class="dashboard-ponto"></span>
-                <span id="ultima-atualizacao">Atualizado agora</span>
+                <span id="ultima-atualizacao" aria-live="off">--:--:--</span>
             </div>
 
         </section>
@@ -277,7 +277,7 @@ function e($texto) {
 
 </div>
 
-<script src="../scripts/script_home.js"></script>
+<script src="../scripts/script_home.js?v=20261026"></script>
 
 </body>
                     </body>
