@@ -388,6 +388,25 @@ button:hover {
     margin: 20px 0 0;
 }
 
+.mensagem-erro,
+.mensagem-sucesso {
+    margin: 18px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+
+.mensagem-erro {
+    background-color: rgba(198, 40, 40, 0.15);
+    color: #ffaaaa;
+}
+
+.mensagem-sucesso {
+    background-color: rgba(87, 182, 95, 0.15);
+    color: #a8e6ad;
+}
+
 .mapa-ferrorama {
     margin-top: 30px;
     padding: 25px;
