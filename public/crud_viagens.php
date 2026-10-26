@@ -7,10 +7,20 @@ $ehAdministrador = ($_SESSION["usuario"]["tipo_usuario"] ?? "") === "Administrad
 
 $mensagem = "";
 $erro = "";
+$csrf = token_csrf();
+$flash = obter_flash();
+if ($flash) {
+    if ($flash["tipo"] === "sucesso") {
+        $mensagem = $flash["mensagem"];
+    } else {
+        $erro = $flash["mensagem"];
+    }
+}
 
 
 if (isset($_POST["cadastrar"])) {
     exigir_administrador($conexao);
+    validar_token_csrf();
 
     $trem_id = (int) $_POST["trem_id"];
     $data_inicio = $_POST["data_inicio"];
@@ -57,10 +67,15 @@ if (isset($_POST["cadastrar"])) {
 
 
 
-if (isset($_GET["excluir"])) {
+if (isset($_POST["excluir"])) {
     exigir_administrador($conexao);
+    validar_token_csrf();
 
-    $id = (int) $_GET["excluir"];
+    $id = filter_var(valor_post("excluir"), FILTER_VALIDATE_INT);
+    if (!$id || $id < 1) {
+        http_response_code(400);
+        exit("Identificador de viagem inválido.");
+    }
 
     $sql = "DELETE FROM viagens WHERE id = ?";
 
@@ -216,6 +231,8 @@ function e(string $texto): string
 
 
             <form method="POST" class="form-sensor">
+
+                <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
 
 
                 <div class="linha-formulario">
@@ -553,20 +570,15 @@ function e(string $texto): string
                                 </td>
 
 
-                                <?php if ($ehAdministrador): ?><td>
-
-                                    <a
-                                        class="botao_dashboard"
-                                        href="?excluir=<?= $viagem["id"] ?>"
-                                        onclick="return confirm('Deseja realmente excluir esta viagem?')"
-                                        title="Excluir viagem"
-                                    >
-
-                                        <i class="bi bi-trash-fill"></i>
-
-                                    </a>
-
-                                </td><?php endif; ?>
+                                <?php if ($ehAdministrador): ?>
+                                    <td>
+                                        <a class="btn-editar" href="editar_viagem.php?id=<?= (int) $viagem["id"] ?>">Editar</a>
+                                        <form method="post" onsubmit="return confirm('Deseja realmente excluir esta viagem?')" style="display:inline">
+                                            <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
+                                            <button type="submit" name="excluir" value="<?= (int) $viagem["id"] ?>" class="btn-excluir">Excluir</button>
+                                        </form>
+                                    </td>
+                                <?php endif; ?>
 
                             </tr>
 
