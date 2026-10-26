@@ -42,10 +42,9 @@ $csrf = token_csrf();
 <head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cadastro de usuário | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261026-cadastro-usuario">
 </head>
-<body class="pagina-cadastro">
+<body>
     <header class="cabecalho">
         <h2> Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?> </h2>
         <a class="item" href="crud_usuarios.php">Voltar à lista</a>
@@ -53,20 +52,19 @@ $csrf = token_csrf();
 
     <div class="layout">
         <aside class="menu-lateral">
-        <a href="home.php" class="item "><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
-        <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
-        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
+        <a href="home.php" class="item">Dashboard</a>
+        <a href="crud_sensor.php" class="item">Sensores</a>
+        <a href="crud_trens.php" class="item">Trens</a>
         <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill"></i> Usuários</a>
+            <a href="crud_usuarios.php" class="item ativo">Usuários</a>
         <?php endif; ?>
-        <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
+        <a href="crud_viagens.php" class="item">Viagens</a>
     </aside>
 
-        <main class="conteudo cadastro-conteudo">
-            <section class="cadastro">
-                <h1 id="titulo">Novo usuário</h1>
-                <p id="sub_titulo">O perfil administrativo só pode ser definido por um administrador autenticado.</p>
-                <?php if ($erro !== ""): ?><p role="alert"><?= escapar($erro) ?></p><?php endif; ?>
+        <main class="conteudo">
+            <section class="formulario-usuario">
+                <h1>Cadastrar usuário</h1>
+                <?php if ($erro !== ""): ?><p class="mensagem-erro" role="alert"><?= escapar($erro) ?></p><?php endif; ?>
                 <form method="post" autocomplete="off">
                     <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
 
