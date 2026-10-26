@@ -57,7 +57,7 @@ function e($texto) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261026-admin-welcome">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -101,7 +101,11 @@ function e($texto) {
             <div>
                 <p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p>
                 <h1>Visão geral do Ferrorama</h1>
-                <p>Acompanhe o estado da operação em um único lugar.</p>
+                <?php if ($ehAdministrador): ?>
+                    <p class="dashboard-boas-vindas dashboard-boas-vindas-admin">Bem-vindo à tela de administrador, <?= e($_SESSION["usuario"]["nome"]) ?>!</p>
+                <?php else: ?>
+                    <p class="dashboard-boas-vindas">Bem-vindo, <?= e($_SESSION["usuario"]["nome"]) ?>. Acompanhe o estado da operação.</p>
+                <?php endif; ?>
             </div>
 
             <div class="dashboard-atualizacao">
@@ -209,9 +213,11 @@ function e($texto) {
                     <h2>Sensores do sistema</h2>
                 </div>
 
-                <a href="crud_sensor.php" class="dashboard-link">
-                    Gerenciar sensores
-                </a>
+                <?php if ($ehAdministrador): ?>
+                    <a href="crud_sensor.php" class="dashboard-link">
+                        Gerenciar sensores
+                    </a>
+                <?php endif; ?>
 
             </div>
 
