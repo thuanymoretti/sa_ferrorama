@@ -9,9 +9,10 @@ $stmt = $conexao->query("
            sensores.localizacao, sensores.tipo_sensor,
            trens.identificacao AS trem_identificacao
     FROM sensores
-    INNER JOIN trens ON sensores.trem_id = trens.id
+    LEFT JOIN trens ON sensores.trem_id = trens.id
     ORDER BY sensores.nome
 ");
+$ehAdministrador = $_SESSION["usuario"]["tipo_usuario"] === "Administrador";
 $csrf = token_csrf();
 
 ?>
@@ -80,7 +81,7 @@ $csrf = token_csrf();
                              <th>LOCALIZAÇÃO</th>
                              <th>TIPO DE SENSOR</th>
                              <th>TREM VINCULADO</th>
-                             <th>AÇÕES</th>
+                             <?php if ($ehAdministrador): ?><th>AÇÕES</th><?php endif; ?>
 
                         </tr>
 
@@ -100,18 +101,18 @@ $csrf = token_csrf();
                                 <td> <?= escapar($sensor['identificacao']) ?> </td>
                                 <td> <?= escapar($sensor['localizacao']) ?>  </td>
                                 <td> <?= escapar($sensor['tipo_sensor']) ?> </td>
-                                <td> <?= escapar($sensor['trem_identificacao']) ?> </td>
+                                <td> <?= $sensor['trem_identificacao'] !== null ? escapar($sensor['trem_identificacao']) : 'Sem vínculo' ?> </td>
 
+                               <?php if ($ehAdministrador): ?>
                                <td>
-                                    <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
                                       <a class="btn-editar" href="editar_sensor.php?id=<?= (int) $sensor['id'] ?>">  Editar </a>
                                 <form method="post" action="excluir_sensor.php" onsubmit="return confirm('Confirma a exclusão deste sensor?')" style="display:inline"> 
                                 <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
                                 <input type="hidden" name="id" value="<?= (int) $sensor['id'] ?>">
                                 <button class="btn-excluir" type="submit">Excluir</button>
                                 </form>
-                                    <?php else: ?>—<?php endif; ?>
                                 </td>
+                                <?php endif; ?>
                             </tr>
                         <?php } ?>
                     </tbody>

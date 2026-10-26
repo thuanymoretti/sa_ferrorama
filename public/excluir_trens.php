@@ -16,20 +16,34 @@ if (!$id || $id < 1) {
     exit;
 }
 
-$stmt = $conexao->prepare(
-    "SELECT
-        (SELECT COUNT(*) FROM sensores WHERE trem_id = ?) AS sensores,
-        (SELECT COUNT(*) FROM viagens WHERE trem_id = ?) AS viagens"
-);
-$stmt->bind_param("ii", $id, $id);
+$stmt = $conexao->prepare("SELECT COUNT(*) AS total FROM sensores WHERE trem_id = ?");
+$stmt->bind_param("i", $id);
 $stmt->execute();
-$referencias = $stmt->get_result()->fetch_assoc();
+$quantidadeSensores = (int) $stmt->get_result()->fetch_assoc()["total"];
 $stmt->close();
 
-if ((int) $referencias["sensores"] > 0 || (int) $referencias["viagens"] > 0) {
+$stmt = $conexao->prepare(
+    "SELECT id, status, origem, destino FROM viagens WHERE trem_id = ? ORDER BY id LIMIT 1"
+);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$viagemVinculada = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
+if ($quantidadeSensores > 0 || $viagemVinculada) {
+    if ($viagemVinculada && $viagemVinculada["status"] === "Em Andamento") {
+        $motivo = "há uma viagem em andamento (" . $viagemVinculada["origem"] . " → " . $viagemVinculada["destino"] . "). Finalize ou cancele a viagem antes de excluir o trem";
+    } elseif ($quantidadeSensores > 0 && $viagemVinculada) {
+        $motivo = "há sensores e viagens vinculados a ele";
+    } elseif ($quantidadeSensores > 0) {
+        $motivo = "há sensores vinculados a ele";
+    } else {
+        $motivo = "há uma viagem cadastrada para ele. Remova a viagem antes de excluir o trem";
+    }
+
     definir_flash(
         "erro",
-        "Não é possível excluir este trem porque há sensores ou viagens vinculados a ele."
+        "Não é possível excluir este trem porque {$motivo}."
     );
     header("Location: crud_trens.php");
     exit;

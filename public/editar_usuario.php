@@ -1,113 +1,129 @@
 <?php
-session_start();
+require_once "../infra/auth.php";
+exigir_login();
 require_once "../infra/conexao.php";
+exigir_administrador($conexao);
 
-$id = $_GET["id"];
-$sql = "SELECT * FROM usuarios WHERE id = ?";
-$stmt = $conexao->prepare($sql);
+$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+if (!$id || $id < 1) {
+    header("Location: crud_usuarios.php");
+    exit;
+}
+
+$stmt = $conexao->prepare(
+    "SELECT nome, email, telefone, tipo_usuario FROM usuarios WHERE id = ?"
+);
 $stmt->bind_param("i", $id);
 $stmt->execute();
-$resultado = $stmt->get_result();
-$usuario = $resultado->fetch_assoc();
+$usuarioEditado = $stmt->get_result()->fetch_assoc();
+$stmt->close();
 
+if (!$usuarioEditado) {
+    header("Location: crud_usuarios.php");
+    exit;
+}
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = $_POST["nome"];
-    $email = $_POST["email"];
-    $telefone = $_POST["telefone"];
-    $tipo_usuario = $_POST["tipo_usuario"];
+$erro = "";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    validar_token_csrf();
+    $nome = trim(valor_post("nome"));
+    $email = strtolower(trim(valor_post("email")));
+    $telefone = preg_replace("/[^0-9]/", "", valor_post("telefone"));
+    $tipo = valor_post("tipo_usuario");
+    $nomeValido = preg_match("/^[\\p{L}\\p{M} .'-]{2,100}$/u", $nome) === 1;
 
-    $sql = "UPDATE usuarios SET nome = ?, email = ?, telefone = ?, tipo_usuario = ? WHERE id = ?";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param( "ssssi", $nome, $email, $telefone, $tipo_usuario, $id);
+    $usuarioEditado["nome"] = $nome;
+    $usuarioEditado["email"] = $email;
+    $usuarioEditado["telefone"] = $telefone;
+    $usuarioEditado["tipo_usuario"] = $tipo;
 
-    if ($stmt->execute()) {
-        echo "<script>
-                alert('Usuário atualizado com sucesso!');
-                window.location.href = 'crud_usuarios.php';
-              </script>";
+    if (
+        !$nomeValido || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100 ||
+        strlen($telefone) < 8 || strlen($telefone) > 15 ||
+        !in_array($tipo, ["Administrador", "Funcionario"], true)
+    ) {
+        $erro = "Confira o nome, o e-mail, o telefone e o perfil.";
     } else {
-        echo "<script>
-                alert('Erro ao atualizar usuário!');
-              </script>";
-    }
-}?>
+        try {
+            $stmt = $conexao->prepare(
+                "UPDATE usuarios SET nome = ?, email = ?, telefone = ?, tipo_usuario = ? WHERE id = ?"
+            );
+            $stmt->bind_param("ssssi", $nome, $email, $telefone, $tipo, $id);
+            $stmt->execute();
+            $stmt->close();
 
-<!doctype html>
+            definir_flash("sucesso", "Usuário atualizado com sucesso.");
+            header("Location: crud_usuarios.php");
+            exit;
+        } catch (mysqli_sql_exception $falha) {
+            error_log("Falha ao editar usuário {$id}: " . $falha->getMessage());
+            $erro = $falha->getCode() === 1062
+                ? "Este e-mail já está cadastrado."
+                : "Não foi possível atualizar o usuário.";
+        }
+    }
+}
+
+$csrf = token_csrf();
+?>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar usuário | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261026-seguranca-usuarios">
 </head>
-<body class="pagina-cadastro">
+<body>
     <header class="cabecalho">
-        <h2>  Olá, <?php echo htmlspecialchars($_SESSION["usuario"]["nome"]); ?> </h2>
-        <a class="item" href="crud_usuarios.php"> Voltar à lista </a>
+        <h2>Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?></h2>
+        <a class="item" href="crud_usuarios.php">Voltar à lista</a>
     </header>
 
-     <div class="layout">
+    <div class="layout">
         <aside class="menu-lateral">
-        <a href="home.php" class="item "><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
-        <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
-        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
-        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill"></i> Usuários</a>
-        <?php endif; ?>
-        <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
-    </aside>
+            <a href="home.php" class="item">Dashboard</a>
+            <a href="crud_sensor.php" class="item">Sensores</a>
+            <a href="crud_trens.php" class="item">Trens</a>
+            <a href="crud_usuarios.php" class="item ativo">Usuários</a>
+            <a href="crud_viagens.php" class="item">Viagens</a>
+        </aside>
 
+        <main class="conteudo">
+            <section class="formulario-usuario">
+                <h1>Editar usuário</h1>
+                <?php if ($erro !== ""): ?><p class="mensagem-erro" role="alert"><?= escapar($erro) ?></p><?php endif; ?>
 
-        <main class="conteudo cadastro-conteudo">
-            <section class="cadastro">
-                <h1 id="titulo">Editar cadastro</h1>
                 <form method="post">
+                    <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
                     <div class="linha-cadastro">
                         <div class="campo-cadastro">
-                            <label for="nome"> Nome </label>
-                            <input type="text" id="nome" name="nome" maxlength="100" value="<?php echo $usuario["nome"]; ?>" 
-                            required>
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" maxlength="100" value="<?= escapar($usuarioEditado["nome"]) ?>" required>
                         </div>
-
                         <div class="campo-cadastro">
-                            <label for="email"> E-mail </label>
-                            <input type="email"  id="email" name="email" maxlength="100" value="<?php echo $usuario["email"]; ?>"
-                                required>
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" maxlength="100" value="<?= escapar($usuarioEditado["email"]) ?>" required>
                         </div>
-
                     </div>
+
                     <div class="linha-cadastro">
                         <div class="campo-cadastro">
-                            <label for="telefone"> Telefone </label>
-                            <input type="tel" id="telefone" name="telefone"  maxlength="15" value="<?php echo $usuario["telefone"]; ?>"
-                                required>
+                            <label for="telefone">Telefone (somente números)</label>
+                            <input type="tel" id="telefone" name="telefone" inputmode="numeric" maxlength="15" value="<?= escapar((string) ($usuarioEditado["telefone"] ?? "")) ?>" required>
                         </div>
-
-
                         <div class="campo-cadastro">
-                            <label for="tipo_usuario"> Perfil </label>
+                            <label for="tipo_usuario">Perfil</label>
                             <select id="tipo_usuario" name="tipo_usuario" required>
-                                <option value="Funcionario"
-                                    <?php
-                                    if ($usuario["tipo_usuario"] == "Funcionario") { echo "selected";
-                                    } ?>> Funcionário
-                                </option>
-
-                                <option value="Administrador"
-                                    <?php
-                                    if ($usuario["tipo_usuario"] == "Administrador") { echo "selected";
-                                    } ?>> Administrador
-                                </option>
+                                <option value="Funcionario" <?= $usuarioEditado["tipo_usuario"] === "Funcionario" ? "selected" : "" ?>>Funcionário</option>
+                                <option value="Administrador" <?= $usuarioEditado["tipo_usuario"] === "Administrador" ? "selected" : "" ?>>Administrador</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="botoes-cadastro">
-                        <button type="submit" class="btn-cadastrar"> Salvar alterações </button>
-                        <a href="crud_usuarios.php" class="btn-voltar"> Cancelar </a>
+                        <button type="submit" class="btn-cadastrar">Salvar alterações</button>
+                        <a href="crud_usuarios.php" class="btn-voltar">Cancelar</a>
                     </div>
                 </form>
             </section>

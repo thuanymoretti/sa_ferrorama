@@ -4,13 +4,26 @@ exigir_login();
 require_once "../infra/conexao.php";
 
 $resultado = $conexao->query(
-    "SELECT id, identificacao, modelo, capacidade, status
-     FROM trens ORDER BY identificacao"
+    "SELECT t.id, t.identificacao, t.modelo, t.capacidade, t.status,
+            GROUP_CONCAT(
+                CONCAT(s.nome, ' (', s.identificacao, ')')
+                ORDER BY s.nome SEPARATOR ', '
+            ) AS sensores_vinculados
+     FROM trens t
+     LEFT JOIN sensores s ON s.trem_id = t.id
+     GROUP BY t.id, t.identificacao, t.modelo, t.capacidade, t.status
+     ORDER BY t.identificacao"
 );
 $usuario = $_SESSION["usuario"];
 $ehAdministrador = $usuario["tipo_usuario"] === "Administrador";
 $csrf = token_csrf();
 $mensagem = obter_flash();
+if (
+    $mensagem &&
+    str_contains($mensagem["mensagem"], "sensores ou viagens vinculados")
+) {
+    $mensagem["mensagem"] = "A exclusão foi bloqueada porque este trem ainda possui uma viagem vinculada. Confira a tela Viagens.";
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -57,7 +70,8 @@ $mensagem = obter_flash();
                             <th>MODELO</th>
                             <th>CAPACIDADE</th>
                             <th>STATUS</th>
-                            <th>AÇÕES</th>
+                            <th>SENSORES VINCULADOS</th>
+                            <?php if ($ehAdministrador): ?><th>AÇÕES</th><?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,20 +83,21 @@ $mensagem = obter_flash();
                                     <td><?= escapar($trem["modelo"]) ?></td>
                                     <td><?= (int) $trem["capacidade"] ?></td>
                                     <td><?= escapar($trem["status"]) ?></td>
+                                    <td><?= $trem["sensores_vinculados"] !== null ? escapar($trem["sensores_vinculados"]) : "—" ?></td>
+                                    <?php if ($ehAdministrador): ?>
                                     <td>
-                                        <?php if ($ehAdministrador): ?>
                                             <a class="btn-editar" href="editar_trens.php?id=<?= (int) $trem["id"] ?>">Editar</a>
                                             <form method="post" action="excluir_trens.php" onsubmit="return confirm('Confirma a exclusão deste trem?')" style="display:inline">
                                                 <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
                                                 <input type="hidden" name="id" value="<?= (int) $trem["id"] ?>">
                                                 <button class="btn-excluir" type="submit">Excluir</button>
                                             </form>
-                                        <?php else: ?>—<?php endif; ?>
                                     </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endwhile; ?>
                         <?php else: ?>
-                            <tr><td colspan="6" class="text-center">Nenhum trem cadastrado.</td></tr>
+                            <tr><td colspan="<?= $ehAdministrador ? 7 : 6 ?>" class="text-center">Nenhum trem cadastrado.</td></tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
