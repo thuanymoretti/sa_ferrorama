@@ -1,9 +1,8 @@
-
 <?php
 require_once "../infra/auth.php";
-require_once "../infra/conexao.php";
-
 exigir_login();
+require_once "../infra/conexao.php";
+exigir_administrador($conexao);
 
 $erro = "";
 $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
@@ -13,76 +12,11 @@ if (!$id || $id < 1) {
     exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    validar_token_csrf();
-
-    $identificacao = trim(valor_post("identificacao"));
-    $modelo = trim(valor_post("modelo"));
-    $capacidadeTexto = valor_post("capacidade");
-    $status = valor_post("status");
-
-    $capacidade = filter_var(
-        $capacidadeTexto,
-        FILTER_VALIDATE_INT
-    );
-
-    $statusPermitidos = [
-        "Ativo",
-        "Inativo",
-        "Em Manutenção"
-    ];
-
-    if (
-        $identificacao === "" ||
-        $modelo === "" ||
-        $capacidade === false ||
-        $capacidade < 1 ||
-        !in_array($status, $statusPermitidos, true)
-    ) {
-        $erro = "Preencha todos os campos corretamente.";
-    } else {
-        $sql = "UPDATE trens
-                SET identificacao = ?,
-                    modelo = ?,
-                    capacidade = ?,
-                    status = ?
-                WHERE id = ?";
-
-        $stmt = $conexao->prepare($sql);
-        $stmt->bind_param(
-            "ssisi",
-            $identificacao,
-            $modelo,
-            $capacidade,
-            $status,
-            $id
-        );
-
-        if ($stmt->execute()) {
-            $stmt->close();
-
-            definir_flash(
-                "sucesso",
-                "Trem atualizado com sucesso!"
-            );
-
-            header("Location: crud_trens.php");
-            exit;
-        }
-
-        $stmt->close();
-        $erro = "Não foi possível atualizar o trem.";
-    }
-}
-
-$sql = "SELECT identificacao, modelo, capacidade, status
-        FROM trens
-        WHERE id = ?";
-
-$stmt = $conexao->prepare($sql);
+$stmt = $conexao->prepare(
+    "SELECT identificacao, modelo, capacidade, status FROM trens WHERE id = ?"
+);
 $stmt->bind_param("i", $id);
 $stmt->execute();
-
 $trem = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
@@ -91,12 +25,119 @@ if (!$trem) {
     exit;
 }
 
+$sensoresSelecionados = [];
+$stmt = $conexao->prepare("SELECT id FROM sensores WHERE trem_id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$resultadoSensoresAtuais = $stmt->get_result();
+while ($sensor = $resultadoSensoresAtuais->fetch_assoc()) {
+    $sensoresSelecionados[] = (int) $sensor["id"];
+}
+$stmt->close();
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    validar_token_csrf();
+
+    $identificacao = trim(valor_post("identificacao"));
+    $modelo = trim(valor_post("modelo"));
+    $capacidadeTexto = valor_post("capacidade");
+    $status = valor_post("status");
+    $capacidade = filter_var($capacidadeTexto, FILTER_VALIDATE_INT);
+    $statusPermitidos = ["Ativo", "Inativo", "Em Manutenção"];
+
+    $listaPostada = $_POST["sensores"] ?? [];
+    if (!is_array($listaPostada)) {
+        $listaPostada = [];
+        $erro = "A seleção de sensores é inválida.";
+    }
+    $sensoresSelecionados = [];
+    foreach ($listaPostada as $sensorIdTexto) {
+        $sensorId = filter_var($sensorIdTexto, FILTER_VALIDATE_INT);
+        if (!$sensorId || $sensorId < 1) {
+            $erro = "A seleção de sensores é inválida.";
+            break;
+        }
+        $sensoresSelecionados[] = (int) $sensorId;
+    }
+    $sensoresSelecionados = array_values(array_unique($sensoresSelecionados));
+
+    if (
+        $identificacao === "" || strlen($identificacao) > 100 ||
+        $modelo === "" || strlen($modelo) > 50 ||
+        $capacidade === false || $capacidade < 1 ||
+        !in_array($status, $statusPermitidos, true)
+    ) {
+        $erro = "Preencha todos os campos corretamente.";
+    }
+
+    if ($erro === "") {
+        try {
+            $conexao->begin_transaction();
+
+            // Confere os sensores selecionados antes de alterar qualquer vínculo.
+            $verificarSensor = $conexao->prepare(
+                "SELECT trem_id FROM sensores WHERE id = ? FOR UPDATE"
+            );
+            foreach ($sensoresSelecionados as $sensorId) {
+                $verificarSensor->bind_param("i", $sensorId);
+                $verificarSensor->execute();
+                $sensorAtual = $verificarSensor->get_result()->fetch_assoc();
+                if (!$sensorAtual) {
+                    throw new RuntimeException("Um dos sensores escolhidos não existe mais.");
+                }
+            }
+            $verificarSensor->close();
+
+            $stmt = $conexao->prepare(
+                "UPDATE trens SET identificacao = ?, modelo = ?, capacidade = ?, status = ? WHERE id = ?"
+            );
+            $stmt->bind_param("ssisi", $identificacao, $modelo, $capacidade, $status, $id);
+            $stmt->execute();
+            $stmt->close();
+
+            $stmt = $conexao->prepare("UPDATE sensores SET trem_id = NULL WHERE trem_id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $stmt->close();
+
+            $vincularSensor = $conexao->prepare(
+                "UPDATE sensores SET trem_id = ? WHERE id = ?"
+            );
+            foreach ($sensoresSelecionados as $sensorId) {
+                $vincularSensor->bind_param("ii", $id, $sensorId);
+                $vincularSensor->execute();
+            }
+            $vincularSensor->close();
+
+            $conexao->commit();
+            definir_flash("sucesso", "Trem e sensores vinculados atualizados com sucesso.");
+            header("Location: crud_trens.php");
+            exit;
+        } catch (Throwable $falha) {
+            $conexao->rollback();
+            error_log("Falha ao atualizar trem {$id}: " . $falha->getMessage());
+            $erro = $falha instanceof RuntimeException
+                ? $falha->getMessage()
+                : "Não foi possível atualizar o trem e seus sensores.";
+        }
+    }
+
     $trem["identificacao"] = $identificacao;
     $trem["modelo"] = $modelo;
     $trem["capacidade"] = $capacidadeTexto;
     $trem["status"] = $status;
 }
+
+$stmt = $conexao->prepare(
+    "SELECT s.id, s.nome, s.identificacao, s.trem_id,
+            t.identificacao AS trem_identificacao
+     FROM sensores s
+     LEFT JOIN trens t ON t.id = s.trem_id
+     ORDER BY s.nome, s.identificacao"
+);
+$stmt->execute();
+$sensoresDisponiveis = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 
 $csrf = token_csrf();
 ?>
@@ -107,17 +148,12 @@ $csrf = token_csrf();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar trem | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261026-sensores-vinculados">
 </head>
-
 <body class="pagina-editar-trens">
-
     <header class="cabecalho">
         <h2>Ferrorama</h2>
-
-        <div class="usuario-logado">
-            Olá, <?= escapar($_SESSION["usuario"]["nome"] ?? "Usuário") ?>
-        </div>
+        <div class="usuario-logado">Olá, <?= escapar($_SESSION["usuario"]["nome"] ?? "Usuário") ?></div>
     </header>
 
     <main class="conteudo-editar-trens">
@@ -125,88 +161,61 @@ $csrf = token_csrf();
             <h1 class="titulo-sensor">Editar trem</h1>
 
             <?php if ($erro !== ""): ?>
-                <p class="mensagem-erro" role="alert">
-                    <?= escapar($erro) ?>
-                </p>
+                <p class="mensagem-erro" role="alert"><?= escapar($erro) ?></p>
             <?php endif; ?>
 
             <form method="POST" class="form-sensor">
-                <input
-                    type="hidden"
-                    name="token_csrf"
-                    value="<?= escapar($csrf) ?>"
-                >
+                <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
 
                 <div class="grupo-input">
                     <label for="identificacao">Identificação</label>
-                    <input
-                        type="text"
-                        id="identificacao"
-                        name="identificacao"
-                        maxlength="100"
-                        value="<?= escapar((string)$trem["identificacao"]) ?>"
-                        required
-                    >
+                    <input type="text" id="identificacao" name="identificacao" maxlength="100" value="<?= escapar((string) $trem["identificacao"]) ?>" required>
                 </div>
 
                 <div class="grupo-input">
                     <label for="modelo">Modelo</label>
-                    <input
-                        type="text"
-                        id="modelo"
-                        name="modelo"
-                        maxlength="50"
-                        value="<?= escapar((string)$trem["modelo"]) ?>"
-                        required
-                    >
+                    <input type="text" id="modelo" name="modelo" maxlength="50" value="<?= escapar((string) $trem["modelo"]) ?>" required>
                 </div>
 
                 <div class="grupo-input">
                     <label for="capacidade">Capacidade</label>
-                    <input
-                        type="number"
-                        id="capacidade"
-                        name="capacidade"
-                        min="1"
-                        value="<?= escapar((string)$trem["capacidade"]) ?>"
-                        required
-                    >
+                    <input type="number" id="capacidade" name="capacidade" min="1" value="<?= escapar((string) $trem["capacidade"]) ?>" required>
                 </div>
 
                 <div class="grupo-input">
                     <label for="status">Status</label>
                     <select id="status" name="status" required>
-                        <?php
-                        $statusPermitidos = [
-                            "Ativo",
-                            "Inativo",
-                            "Em Manutenção"
-                        ];
-                        ?>
-
-                        <?php foreach ($statusPermitidos as $opcao): ?>
-                            <option
-                                value="<?= escapar($opcao) ?>"
-                                <?= $trem["status"] === $opcao ? "selected" : "" ?>
-                            >
-                                <?= escapar($opcao) ?>
-                            </option>
+                        <?php foreach (["Ativo", "Inativo", "Em Manutenção"] as $opcao): ?>
+                            <option value="<?= escapar($opcao) ?>" <?= $trem["status"] === $opcao ? "selected" : "" ?>><?= escapar($opcao) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
 
-                <div class="botoes-formulario">
-                    <button type="submit" class="btn-salvar">
-                        Salvar alterações
-                    </button>
+                <fieldset class="grupo-input lista-sensores-vinculados">
+                    <legend>Sensores vinculados</legend>
+                    <p>Marque os sensores que devem ficar neste trem. Um sensor selecionado que esteja em outro trem será transferido para cá; os sensores desmarcados ficarão sem vínculo.</p>
+                    <?php if ($sensoresDisponiveis): ?>
+                        <?php foreach ($sensoresDisponiveis as $sensor): ?>
+                            <?php $sensorId = (int) $sensor["id"]; ?>
+                            <label class="opcao-sensor-vinculado">
+                                <input type="checkbox" name="sensores[]" value="<?= $sensorId ?>" <?= in_array($sensorId, $sensoresSelecionados, true) ? "checked" : "" ?>>
+                                <span>
+                                    <?= escapar($sensor["nome"]) ?> (<?= escapar($sensor["identificacao"]) ?>)
+                                    — <?= $sensor["trem_identificacao"] === null ? "Sem vínculo" : "Vinculado a " . escapar($sensor["trem_identificacao"]) ?>
+                                </span>
+                            </label>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Nenhum sensor cadastrado.</p>
+                    <?php endif; ?>
+                </fieldset>
 
-                    <a href="crud_trens.php" class="btn-cancelar">
-                        Cancelar
-                    </a>
+                <div class="botoes-formulario">
+                    <button type="submit" class="btn-salvar">Salvar alterações</button>
+                    <a href="crud_trens.php" class="btn-cancelar">Cancelar</a>
                 </div>
             </form>
         </section>
     </main>
-
 </body>
 </html>

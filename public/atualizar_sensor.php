@@ -15,7 +15,8 @@ $nome = trim(valor_post("nome"));
 $identificacao = trim(valor_post("identificacao"));
 $localizacao = trim(valor_post("localizacao"));
 $tipo = valor_post("tipo_sensor");
-$tremId = filter_var(valor_post("trem_id"), FILTER_VALIDATE_INT);
+$tremIdTexto = valor_post("trem_id");
+$tremId = $tremIdTexto === "" ? null : filter_var($tremIdTexto, FILTER_VALIDATE_INT);
 $tipos = ["Temperatura", "Umidade", "Pressao", "Velocidade", "fotoeletrico"];
 
 if (
@@ -24,28 +25,27 @@ if (
     $identificacao === "" || strlen($identificacao) > 50 ||
     $localizacao === "" || strlen($localizacao) > 100 ||
     !in_array($tipo, $tipos, true) ||
-    !$tremId || $tremId < 1
+    ($tremId !== null && (!$tremId || $tremId < 1))
 ) {
     header("Location: crud_sensor.php?erro=1");
     exit;
 }
 
 try {
-    $verificarTrem = $conexao->prepare(
-        "SELECT id FROM trens WHERE id = ?"
-    );
-
-    $verificarTrem->bind_param("i", $tremId);
-    $verificarTrem->execute();
-    $tremExiste = $verificarTrem->get_result()->num_rows > 0;
-    $verificarTrem->close();
-    if (!$tremExiste) {
-        header("Location: crud_sensor.php?erro=1");
-        exit;
+    if ($tremId !== null) {
+        $verificarTrem = $conexao->prepare("SELECT id FROM trens WHERE id = ?");
+        $verificarTrem->bind_param("i", $tremId);
+        $verificarTrem->execute();
+        $tremExiste = $verificarTrem->get_result()->num_rows > 0;
+        $verificarTrem->close();
+        if (!$tremExiste) {
+            header("Location: crud_sensor.php?erro=1");
+            exit;
+        }
     }
 
-    $stmt = $conexao->prepare(" UPDATE sensores SET nome = ?, identificacao = ?, localizacao = ?, tipo_sensor = ?, trem_id = ? WHERE id = ? ");
-    $stmt->bind_param("ssssii",$nome,$identificacao,$localizacao,$tipo,$tremId,$id);
+    $stmt = $conexao->prepare("UPDATE sensores SET nome = ?, identificacao = ?, localizacao = ?, tipo_sensor = ?, trem_id = ? WHERE id = ?");
+    $stmt->bind_param("ssssii", $nome, $identificacao, $localizacao, $tipo, $tremId, $id);
 
     if ($stmt->execute()) {
         $stmt->close();

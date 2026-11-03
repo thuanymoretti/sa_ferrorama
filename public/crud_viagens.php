@@ -7,10 +7,20 @@ $ehAdministrador = ($_SESSION["usuario"]["tipo_usuario"] ?? "") === "Administrad
 
 $mensagem = "";
 $erro = "";
+$csrf = token_csrf();
+$flash = obter_flash();
+if ($flash) {
+    if ($flash["tipo"] === "sucesso") {
+        $mensagem = $flash["mensagem"];
+    } else {
+        $erro = $flash["mensagem"];
+    }
+}
 
 
 if (isset($_POST["cadastrar"])) {
     exigir_administrador($conexao);
+    validar_token_csrf();
 
     $trem_id = (int) $_POST["trem_id"];
     $data_inicio = $_POST["data_inicio"];
@@ -57,10 +67,15 @@ if (isset($_POST["cadastrar"])) {
 
 
 
-if (isset($_GET["excluir"])) {
+if (isset($_POST["excluir"])) {
     exigir_administrador($conexao);
+    validar_token_csrf();
 
-    $id = (int) $_GET["excluir"];
+    $id = filter_var(valor_post("excluir"), FILTER_VALIDATE_INT);
+    if (!$id || $id < 1) {
+        http_response_code(400);
+        exit("Identificador de viagem inválido.");
+    }
 
     $sql = "DELETE FROM viagens WHERE id = ?";
 
@@ -130,96 +145,27 @@ function e(string $texto): string
         href="../assets/style/style.css"
     >
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
 
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    >
 
 </head>
+
+<header class="cabecalho">
+        <h2> Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?> </h2>
+        <a href="home.php" class="item">Voltar ao painel</a>
+    </header>
 
 <body>
 
 
-<!-- CABEÇALHO -->
-
-<header class="cabecalho">
-
-    <h2>
-
-        <i class="bi bi-train-front-fill"></i>
-
-        Ferrorama
-
-    </h2>
-
-    <a href="home.php" class="item">
-
-        <i class="bi bi-grid-1x2-fill"></i>
-
-        Dashboard
-
-    </a>
-
-</header>
-
-
 <div class="layout">
-
-
-
-    <aside class="menu-lateral">
-
-        <a href="home.php" class="item">
-
-            <i class="bi bi-grid-1x2-fill"></i>
-
-            Dashboard
-
-        </a>
-
-
-        <a href="crud_sensor.php" class="item">
-
-            <i class="bi bi-cpu-fill"></i>
-
-            Sensores
-
-        </a>
-
-
-        <a href="crud_trens.php" class="item">
-
-            <i class="bi bi-train-front-fill"></i>
-
-            Trens
-
-        </a>
-
-
-        <?php if ($ehAdministrador): ?>
-        <a href="crud_usuarios.php" class="item">
-
-            <i class="bi bi-people-fill"></i>
-
-            Cadastrados
-
-        </a>
+        <aside class="menu-lateral">
+        <a href="home.php" class="item "><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
+        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
+        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
+            <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Usuários</a>
         <?php endif; ?>
-
-
-        <a href="crud_viagens.php" class="item ativo">
-
-            <i class="bi bi-calendar-check-fill"></i>
-
-            Viagens
-
-        </a>
-
+        <a href="crud_viagens.php" class="item ativo"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
     </aside>
 
 
@@ -285,6 +231,8 @@ function e(string $texto): string
 
 
             <form method="POST" class="form-sensor">
+
+                <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
 
 
                 <div class="linha-formulario">
@@ -622,20 +570,15 @@ function e(string $texto): string
                                 </td>
 
 
-                                <?php if ($ehAdministrador): ?><td>
-
-                                    <a
-                                        class="botao_dashboard"
-                                        href="?excluir=<?= $viagem["id"] ?>"
-                                        onclick="return confirm('Deseja realmente excluir esta viagem?')"
-                                        title="Excluir viagem"
-                                    >
-
-                                        <i class="bi bi-trash-fill"></i>
-
-                                    </a>
-
-                                </td><?php endif; ?>
+                                <?php if ($ehAdministrador): ?>
+                                    <td>
+                                        <a class="btn-editar" href="editar_viagem.php?id=<?= (int) $viagem["id"] ?>">Editar</a>
+                                        <form method="post" onsubmit="return confirm('Deseja realmente excluir esta viagem?')" style="display:inline">
+                                            <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
+                                            <button type="submit" name="excluir" value="<?= (int) $viagem["id"] ?>" class="btn-excluir">Excluir</button>
+                                        </form>
+                                    </td>
+                                <?php endif; ?>
 
                             </tr>
 

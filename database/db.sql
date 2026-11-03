@@ -24,7 +24,7 @@ CREATE TABLE sensores (
     tipo_sensor ENUM('Temperatura', 'fotoeletrico', 'Pressao', 'Velocidade') NOT NULL,
     localizacao VARCHAR(100) NOT NULL,
     dados_adicionais VARCHAR(100),
-    trem_id INT NOT NULL
+    trem_id INT NULL
 );
 
 
@@ -37,3 +37,11 @@ CREATE TABLE viagens (
     destino VARCHAR(100) NOT NULL,
     status ENUM('Em Andamento', 'Concluída', 'Cancelada') NOT NULL,
     FOREIGN KEY (trem_id) REFERENCES trens(id)
+);
+
+ALTER TABLE trens
+ADD COLUMN usuario_id INT NULL AFTER id;
+
+ALTER TABLE trens
+ADD CONSTRAINT fk_trens_usuarios
+FOREIGN KEY (usuario_id) REFERENCES usuarios(id);

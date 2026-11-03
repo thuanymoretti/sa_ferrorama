@@ -203,6 +203,7 @@ button:hover {
 
 .titulo_do_sensores {
     color: var(--branco-creme);
+    align-items: center;
 }
 
 .titulo-sensor {
@@ -385,6 +386,71 @@ button:hover {
     width: auto;
     padding: 10px 20px;
     margin: 20px 0 0;
+}
+
+.mensagem-erro,
+.mensagem-sucesso {
+    margin: 18px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+
+.mensagem-erro {
+    background-color: rgba(198, 40, 40, 0.15);
+    color: #ffaaaa;
+}
+
+.mensagem-sucesso {
+    background-color: rgba(87, 182, 95, 0.15);
+    color: #a8e6ad;
+}
+
+.formulario-usuario {
+    width: min(100%, 920px);
+    margin: 20px auto;
+    padding: 32px;
+    box-sizing: border-box;
+    border: 1px solid #424b5b;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #303a4d, #293344);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .2);
+}
+
+.formulario-usuario h1 {
+    margin: 0 0 24px;
+    color: var(--branco-creme);
+    font-size: 30px;
+    text-align: left;
+}
+
+.formulario-usuario form {
+    margin: 0;
+}
+
+.formulario-usuario .campo-cadastro input,
+.formulario-usuario .campo-cadastro select {
+    height: 45px;
+    border: 2px solid var(--cinza-trilho);
+    border-radius: 10px;
+    background: var(--branco-creme);
+    color: var(--preto-fuligem);
+}
+
+.formulario-usuario .botoes-cadastro {
+    justify-content: flex-start;
+}
+
+@media (max-width: 700px) {
+    .formulario-usuario {
+        padding: 24px 18px;
+    }
+
+    .formulario-usuario .linha-cadastro {
+        flex-direction: column;
+        gap: 0;
+    }
 }
 
 .mapa-ferrorama {
@@ -855,6 +921,8 @@ button:hover {
 .dashboard-apresentacao { margin-bottom: 26px; }
 .dashboard-apresentacao h1 { margin: 4px 0 8px; font-size: clamp(28px, 4vw, 38px); font-weight: 700; }
 .dashboard-apresentacao p { margin: 0; color: #d7d0c5; }
+.dashboard-apresentacao p.dashboard-boas-vindas { margin-top: 8px; font-size: clamp(24px, 3vw, 32px); font-weight: 700; text-align: left; }
+.dashboard-apresentacao p.dashboard-boas-vindas-admin { font-size: clamp(30px, 4vw, 42px); }
 .dashboard-sobrelinha { color: var(--laranja-ferrugem) !important; font-size: 12px; font-weight: 800; letter-spacing: 1.2px; }
 .dashboard-atualizacao { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; padding: 9px 12px; border: 1px solid #4a4a4a; border-radius: 999px; font-size: 13px; color: #d7d0c5; }
 .dashboard-ponto { width: 8px; height: 8px; border-radius: 50%; background: #57b65f; box-shadow: 0 0 0 4px rgba(87, 182, 95, .15); }
@@ -985,6 +1053,42 @@ button:hover {
     border-color: var(--laranja-ferrugem-claro);
 }
 
+.pagina-editar-trens .lista-sensores-vinculados {
+    padding: 16px;
+    border: 1px solid var(--cinza-trilho);
+    border-radius: 10px;
+}
+
+.pagina-editar-trens .lista-sensores-vinculados legend {
+    float: none;
+    width: auto;
+    margin: 0;
+    color: var(--branco-creme);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.pagina-editar-trens .lista-sensores-vinculados p {
+    margin: 6px 0 12px;
+    text-align: left;
+}
+
+.pagina-editar-trens .opcao-sensor-vinculado {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    color: var(--branco-creme);
+    font-weight: 400;
+}
+
+.pagina-editar-trens .opcao-sensor-vinculado input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--laranja-ferrugem);
+}
+
 .pagina-editar-trens .botoes-formulario {
     display: flex;
     justify-content: center;
@@ -1087,4 +1191,51 @@ button:hover {
     .pagina-editar-trens .cabecalho h2 {
         font-size: 20px;
     }
+}
+
+/* CAMPO DE USUÁRIO RESPONSÁVEL NO CADASTRO DE TRENS */
+
+.pagina-editar-trens .grupo-input select {
+    width: 100%;
+    height: 45px;
+    padding: 0 13px;
+    box-sizing: border-box;
+    border: 2px solid var(--cinza-trilho);
+    border-radius: 10px;
+    background-color: var(--branco-creme);
+    color: var(--preto-fuligem);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.pagina-editar-trens .grupo-input select:focus {
+    outline: none;
+    border-color: var(--laranja-ferrugem-claro);
+}
+
+.pagina-editar-trens .form-sensor {
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .pagina-editar-trens .container-sensor {
+        width: 100%;
+        padding: 25px 20px;
+    }
+}
+
+
+/* TABELA DE TRENS */
+
+.planilha_dashboard .tabela-trens {
+    min-width: 1100px;
+    width: 100%;
+}
+
+.planilha_dashboard {
+    overflow-x: auto;
+}
+
+.tabela-trens td {
+    vertical-align: middle;
 }
