@@ -10,6 +10,16 @@ const campos = {
     funcionarios: document.getElementById("total-funcionarios"),
 };
 
+function atualizarRelogio() {
+    if (!campos.atualizacao) return;
+
+    campos.atualizacao.textContent = new Intl.DateTimeFormat("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+    }).format(new Date());
+}
+
 function formatarDisponibilidade(valor) {
     return `${Number(valor).toLocaleString("pt-BR", {
         minimumFractionDigits: 1,
@@ -35,11 +45,12 @@ async function atualizarDashboard() {
         campos.usuarios.textContent = dados.usuarios;
         campos.administradores.textContent = dados.administradores;
         campos.funcionarios.textContent = dados.funcionarios;
-        campos.atualizacao.textContent = `Atualizado às ${new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`;
     } catch (erro) {
-        campos.atualizacao.textContent = "Atualização indisponível";
+        // O relógio continua funcionando mesmo se a consulta do painel falhar.
     }
 }
 
+atualizarRelogio();
+window.setInterval(atualizarRelogio, 1000);
 atualizarDashboard();
 window.setInterval(atualizarDashboard, 15000);

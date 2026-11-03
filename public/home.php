@@ -15,19 +15,16 @@ $sensores = $conexao->query(
      FROM sensores ORDER BY nome"
 )->fetch_all(MYSQLI_ASSOC);
 
-$usuarios = [
-    "Administrador" => 0,
-    "Funcionario" => 0
-];
-
-$resultado = $conexao->query(
-    "SELECT tipo_usuario, COUNT(*) total
-     FROM usuarios GROUP BY tipo_usuario"
-);
-
-while ($usuario = $resultado->fetch_assoc()) {
-    if (isset($usuarios[$usuario["tipo_usuario"]])) {
-        $usuarios[$usuario["tipo_usuario"]] = (int)$usuario["total"];
+$ehAdministrador = $_SESSION["usuario"]["tipo_usuario"] === "Administrador";
+$usuarios = ["Administrador" => 0, "Funcionario" => 0];
+if ($ehAdministrador) {
+    $resultado = $conexao->query(
+        "SELECT tipo_usuario, COUNT(*) total FROM usuarios GROUP BY tipo_usuario"
+    );
+    while ($usuario = $resultado->fetch_assoc()) {
+        if (isset($usuarios[$usuario["tipo_usuario"]])) {
+            $usuarios[$usuario["tipo_usuario"]] = (int)$usuario["total"];
+        }
     }
 }
 
@@ -60,7 +57,7 @@ function e($texto) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261026-admin-welcome">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -74,7 +71,7 @@ function e($texto) {
 
 <?php endif; ?>
 <header class="cabecalho">
-
+<body>
     <h2>
         Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?>
     </h2>
@@ -86,20 +83,15 @@ function e($texto) {
 
 </header>
 
-<div class="layout">
-
-    <aside class="menu-lateral">
-
-        <a href="home.php" class="item ativo">Dashboard</a>
-        <a href="crud_sensor.php" class="item">Sensores</a>
-        <a href="crud_trens.php" class="item">Trens</a>
-
+ <div class="layout">
+        <aside class="menu-lateral">
+        <a href="home.php" class="item ativo"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
+        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
         <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-            <a href="crud_usuarios.php" class="item">Usuários</a>
+            <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Usuários</a>
         <?php endif; ?>
-
-        <a href="crud_viagens.php" class="item">Viagens</a>
-
+        <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
     </aside>
 
     <main class="conteudo">
@@ -109,16 +101,21 @@ function e($texto) {
             <div>
                 <p class="dashboard-sobrelinha">CENTRAL DE CONTROLE</p>
                 <h1>Visão geral do Ferrorama</h1>
-                <p>Acompanhe o estado da operação em um único lugar.</p>
+                <?php if ($ehAdministrador): ?>
+                    <p class="dashboard-boas-vindas dashboard-boas-vindas-admin">Bem-vindo à tela de administrador, <?= e($_SESSION["usuario"]["nome"]) ?>!</p>
+                <?php else: ?>
+                    <p class="dashboard-boas-vindas">Bem-vindo, <?= e($_SESSION["usuario"]["nome"]) ?>. Acompanhe o estado da operação.</p>
+                <?php endif; ?>
             </div>
 
             <div class="dashboard-atualizacao">
                 <span class="dashboard-ponto"></span>
-                <span id="ultima-atualizacao">Atualizado agora</span>
+                <span id="ultima-atualizacao" aria-live="off">--:--:--</span>
             </div>
 
         </section>
 
+        <?php if ($ehAdministrador): ?>
         <section class="dashboard-usuarios">
 
             <div class="dashboard-usuarios-resumo">
@@ -152,15 +149,14 @@ function e($texto) {
                     </div>
                 </article>
 
-                <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-                    <a class="dashboard-usuarios-link" href="crud_usuarios.php">
-                        Gerenciar usuários
-                    </a>
-                <?php endif; ?>
+                <a class="dashboard-usuarios-link" href="crud_usuarios.php">
+                    Gerenciar usuários
+                </a>
 
             </div>
 
         </section>
+        <?php endif; ?>
 
         <section class="dashboard-cards">
 
@@ -217,9 +213,11 @@ function e($texto) {
                     <h2>Sensores do sistema</h2>
                 </div>
 
-                <a href="crud_sensor.php" class="dashboard-link">
-                    Gerenciar sensores
-                </a>
+                <?php if ($ehAdministrador): ?>
+                    <a href="crud_sensor.php" class="dashboard-link">
+                        Gerenciar sensores
+                    </a>
+                <?php endif; ?>
 
             </div>
 
@@ -285,7 +283,8 @@ function e($texto) {
 
 </div>
 
-<script src="../scripts/script_home.js"></script>
+<script src="../scripts/script_home.js?v=20261026"></script>
 
 </body>
+                    </body>
 </html>
