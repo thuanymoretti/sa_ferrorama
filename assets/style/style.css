@@ -1223,3 +1223,19 @@ button:hover {
         padding: 25px 20px;
     }
 }
+
+
+/* TABELA DE TRENS */
+
+.planilha_dashboard .tabela-trens {
+    min-width: 1100px;
+    width: 100%;
+}
+
+.planilha_dashboard {
+    overflow-x: auto;
+}
+
+.tabela-trens td {
+    vertical-align: middle;
+}
