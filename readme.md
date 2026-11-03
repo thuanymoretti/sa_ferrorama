@@ -229,17 +229,6 @@ O protótipo pode ser acessado pelo link:
 
 https://canva.link/sar0cfaojf8rln7
 
-## Equipe de desenvolvimento
-
-O projeto foi desenvolvido em equipe pelos seguintes integrantes:
-
-- Arthur Roberto Gomes
-- Julia Tsushima Muller
-- Kamily Gabrieli da Rosa
-- Thuany Moretti
-
-O desenvolvimento em equipe permite dividir as responsabilidades, organizar as atividades e colaborar na construção das diferentes partes da aplicação.
-
 ## Status do projeto
 
 **Em desenvolvimento.**
