@@ -38,3 +38,10 @@ CREATE TABLE viagens (
     status ENUM('Em Andamento', 'Concluída', 'Cancelada') NOT NULL,
     FOREIGN KEY (trem_id) REFERENCES trens(id)
 );
+
+ALTER TABLE trens
+ADD COLUMN usuario_id INT NULL AFTER id;
+
+ALTER TABLE trens
+ADD CONSTRAINT fk_trens_usuarios
+FOREIGN KEY (usuario_id) REFERENCES usuarios(id);
