@@ -1,14 +1,17 @@
 <?php
 
 require_once "../infra/auth.php";
-require_once "../infra/conexao.php";
 exigir_login();
+
+require_once "../infra/conexao.php";
+
 $ehAdministrador = ($_SESSION["usuario"]["tipo_usuario"] ?? "") === "Administrador";
 
 $mensagem = "";
 $erro = "";
 $csrf = token_csrf();
 $flash = obter_flash();
+
 if ($flash) {
     if ($flash["tipo"] === "sucesso") {
         $mensagem = $flash["mensagem"];
@@ -18,7 +21,9 @@ if ($flash) {
 }
 
 
+// CADASTRAR VIAGEM
 if (isset($_POST["cadastrar"])) {
+
     exigir_administrador($conexao);
     validar_token_csrf();
 
@@ -32,11 +37,15 @@ if (isset($_POST["cadastrar"])) {
     $statusPermitidos = ["Em Andamento", "Concluída", "Cancelada"];
 
     if (
-        $trem_id > 0 && !empty($data_inicio) && !empty($data_chegada)
-        && $origem !== "" && $destino !== "" && in_array($status, $statusPermitidos, true)
+        $trem_id > 0 &&
+        !empty($data_inicio) &&
+        !empty($data_chegada) &&
+        $origem !== "" &&
+        $destino !== "" &&
+        in_array($status, $statusPermitidos, true)
     ) {
 
-        $sql = "INSERT INTO viagens 
+        $sql = "INSERT INTO viagens
                 (trem_id, data_inicio, data_chegada, origem, destino, status)
                 VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -66,12 +75,14 @@ if (isset($_POST["cadastrar"])) {
 }
 
 
-
+// EXCLUIR VIAGEM
 if (isset($_POST["excluir"])) {
+
     exigir_administrador($conexao);
     validar_token_csrf();
 
     $id = filter_var(valor_post("excluir"), FILTER_VALIDATE_INT);
+
     if (!$id || $id < 1) {
         http_response_code(400);
         exit("Identificador de viagem inválido.");
@@ -80,7 +91,6 @@ if (isset($_POST["excluir"])) {
     $sql = "DELETE FROM viagens WHERE id = ?";
 
     $stmt = $conexao->prepare($sql);
-
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
@@ -93,18 +103,9 @@ if (isset($_POST["excluir"])) {
 }
 
 
-
-
-$sqlTrens = "SELECT id, identificacao, modelo 
-             FROM trens 
-             ORDER BY identificacao";
-
-$trens = $conexao->query($sqlTrens);
-
-
-
+// BUSCAR VIAGENS
 $sqlViagens = "
-    SELECT 
+    SELECT
         viagens.id,
         viagens.data_inicio,
         viagens.data_chegada,
@@ -114,14 +115,14 @@ $sqlViagens = "
         trens.identificacao,
         trens.modelo
     FROM viagens
-    INNER JOIN trens
-        ON viagens.trem_id = trens.id
+    INNER JOIN trens ON viagens.trem_id = trens.id
     ORDER BY viagens.data_inicio DESC
 ";
 
 $viagens = $conexao->query($sqlViagens);
 
 
+// FUNÇÃO PARA EXIBIR OS DADOS COM SEGURANÇA
 function e(string $texto): string
 {
     return htmlspecialchars($texto, ENT_QUOTES, "UTF-8");
@@ -135,569 +136,324 @@ function e(string $texto): string
 <head>
 
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Viagens | Ferrorama</title>
 
-    <link
-        rel="stylesheet"
-        href="../assets/style/style.css"
-    >
-
-
+    <link rel="stylesheet" href="../assets/style/style.css">
 
 </head>
 
-<header class="cabecalho">
-        <h2> Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?> </h2>
-        <a href="home.php" class="item">Voltar ao painel</a>
-    </header>
-
 <body>
 
+    <!-- CABEÇALHO -->
+    <header class="cabecalho">
 
-<div class="layout">
+        <h2>Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?></h2>
+
+        <a href="home.php" class="item">Voltar ao painel</a>
+
+    </header>
+
+
+    <div class="layout">
+
+        <!-- MENU LATERAL -->
         <aside class="menu-lateral">
-        <a href="home.php" class="item "><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
-        <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill"></i> Sensores</a>
-        <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill"></i> Trens</a>
-        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-            <a href="crud_usuarios.php" class="item"><i class="bi bi-people-fill"></i> Usuários</a>
-        <?php endif; ?>
-        <a href="crud_viagens.php" class="item ativo"><i class="bi bi-calendar-check-fill"></i> Viagens</a>
-    </aside>
 
+            <a href="home.php" class="item">
+                <i class="bi bi-grid-1x2-fill"></i> Dashboard
+            </a>
 
+            <a href="crud_sensor.php" class="item">
+                <i class="bi bi-cpu-fill"></i> Sensores
+            </a>
 
-    <main class="conteudo">
+            <a href="crud_trens.php" class="item">
+                <i class="bi bi-train-front-fill"></i> Trens
+            </a>
 
+            <?php if ($ehAdministrador): ?>
 
-        <div class="titulo_sensores">
+                <a href="crud_usuarios.php" class="item">
+                    <i class="bi bi-people-fill"></i> Usuários
+                </a>
 
-            <div>
+            <?php endif; ?>
 
-                <h1 class="titulo_do_sensores">
+            <a href="crud_viagens.php" class="item ativo">
+                <i class="bi bi-calendar-check-fill"></i> Viagens
+            </a>
 
-                    <i class="bi bi-map-fill"></i>
+        </aside>
 
-                    Viagens dos Trens
 
-                </h1>
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="conteudo">
 
-                <p>
-
-                    <?= $ehAdministrador ? "Cadastre e acompanhe as viagens realizadas pelos trens." : "Acompanhe as viagens realizadas pelos trens." ?>
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-
-        <?php if ($mensagem): ?>
-
-            <div class="alert alert-success">
-
-                <?= e($mensagem) ?>
-
-            </div>
-
-        <?php endif; ?>
-
-
-        <?php if ($erro): ?>
-
-            <div class="alert alert-danger">
-
-                <?= e($erro) ?>
-
-            </div>
-
-        <?php endif; ?>
-
-
-
-        <?php if ($ehAdministrador): ?>
-        <section class="container-sensor">
-
-            <h2 class="titulo-sensor">
-
-                Cadastrar nova viagem
-
-            </h2>
-
-
-            <form method="POST" class="form-sensor">
-
-                <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
-
-
-                <div class="linha-formulario">
-
-
-                    <div class="grupo-input">
-
-                        <label for="trem_id">
-
-                            Trem
-
-                        </label>
-
-
-                        <select
-                            name="trem_id"
-                            id="trem_id"
-                            required
-                        >
-
-                            <option value="">
-
-                                Selecione um trem
-
-                            </option>
-
-
-                            <?php while ($trem = $trens->fetch_assoc()): ?>
-
-                                <option value="<?= $trem["id"] ?>">
-
-                                    <?= e($trem["identificacao"]) ?>
-
-                                    -
-
-                                    <?= e($trem["modelo"]) ?>
-
-                                </option>
-
-                            <?php endwhile; ?>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="grupo-input">
-
-                        <label for="data_inicio">
-
-                            Data e hora de início
-
-                        </label>
-
-
-                        <input
-                            type="datetime-local"
-                            name="data_inicio"
-                            id="data_inicio"
-                            required
-                        >
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="linha-formulario">
-
-
-                    <div class="grupo-input">
-
-                        <label for="data_chegada">
-
-                            Data e hora de chegada
-
-                        </label>
-
-
-                        <input
-                            type="datetime-local"
-                            name="data_chegada"
-                            id="data_chegada"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="grupo-input">
-
-                        <label for="origem">
-
-                            Origem
-
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="origem"
-                            id="origem"
-                            placeholder="Ex.: Estação Central"
-                            maxlength="100"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="grupo-input">
-
-                        <label for="destino">
-
-                            Destino
-
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="destino"
-                            id="destino"
-                            placeholder="Ex.: Estação Norte"
-                            maxlength="100"
-                            required
-                        >
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="linha-formulario">
-
-                    <div class="grupo-input">
-
-                        <label for="status">
-
-                            Status da viagem
-
-                        </label>
-
-
-                        <select
-                            name="status"
-                            id="status"
-                            required
-                        >
-
-                            <option value="">
-
-                                Selecione o status
-
-                            </option>
-
-                            <option value="Em Andamento">
-
-                                Em andamento
-
-                            </option>
-
-                            <option value="Concluída">
-
-                                Concluída
-
-                            </option>
-
-                            <option value="Cancelada">
-
-                                Cancelada
-
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                <div class="botoes-formulario">
-
-                    <button
-                        type="submit"
-                        name="cadastrar"
-                        class="btn-salvar"
-                    >
-
-                        <i class="bi bi-check-lg"></i>
-
-                        Cadastrar viagem
-
-                    </button>
-
-                </div>
-
-
-            </form>
-
-        </section>
-        <?php endif; ?>
-
-
-
-        <section class="planilha_dashboard">
-
-            <h2>
-
-                <i class="bi bi-list-ul"></i>
-
-                Viagens cadastradas
-
-            </h2>
-
-
-            <div class="table-responsive">
-
-                <table class="table table-borderless">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>ID</th>
-
-                            <th>TREM</th>
-
-                            <th>MODELO</th>
-
-                            <th>ORIGEM</th>
-
-                            <th>DESTINO</th>
-
-                            <th>INÍCIO</th>
-
-                            <th>CHEGADA</th>
-
-                            <th>STATUS</th>
-
-                            <?php if ($ehAdministrador): ?><th>AÇÕES</th><?php endif; ?>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-
-                    <?php if ($viagens && $viagens->num_rows > 0): ?>
-
-
-                        <?php while ($viagem = $viagens->fetch_assoc()): ?>
-
-                            <?php
-                            $classeStatus = "text-bg-secondary";
-
-                            if ($viagem["status"] === "Concluída") {
-                                $classeStatus = "text-bg-success";
-                            } elseif ($viagem["status"] === "Em Andamento") {
-                                $classeStatus = "text-bg-primary";
-                            } elseif ($viagem["status"] === "Cancelada") {
-                                $classeStatus = "text-bg-danger";
-                            }
-                            ?>
-
-                            <tr>
-
-                                <td>
-
-                                    #<?= $viagem["id"] ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?= e($viagem["identificacao"]) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?= e($viagem["modelo"]) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?= e($viagem["origem"]) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?= e($viagem["destino"]) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?= date(
-                                        "d/m/Y H:i",
-                                        strtotime($viagem["data_inicio"])
-                                    ) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?= date(
-                                        "d/m/Y H:i",
-                                        strtotime($viagem["data_chegada"])
-                                    ) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="badge <?= $classeStatus ?>">
-
-                                        <?= e($viagem["status"]) ?>
-
-                                    </span>
-
-                                </td>
-
-
-                                <?php if ($ehAdministrador): ?>
-                                    <td>
-                                        <a class="btn-editar" href="editar_viagem.php?id=<?= (int) $viagem["id"] ?>">Editar</a>
-                                        <form method="post" onsubmit="return confirm('Deseja realmente excluir esta viagem?')" style="display:inline">
-                                            <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
-                                            <button type="submit" name="excluir" value="<?= (int) $viagem["id"] ?>" class="btn-excluir">Excluir</button>
-                                        </form>
-                                    </td>
-                                <?php endif; ?>
-
-                            </tr>
-
-                        <?php endwhile; ?>
-
-
-                    <?php else: ?>
-
-                        <tr>
-
-                            <td
-                                colspan="<?= $ehAdministrador ? 9 : 8 ?>"
-                                class="text-center"
-                            >
-
-                                Nenhuma viagem cadastrada.
-
-                            </td>
-
-                        </tr>
-
-                    <?php endif; ?>
-
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-
-
-        <section class="mapa-ferrorama">
-
-            <div class="mapa-cabecalho">
+            <div class="titulo_sensores">
 
                 <div>
 
-                    <h2>
-
-                        <i class="bi bi-geo-alt-fill"></i>
-
-                        Locais ferroviários
-
-                    </h2>
+                    <h1>
+                        <i class="bi bi-map-fill"></i> Viagens dos Trens </h1>
 
                     <p>
-
-                        Encontre estações, museus ferroviários e locais relacionados a trens.
-
+                        <?= $ehAdministrador
+                            ? "Cadastre e acompanhe as viagens realizadas pelos trens."
+                            : "Acompanhe as viagens realizadas pelos trens." ?>
                     </p>
 
                 </div>
 
-
-                <a
-                    href="https://www.google.com/maps/search/ferromodelismo/"
-                    target="_blank"
-                    class="botao-mapa"
-                >
-
-                    <i class="bi bi-google"></i>
-
-                    Abrir no Google Maps
-
-                </a>
-
             </div>
 
 
-            <div class="mapa-links">
+            <!-- MENSAGENS -->
+            <?php if ($mensagem !== ""): ?>
 
-                <a
+                <p class="mensagem-sucesso">
+                    <?= e($mensagem) ?>
+                </p>
+
+            <?php endif; ?>
+
+
+            <?php if ($erro !== ""): ?>
+
+                <p class="mensagem-erro">
+                    <?= e($erro) ?>
+                </p>
+
+            <?php endif; ?>
+
+
+            
+            
+            <!-- TABELA DE VIAGENS -->
+            <section class="planilha_dashboard">
+                
+                <h2>
+                    <i class="bi bi-list-ul"></i>
+                    Viagens cadastradas
+                </h2>
+                
+                
+                <div class="table-responsive">
+                    
+                    <table class="table table-borderless">
+                        
+                        <thead>
+                            
+                            <tr>
+                                
+                                <th>ID</th>
+                                <th>TREM</th>
+                                <th>MODELO</th>
+                                <th>ORIGEM</th>
+                                <th>DESTINO</th>
+                                <th>INÍCIO</th>
+                                <th>CHEGADA</th>
+                                <th>STATUS</th>
+                                
+                                <?php if ($ehAdministrador): ?>
+                                    <th>AÇÕES</th>
+                                    <?php endif; ?>
+                                    
+                                </tr>
+                                
+                            </thead>
+                            
+                            
+                            <tbody>
+                                
+                                <?php if ($viagens && $viagens->num_rows > 0): ?>
+                                    
+                                    <?php while ($viagem = $viagens->fetch_assoc()): ?>
+                                        
+                                        <tr>
+                                            
+                                            <td>
+                                                #<?= (int) $viagem["id"] ?>
+                                            </td>
+                                            
+                                            <td>
+                                                <?= e($viagem["identificacao"]) ?>
+                                            </td>
+                                            
+                                            <td>
+                                                <?= e($viagem["modelo"]) ?>
+                                            </td>
+                                            
+                                            <td>
+                                                <?= e($viagem["origem"]) ?>
+                                            </td>
+                                            
+                                            <td>
+                                                <?= e($viagem["destino"]) ?>
+                                            </td>
+                                            
+                                            <td>
+                                                <?= date("d/m/Y H:i", strtotime($viagem["data_inicio"])) ?>
+                                            </td>
+                                            
+                                            <td>
+                                                <?= date("d/m/Y H:i", strtotime($viagem["data_chegada"])) ?>
+                                            </td>
+                                            
+                                            <td>
+                                                <?= e($viagem["status"]) ?>
+                                            </td>
+                                            
+                                            
+                                            <?php if ($ehAdministrador): ?>
+                                                
+                                                <td class="acoes">
+                                                    
+                                                    <a
+                                                    class="btn-editar"
+                                                    href="editar_viagem.php?id=<?= (int) $viagem["id"] ?>">
+                                                    Editar
+                                                </a>
+                                                
+                                                <form
+                                                method="post"
+                                                onsubmit="return confirm('Deseja realmente excluir esta viagem?')"
+                                                style="display:inline">
+                                                
+                                                <input
+                                                type="hidden"
+                                                name="token_csrf"
+                                                value="<?= escapar($csrf) ?>">
+                                                
+                                                <button
+                                                type="submit"
+                                                name="excluir"
+                                                value="<?= (int) $viagem["id"] ?>"
+                                                class="btn-excluir">
+                                                Excluir
+                                            </button>
+                                            
+                                        </form>
+                                        
+                                    </td>
+                                    
+                                    <?php endif; ?>
+                                    
+                                </tr>
+                                
+                                <?php endwhile; ?>
+                                
+                                
+                                <?php else: ?>
+                                    
+                                    <tr>
+                                        
+                                        <td
+                                        colspan="<?= $ehAdministrador ? 9 : 8 ?>"
+                                        class="text-center">
+                                        
+                                        Nenhuma viagem cadastrada.
+                                        
+                                    </td>
+                                    
+                                </tr>
+                                
+                                <?php endif; ?>
+                                
+                            </tbody>
+                            
+                        </table>
+
+                        <!-- BOTÃO DE CADASTRO -->
+                        <?php if ($ehAdministrador): ?>
+            
+                            <a href="cadastrar_viagem.php">
+                                <button type="button">
+                                    <i class="bi bi-plus-circle-fill"></i>
+                                    Cadastrar nova viagem
+                                </button>
+                            </a>
+            
+                        <?php endif; ?>
+                        
+                    </div>
+                    
+                </section>
+                
+                
+                <!-- LOCAIS FERROVIÁRIOS -->
+                <section class="mapa-ferrorama">
+                    
+                    <div class="mapa-cabecalho">
+                        
+                        <div>
+                            
+                            <h2>
+                                <i class="bi bi-geo-alt-fill"></i>
+                                Locais ferroviários
+                            </h2>
+                            
+                            <p>
+                                Encontre estações, museus ferroviários e locais relacionados a trens.
+                            </p>
+                            
+                        </div>
+                        
+                        
+                        <a
+                        href="https://www.google.com/maps/search/ferromodelismo/"
+                        target="_blank"
+                        class="botao-mapa">
+                        
+                        <i class="bi bi-google"></i>
+                        Abrir no Google Maps
+                        
+                    </a>
+                    
+                </div>
+                
+                
+                <div class="mapa-links">
+                    
+                    <a
                     href="https://www.google.com/maps/search/museu+ferroviário/"
-                    target="_blank"
-                >
-
+                    target="_blank">
+                    
                     <i class="bi bi-building"></i>
-
                     Museus ferroviários
-
+                    
                 </a>
-
-
+                
+                
                 <a
-                    href="https://www.google.com/maps/search/estação+ferroviária/"
-                    target="_blank"
-                >
-
-                    <i class="bi bi-train-front"></i>
-
-                    Estações ferroviárias
-
-                </a>
+                href="https://www.google.com/maps/search/estação+ferroviária/"
+                target="_blank">
+                
+                <i class="bi bi-train-front"></i>
+                Estações ferroviárias
+                
+            </a>
 
 
-                <a
-                    href="https://www.google.com/maps/search/ferromodelismo/"
-                    target="_blank"
-                >
+                    <a
+                        href="https://www.google.com/maps/search/ferromodelismo/"
+                        target="_blank">
 
-                    <i class="bi bi-geo-alt"></i>
+                        <i class="bi bi-geo-alt"></i>
+                        Ferromodelismo
 
-                    Ferromodelismo
+                    </a>
 
-                </a>
+                </div>
 
-            </div>
+            </section>
 
-        </section>
+        </main>
 
-
-    </main>
-
-</div>
-
+    </div>
 
 </body>
 
 </html>
+```
