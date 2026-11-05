@@ -16,7 +16,7 @@ if (!$id || $id < 1) {
 
 // Buscar trem
 $stmt = $conexao->prepare(
-    "SELECT identificacao, modelo, capacidade, status, usuario_id
+    "SELECT identificacao, modelo, capacidade, status
      FROM trens WHERE id = ?"
 );
 
@@ -28,17 +28,6 @@ $stmt->close();
 if (!$trem) {
     header("Location: crud_trens.php");
     exit;
-}
-
-// Buscar usuários cadastrados
-$resultadoUsuarios = $conexao->query(
-    "SELECT id, nome, email FROM usuarios ORDER BY nome"
-);
-
-$usuarios = [];
-
-while ($usuario = $resultadoUsuarios->fetch_assoc()) {
-    $usuarios[] = $usuario;
 }
 
 // Sensores já vinculados
@@ -68,16 +57,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $modelo = trim(valor_post("modelo"));
     $capacidadeTexto = valor_post("capacidade");
     $status = valor_post("status");
-    $usuario_id = filter_var(valor_post("usuario_id"), FILTER_VALIDATE_INT);
 
     $capacidade = filter_var($capacidadeTexto, FILTER_VALIDATE_INT);
 
     $statusPermitidos = ["Ativo", "Inativo", "Em Manutenção"];
-
-    $idsUsuarios = array_map(
-        "intval",
-        array_column($usuarios, "id")
-    );
 
     $listaPostada = $_POST["sensores"] ?? [];
 
@@ -111,10 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         strlen($modelo) > 50 ||
         $capacidade === false ||
         $capacidade < 1 ||
-        !in_array($status, $statusPermitidos, true) ||
-        $usuario_id === false ||
-        $usuario_id < 1 ||
-        !in_array($usuario_id, $idsUsuarios, true)
+        !in_array($status, $statusPermitidos, true)
     ) {
         $erro = "Preencha todos os campos corretamente.";
     }
@@ -146,24 +126,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $verificarSensor->close();
 
-            // Atualizar trem e usuário responsável
+            // Atualizar dados do trem
             $stmt = $conexao->prepare(
                 "UPDATE trens
                  SET identificacao = ?,
                      modelo = ?,
                      capacidade = ?,
-                     status = ?,
-                     usuario_id = ?
+                     status = ?
                  WHERE id = ?"
             );
 
             $stmt->bind_param(
-                "ssisii",
+                "ssisi",
                 $identificacao,
                 $modelo,
                 $capacidade,
                 $status,
-                $usuario_id,
                 $id
             );
 
@@ -196,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             definir_flash(
                 "sucesso",
-                "Trem, usuário responsável e sensores atualizados com sucesso."
+                "Trem e sensores atualizados com sucesso."
             );
 
             header("Location: crud_trens.php");
@@ -220,7 +198,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $trem["modelo"] = $modelo;
     $trem["capacidade"] = $capacidadeTexto;
     $trem["status"] = $status;
-    $trem["usuario_id"] = $usuario_id;
 }
 
 // Buscar sensores disponíveis
@@ -327,30 +304,6 @@ $csrf = token_csrf();
                         value="<?= escapar((string) $trem["capacidade"]) ?>"
                         required
                     >
-
-                </div>
-
-                <div class="grupo-input">
-
-                    <label for="usuario_id">Usuário responsável</label>
-
-                    <select id="usuario_id" name="usuario_id" required>
-
-                        <option value="">Selecione um usuário</option>
-
-                        <?php foreach ($usuarios as $usuario): ?>
-
-                            <option
-                                value="<?= (int) $usuario["id"] ?>"
-                                <?= (string) $trem["usuario_id"] === (string) $usuario["id"] ? "selected" : "" ?>
-                            >
-                                <?= escapar($usuario["nome"]) ?>
-                                (<?= escapar($usuario["email"]) ?>)
-                            </option>
-
-                        <?php endforeach; ?>
-
-                    </select>
 
                 </div>
 
