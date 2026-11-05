@@ -59,36 +59,45 @@ $csrf = token_csrf();
             <a href="crud_trens.php" class="item">Trens</a>
             <a href="crud_usuarios.php" class="item ativo">Usuários</a>
             <a href="crud_viagens.php" class="item">Viagens</a>
-</aside>
-
+        </aside>
+        
         <main class="conteudo">
             <div class="titulo_sensores">
                 <div>
                     <h1>Usuários cadastrados</h1>
                 </div>
-
+                
             </div>
-
+            
+            <div>
+                <a href="cadastro_usuario.php">
+                    <button type="button">Cadastrar novo usuário</button>
+                </a>
+                </div>
+            
             <?php if ($flash): ?>
                 <p class="<?= $flash["tipo"] === "sucesso" ? "mensagem-sucesso" : "mensagem-erro" ?>" role="status">
                     <?= escapar($flash["mensagem"]) ?>
                 </p>
-            <?php endif; ?>
+                <?php endif; ?>
+                
+                <div class="planilha_dashboard">
+                    <div class="barra-pesquisa">
+                        <form method="get">
+                            <input type="search" name="busca" maxlength="100" placeholder="Pesquisar por nome ou e-mail" value="<?= escapar($busca) ?>">
+                            <?php if ($busca !== ""): ?>
+                                
+                                <a href="crud_usuarios.php" class="btn-limpar">Limpar pesquisa</a>
+                                <?php endif; ?>
+                            </form>
+                        </div>
+                        
+                        <table class="table">
 
-            <div class="planilha_dashboard">
-                <div class="barra-pesquisa">
-                    <form method="get">
-                        <input type="search" name="busca" maxlength="100" placeholder="Pesquisar por nome ou e-mail" value="<?= escapar($busca) ?>">
-                        <?php if ($busca !== ""): ?>
 
-                            <a href="crud_usuarios.php" class="btn-limpar">Limpar pesquisa</a>
-                        <?php endif; ?>
-                    </form>
-                </div>
-
-                <table class="table">
-                    <thead>
-                        <tr>
+                            <thead>
+                               
+                                <tr>
                             <th>ID</th>
                             <th>NOME</th>
                             <th>E-MAIL</th>
@@ -131,9 +140,6 @@ $csrf = token_csrf();
                     </tbody>
                 </table>
 
-                <a href="cadastro_usuario.php">
-                    <button type="button">Cadastrar novo usuário</button>
-                </a>
 
             </div>
         </main>

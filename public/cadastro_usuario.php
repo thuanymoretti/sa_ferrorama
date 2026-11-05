@@ -50,16 +50,6 @@ $csrf = token_csrf();
         <a class="item" href="crud_usuarios.php">Voltar à lista</a>
     </header>
 
-    <div class="layout">
-        <aside class="menu-lateral">
-        <a href="home.php" class="item">Dashboard</a>
-        <a href="crud_sensor.php" class="item">Sensores</a>
-        <a href="crud_trens.php" class="item">Trens</a>
-        <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?>
-            <a href="crud_usuarios.php" class="item ativo">Usuários</a>
-        <?php endif; ?>
-        <a href="crud_viagens.php" class="item">Viagens</a>
-    </aside>
 
         <main class="conteudo">
             <section class="formulario-usuario">

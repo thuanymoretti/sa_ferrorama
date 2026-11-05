@@ -58,12 +58,6 @@ a {
     color: var(--laranja-ferrugem-claro);
 }
 
-button,
-input,
-select,
-textarea {
-    font: inherit;
-}
 
 #titulo,
 #sub_titulo {

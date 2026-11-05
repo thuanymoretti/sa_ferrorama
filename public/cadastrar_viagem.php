@@ -120,28 +120,6 @@ function e(string $texto): string
     </header>
 
 
-    <div class="layout">
-
-        <!-- MENU LATERAL -->
-        <aside class="menu-lateral">
-
-            <a href="home.php" class="item">Dashboard</a>
-
-            <a href="crud_sensor.php" class="item">Sensores</a>
-
-            <a href="crud_trens.php" class="item">Trens</a>
-
-            <?php if ($ehAdministrador): ?>
-
-                <a href="crud_usuarios.php" class="item">Usuários</a>
-
-            <?php endif; ?>
-
-            <a href="crud_viagens.php" class="item ativo">Viagens</a>
-
-        </aside>
-
-
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="conteudo">
 

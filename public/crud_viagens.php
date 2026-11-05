@@ -228,10 +228,22 @@ function e(string $texto): string
             <?php endif; ?>
 
 
+            <!-- BOTÃO DE CADASTRO -->
+            <?php if ($ehAdministrador): ?>
+
+                <a href="cadastrar_viagem.php">
+                    <button type="button">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        Cadastrar nova viagem
+                    </button>
+                </a>
+
+            <?php endif; ?>
             
             
             <!-- TABELA DE VIAGENS -->
             <section class="planilha_dashboard">
+                
                 
                 <h2>
                     <i class="bi bi-list-ul"></i>
@@ -365,17 +377,6 @@ function e(string $texto): string
                             
                         </table>
 
-                        <!-- BOTÃO DE CADASTRO -->
-                        <?php if ($ehAdministrador): ?>
-            
-                            <a href="cadastrar_viagem.php">
-                                <button type="button">
-                                    <i class="bi bi-plus-circle-fill"></i>
-                                    Cadastrar nova viagem
-                                </button>
-                            </a>
-            
-                        <?php endif; ?>
                         
                     </div>
                     

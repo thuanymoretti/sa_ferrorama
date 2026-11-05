@@ -62,16 +62,27 @@ $csrf = token_csrf();
 
             <div class="titulo_sensores">
                 <div>
-                    <h1 > Sensores cadastrados  </h1>              
+                    <h1 > Vizualização de Sensores  </h1>              
                 </div>
             </div>
 
-          
+     <?php if ($ehAdministrador): ?>
+    <a href="cadastrar_sensor.php">
+        <button type="button">
+            <i class="bi bi-plus-circle-fill"></i>
+            Cadastrar novo sensor
+        </button>
+    </a>
+<?php endif; ?>
 
+<div class="planilha_dashboard">
+    <h2 class="titulo-tabela">
+        <i class="bi bi-list-ul"></i>
+        Sensores cadastrados
+    </h2>
 
-            <div class="planilha_dashboard">
-
- <table class="table table-borderless">
+    <table class="table table-borderless">
+         
 
  <thead>
  <tr>
@@ -117,7 +128,6 @@ $csrf = token_csrf();
                         <?php } ?>
                     </tbody>
                 </table>
-                 <?php if ($_SESSION["usuario"]["tipo_usuario"] === "Administrador"): ?><a href="cadastrar_sensor.php"><button type="button">Cadastrar novo sensor</button></a><?php endif; ?>
             </div>
 
         </main>

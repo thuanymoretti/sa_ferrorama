@@ -95,20 +95,33 @@ if (
         <main class="conteudo">
 
             <div class="titulo_sensores">
-                <h1>Trens cadastrados</h1>
+                <h1>Vizualização de Trens</h1>
             </div>
 
-            <?php if ($mensagem): ?>
+            <?php if ($ehAdministrador): ?>
 
+                <a href="cadastrar_trens.php">
+                    <button type="button">Cadastrar novo trem</button>
+                </a>
+
+            <?php endif; ?>
+            
+            <?php if ($mensagem): ?>
+                
                 <p class="mensagem-<?= escapar($mensagem["tipo"]) ?>" role="status">
                     <?= escapar($mensagem["mensagem"]) ?>
                 </p>
-
-            <?php endif; ?>
-
-            <div class="planilha_dashboard">
-
-                <table class="table table-borderless tabela-trens">
+                
+                <?php endif; ?>
+                
+                <div class="planilha_dashboard">
+                 <h2>
+                    <i class="bi bi-list-ul"></i>
+                    Trens cadastrados
+                </h2>
+                
+                    
+                    <table class="table table-borderless tabela-trens">
 
                     <thead>
 
@@ -221,13 +234,6 @@ if (
 
                 </table>
 
-                <?php if ($ehAdministrador): ?>
-
-                    <a href="cadastrar_trens.php">
-                        <button type="button">Cadastrar novo trem</button>
-                    </a>
-
-                <?php endif; ?>
 
             </div>
 
