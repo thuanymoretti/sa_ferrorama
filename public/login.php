@@ -66,21 +66,39 @@ $csrf = token_csrf();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Entrar | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261109-login">
 </head>
 <body class="pagina-login">
-    <main>
-        <form method="post" class="caixa" autocomplete="on">
-            <h1>Entrar no Ferrorama</h1>
-            <?php if ($avisoInicial): ?><p>Antes do primeiro acesso, crie o administrador pelo terminal local. Consulte o README.</p><?php endif; ?>
-            <?php if ($mensagem !== ""): ?><p role="alert"><?= escapar($mensagem) ?></p><?php endif; ?>
-            <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" maxlength="100" autocomplete="username" required>
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" autocomplete="current-password" required>
-            <button type="submit">Entrar</button>
-        </form>
+    <main class="login-layout">
+        <section class="login-visual" aria-label="Ferrorama">
+            <img src="../assets/Situação%20de%20aprendizagem.png" alt="Locomotiva atravessando a paisagem ao pôr do sol">
+            <div class="login-visual-conteudo">
+                <span class="login-marca">FERRORAMA</span>
+                <p class="login-frase">Movendo cidades,<br>conectando vidas.</p>
+                <span class="login-linha"></span>
+                <p class="login-contexto">Acompanhe a operação ferroviária em um só lugar.</p>
+            </div>
+        </section>
+
+        <section class="login-painel">
+            <form method="post" class="caixa login-formulario" autocomplete="on">
+                <p class="login-sobrelinha">ÁREA DE ACESSO</p>
+                <h1>Bem-vindo de volta</h1>
+                <p class="login-descricao">Entre com suas credenciais para acessar o painel.</p>
+                <?php if ($avisoInicial): ?><p class="login-aviso">Antes do primeiro acesso, crie o administrador pelo terminal local. Consulte o README.</p><?php endif; ?>
+                <?php if ($mensagem !== ""): ?><p class="login-erro" role="alert"><?= escapar($mensagem) ?></p><?php endif; ?>
+                <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
+
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" maxlength="100" autocomplete="username" placeholder="voce@exemplo.com" required>
+
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" autocomplete="current-password" placeholder="Digite sua senha" required>
+
+                <button type="submit">Entrar no painel</button>
+                <p class="login-rodape">Sistema de gestão ferroviária</p>
+            </form>
+        </section>
     </main>
 </body>
 </html>
