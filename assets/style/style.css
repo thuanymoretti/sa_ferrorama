@@ -661,11 +661,237 @@ button:hover {
 ======================================== */
 .pagina-login {
     min-height: 100vh;
-    margin: 0;
-    background-color: #0d162b;
+    background: #101827;
+}
+
+.login-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(420px, 0.9fr);
+    min-height: 100vh;
+}
+
+.login-visual {
+    position: relative;
     display: flex;
-    justify-content: center;
+    align-items: flex-end;
+    min-height: 100vh;
+    padding: clamp(36px, 7vw, 100px);
+    overflow: hidden;
+    background: #182234;
+}
+
+.login-visual::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(12, 20, 34, 0.08) 15%, rgba(12, 20, 34, 0.18) 42%, rgba(12, 20, 34, 0.9) 100%);
+    content: "";
+}
+
+.login-visual > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 38% center;
+}
+
+.login-visual-conteudo {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+}
+
+.login-marca {
+    display: inline-block;
+    margin-bottom: 22px;
+    color: var(--branco-creme);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.24em;
+}
+
+.login-frase {
+    margin: 0;
+    color: var(--branco-creme);
+    font-size: clamp(34px, 4vw, 58px);
+    font-weight: 700;
+    line-height: 1.08;
+    text-align: left;
+}
+
+.login-linha {
+    display: block;
+    width: 54px;
+    height: 3px;
+    margin: 24px 0 16px;
+    border-radius: 3px;
+    background: var(--laranja-ferrugem-claro);
+}
+
+.login-contexto {
+    margin: 0;
+    color: rgba(245, 240, 230, 0.82);
+    font-size: 15px;
+    text-align: left;
+}
+
+.login-painel {
+    display: flex;
     align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: clamp(28px, 5vw, 76px);
+    background: #101827;
+}
+
+.login-formulario.caixa {
+    width: 100%;
+    max-width: 430px;
+    padding: 0;
+    background: transparent;
+}
+
+.login-sobrelinha {
+    margin: 0 0 12px;
+    color: var(--laranja-ferrugem-claro);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-align: left;
+}
+
+.login-formulario h1 {
+    margin: 0;
+    font-size: clamp(28px, 3vw, 36px);
+    text-align: left;
+}
+
+.login-descricao {
+    margin: 10px 0 30px;
+    color: var(--cinza-trilho-claro);
+    font-size: 15px;
+    text-align: left;
+}
+
+.login-formulario label {
+    display: block;
+    margin: 20px 0 8px;
+    color: var(--branco-creme);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.login-formulario input[type="email"],
+.login-formulario input[type="password"] {
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    border: 1px solid #465064;
+    border-radius: 8px;
+    outline: none;
+    background: #182234;
+    color: var(--branco-creme);
+    font-size: 15px;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.login-formulario input::placeholder {
+    color: #8993a4;
+}
+
+.login-formulario input:focus {
+    border-color: var(--laranja-ferrugem-claro);
+    box-shadow: 0 0 0 3px rgba(255, 162, 99, 0.15);
+}
+
+.login-formulario button[type="submit"] {
+    width: 100%;
+    min-height: 50px;
+    margin: 28px 0 0;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.login-formulario button[type="submit"]:hover {
+    transform: translateY(-1px);
+}
+
+.login-formulario .login-aviso,
+.login-formulario .login-erro {
+    margin: 18px 0;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.login-formulario .login-aviso {
+    border: 1px solid rgba(255, 162, 99, 0.35);
+    background: rgba(184, 113, 71, 0.12);
+    color: #ffd2b3;
+}
+
+.login-formulario .login-erro {
+    border: 1px solid rgba(255, 130, 130, 0.35);
+    background: rgba(198, 40, 40, 0.14);
+    color: #ffbaba;
+}
+
+.login-rodape {
+    margin: 26px 0 0;
+    color: #8993a4;
+    font-size: 12px;
+    text-align: center;
+}
+
+@media (max-width: 850px) {
+    .login-layout {
+        grid-template-columns: minmax(0, 0.9fr) minmax(380px, 1.1fr);
+    }
+
+    .login-visual {
+        padding: 36px;
+    }
+}
+
+@media (max-width: 650px) {
+    .login-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .login-visual {
+        min-height: 260px;
+        padding: 30px 26px;
+    }
+
+    .login-visual > img {
+        object-position: 28% 48%;
+    }
+
+    .login-marca {
+        margin-bottom: 12px;
+    }
+
+    .login-frase {
+        font-size: 32px;
+    }
+
+    .login-linha {
+        margin: 14px 0 10px;
+    }
+
+    .login-contexto {
+        font-size: 13px;
+    }
+
+    .login-painel {
+        min-height: calc(100vh - 260px);
+        padding: 36px 26px;
+    }
 }
 
 
@@ -1102,6 +1328,91 @@ button:hover {
     background-color: #4EAEEC;
 }
 
+.dashboard-clima {
+    margin-bottom: 24px;
+    padding: 22px 24px;
+    border: 1px solid var(--cinza-trilho);
+    border-radius: 12px;
+    background: linear-gradient(125deg, var(--cinza-trilho-escuro), #1b2b40);
+}
+
+.dashboard-clima-cabecalho,
+.dashboard-clima-dados,
+.dashboard-clima-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.dashboard-clima-cabecalho h2 {
+    margin: 0;
+    color: var(--branco-creme);
+    font-size: 21px;
+}
+
+.dashboard-clima-local {
+    margin: 5px 0 0;
+    color: var(--cinza-trilho-claro);
+    font-size: 13px;
+}
+
+.dashboard-clima-dados {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.dashboard-clima-temperatura {
+    color: var(--branco-creme);
+    font-size: 48px;
+    line-height: 1;
+}
+
+.dashboard-clima-resumo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 145px;
+    color: var(--branco-creme);
+}
+
+.dashboard-clima-resumo small,
+.dashboard-clima-rodape small {
+    color: var(--cinza-trilho-claro);
+}
+
+.dashboard-clima-detalhe {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-left: auto;
+    color: var(--cinza-trilho-claro);
+    font-size: 13px;
+}
+
+.dashboard-clima-detalhe strong {
+    margin-left: 4px;
+    color: var(--branco-creme);
+    font-weight: 600;
+}
+
+.dashboard-clima-rodape {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12px;
+}
+
+.dashboard-clima-rodape a {
+    color: var(--laranja-ferrugem-claro);
+    text-decoration: none;
+}
+
+.dashboard-clima-rodape a:hover {
+    color: var(--branco-creme);
+}
+
 
 /* ========================================
    19. DASHBOARD - TABELA DE SENSORES
@@ -1250,6 +1561,21 @@ button:hover {
 
     .dashboard-cards {
         grid-template-columns: 1fr;
+    }
+
+    .dashboard-clima {
+        padding: 18px;
+    }
+
+    .dashboard-clima-detalhe {
+        width: 100%;
+        margin: 0;
+    }
+
+    .dashboard-clima-rodape {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
     }
 
     .dashboard-usuarios {

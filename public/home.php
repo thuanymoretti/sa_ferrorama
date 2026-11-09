@@ -56,7 +56,7 @@ function e($texto) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261026-admin-welcome">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261109-clima">
 </head>
 
 <body>
@@ -201,6 +201,33 @@ function e($texto) {
 
         </section>
 
+        <section class="dashboard-clima" aria-labelledby="clima-titulo">
+            <div class="dashboard-clima-cabecalho">
+                <div>
+                    <p class="dashboard-sobrelinha">CONDIÇÕES LOCAIS</p>
+                    <h2 id="clima-titulo">Clima atual em Joinville</h2>
+                    <p class="dashboard-clima-local">Joinville, Santa Catarina</p>
+                </div>
+            </div>
+
+            <div class="dashboard-clima-dados" id="clima-dados" aria-live="polite" aria-atomic="true">
+                <strong class="dashboard-clima-temperatura" id="clima-temperatura">--°</strong>
+                <div class="dashboard-clima-resumo">
+                    <span id="clima-condicao">Consultando o clima...</span>
+                    <small>Sensação de <span id="clima-sensacao">--°</span></small>
+                </div>
+                <div class="dashboard-clima-detalhe">
+                    <span>Umidade <strong id="clima-umidade">--%</strong></span>
+                    <span>Vento <strong id="clima-vento">-- km/h</strong></span>
+                </div>
+            </div>
+
+            <div class="dashboard-clima-rodape">
+                <small id="clima-atualizado">Aguardando dados meteorológicos</small>
+                <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Dados: Open-Meteo</a>
+            </div>
+        </section>
+
         <section class="planilha_dashboard">
 
             <div class="dashboard-tabela-cabecalho">
@@ -280,7 +307,7 @@ function e($texto) {
 
 </div>
 
-<script src="../scripts/script_home.js?v=20261026"></script>
+<script src="../scripts/script_home.js?v=20261109-clima-sem-emoji"></script>
 
 </body>
                     </body>
