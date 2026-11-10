@@ -14,9 +14,17 @@ if (!$id || $id < 1) {
     exit;
 }
 
+$usuarios = $conexao->query(
+    "SELECT id, nome, email FROM usuarios ORDER BY nome"
+)->fetch_all(MYSQLI_ASSOC);
+foreach ($usuarios as &$usuario) {
+    $usuario["id"] = (int) $usuario["id"];
+}
+unset($usuario);
+
 // Buscar trem
 $stmt = $conexao->prepare(
-    "SELECT identificacao, modelo, capacidade, status
+    "SELECT identificacao, modelo, capacidade, status, usuario_id
      FROM trens WHERE id = ?"
 );
 
@@ -57,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $modelo = trim(valor_post("modelo"));
     $capacidadeTexto = valor_post("capacidade");
     $status = valor_post("status");
+    $usuarioId = filter_var(valor_post("usuario_id"), FILTER_VALIDATE_INT);
 
     $capacidade = filter_var($capacidadeTexto, FILTER_VALIDATE_INT);
 
@@ -94,9 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         strlen($modelo) > 50 ||
         $capacidade === false ||
         $capacidade < 1 ||
+        $usuarioId === false ||
+        $usuarioId < 1 ||
+        !in_array($usuarioId, array_column($usuarios, "id"), true) ||
         !in_array($status, $statusPermitidos, true)
     ) {
-        $erro = "Preencha todos os campos corretamente.";
+        $erro = "Preencha todos os campos corretamente e selecione o usuário responsável.";
     }
 
     if ($erro === "") {
@@ -132,16 +144,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                  SET identificacao = ?,
                      modelo = ?,
                      capacidade = ?,
-                     status = ?
+                     status = ?,
+                     usuario_id = ?
                  WHERE id = ?"
             );
 
             $stmt->bind_param(
-                "ssisi",
+                "ssisii",
                 $identificacao,
                 $modelo,
                 $capacidade,
                 $status,
+                $usuarioId,
                 $id
             );
 
@@ -198,6 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $trem["modelo"] = $modelo;
     $trem["capacidade"] = $capacidadeTexto;
     $trem["status"] = $status;
+    $trem["usuario_id"] = $usuarioId;
 }
 
 // Buscar sensores disponíveis
@@ -304,6 +319,24 @@ $csrf = token_csrf();
                         value="<?= escapar((string) $trem["capacidade"]) ?>"
                         required
                     >
+
+                </div>
+
+                <div class="grupo-input">
+
+                    <label for="usuario_id">Usuário responsável</label>
+
+                    <select id="usuario_id" name="usuario_id" required>
+                        <option value="">Selecione um usuário</option>
+                        <?php foreach ($usuarios as $usuario): ?>
+                            <option
+                                value="<?= (int) $usuario["id"] ?>"
+                                <?= (int) $trem["usuario_id"] === (int) $usuario["id"] ? "selected" : "" ?>
+                            >
+                                <?= escapar($usuario["nome"]) ?> (<?= escapar($usuario["email"]) ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
 
                 </div>
 

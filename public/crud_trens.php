@@ -11,6 +11,7 @@ $resultado = $conexao->query(
         t.modelo,
         t.capacidade,
         t.status,
+        u.nome AS usuario_responsavel,
 
         GROUP_CONCAT(
             CONCAT(s.nome, ' (', s.identificacao, ')')
@@ -19,6 +20,7 @@ $resultado = $conexao->query(
 
      FROM trens t
 
+     LEFT JOIN usuarios u ON u.id = t.usuario_id
      LEFT JOIN sensores s ON s.trem_id = t.id
 
      GROUP BY
@@ -26,7 +28,9 @@ $resultado = $conexao->query(
         t.identificacao,
         t.modelo,
         t.capacidade,
-        t.status
+        t.status,
+        t.usuario_id,
+        u.nome
 
      ORDER BY t.identificacao"
 );
@@ -164,7 +168,11 @@ if (
                                         <?= (int) $trem["capacidade"] ?>
                                     </td>
 
-                                    <td>Não informado</td>
+                                    <td>
+                                        <?= $trem["usuario_responsavel"] !== null
+                                            ? escapar($trem["usuario_responsavel"])
+                                            : "Sem responsável" ?>
+                                    </td>
 
                                     <td>
                                         <?= escapar($trem["status"]) ?>

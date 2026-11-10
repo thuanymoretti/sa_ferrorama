@@ -12,10 +12,13 @@ CREATE TABLE usuarios (
 
 CREATE TABLE trens (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
     identificacao VARCHAR(100) NOT NULL,
     modelo VARCHAR(50) NOT NULL,
     capacidade INT NOT NULL,
-    status ENUM('Ativo', 'Inativo', 'Em Manutenção') NOT NULL
+    status ENUM('Ativo', 'Inativo', 'Em Manutenção') NOT NULL,
+    CONSTRAINT fk_trens_usuarios
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 CREATE TABLE sensores (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,10 +41,3 @@ CREATE TABLE viagens (
     status ENUM('Em Andamento', 'Concluída', 'Cancelada') NOT NULL,
     FOREIGN KEY (trem_id) REFERENCES trens(id)
 );
-
-ALTER TABLE trens
-ADD COLUMN usuario_id INT NULL AFTER id;
-
-ALTER TABLE trens
-ADD CONSTRAINT fk_trens_usuarios
-FOREIGN KEY (usuario_id) REFERENCES usuarios(id);
