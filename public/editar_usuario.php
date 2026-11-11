@@ -4,7 +4,11 @@ exigir_login();
 require_once "../infra/conexao.php";
 exigir_administrador($conexao);
 
-$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
+} else {
+    $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+}
 if (!$id || $id < 1) {
     header("Location: crud_usuarios.php");
     exit;
@@ -95,8 +99,9 @@ $csrf = token_csrf();
                 <?php if ($erro !== ""): ?><p class="mensagem-erro" role="alert"><?= escapar($erro) ?></p><?php endif; ?>
 
                 <form method="post">
+                    <input type="hidden" name="id" value="<?= (int) $id ?>">
                     <input type="hidden" name="token_csrf" value="<?= escapar($csrf) ?>">
-                    <div class="linha-cadastro">
+
                         <div class="campo-cadastro">
                             <label for="nome">Nome completo</label>
                             <input type="text" id="nome" name="nome" maxlength="100" value="<?= escapar($usuarioEditado["nome"]) ?>" required>

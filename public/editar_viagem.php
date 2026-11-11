@@ -1,4 +1,4 @@
-```php
+
 <?php
 
 require_once "../infra/auth.php";
@@ -414,4 +414,3 @@ $csrf = token_csrf();
 </body>
 
 </html>
-```
