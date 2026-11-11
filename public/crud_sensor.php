@@ -216,9 +216,8 @@ $trens = $conexao->query("
                         </select>
                     </div>
                     <div class="botoes-modal">
-
-                        <button  type="submit"  class="btn-salvar-modal" > Cadastrar sensor </button>
                         <button type="button" class="btn-cancelar-modal" onclick="fecharModalCadastro()" > Cancelar </button>
+                         <button  type="submit"  class="btn-salvar-modal" > Cadastrar sensor </button>
                     </div>
                 </form>
             </div>
