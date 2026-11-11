@@ -1,3 +1,4 @@
+
 <?php
 require_once "../infra/auth.php";
 exigir_login();
@@ -10,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 validar_token_csrf();
+
 $id = filter_var(valor_post("id"), FILTER_VALIDATE_INT);
 $nome = trim(valor_post("nome"));
 $identificacao = trim(valor_post("identificacao"));
@@ -17,6 +19,7 @@ $localizacao = trim(valor_post("localizacao"));
 $tipo = valor_post("tipo_sensor");
 $tremIdTexto = valor_post("trem_id");
 $tremId = $tremIdTexto === "" ? null : filter_var($tremIdTexto, FILTER_VALIDATE_INT);
+
 $tipos = ["Temperatura", "Umidade", "Pressao", "Velocidade", "fotoeletrico"];
 
 if (
@@ -27,7 +30,8 @@ if (
     !in_array($tipo, $tipos, true) ||
     ($tremId !== null && (!$tremId || $tremId < 1))
 ) {
-    header("Location: crud_sensor.php?erro=1");
+    definir_flash("erro", "Não foi possível atualizar o sensor. Confira os dados.");
+    header("Location: crud_sensor.php");
     exit;
 }
 
@@ -36,10 +40,13 @@ try {
         $verificarTrem = $conexao->prepare("SELECT id FROM trens WHERE id = ?");
         $verificarTrem->bind_param("i", $tremId);
         $verificarTrem->execute();
+
         $tremExiste = $verificarTrem->get_result()->num_rows > 0;
         $verificarTrem->close();
+
         if (!$tremExiste) {
-            header("Location: crud_sensor.php?erro=1");
+            definir_flash("erro", "Trem selecionado inválido.");
+            header("Location: crud_sensor.php");
             exit;
         }
     }
@@ -49,16 +56,22 @@ try {
 
     if ($stmt->execute()) {
         $stmt->close();
-        echo "<script> alert('Sensor atualizado com sucesso!');  window.location.href = 'crud_sensor.php';  </script>";
-     exit; 
-     } else {
-    $stmt->close();
-        echo "<script> alert('Erro ao atualizar sensor!');  window.history.back();  </script>";
+
+        definir_flash("sucesso", "Sensor atualizado com sucesso.");
+        header("Location: crud_sensor.php");
+        exit;
+    } else {
+        $stmt->close();
+
+        definir_flash("erro", "Erro ao atualizar sensor.");
+        header("Location: crud_sensor.php");
         exit;
     }
 
 } catch (mysqli_sql_exception $erro) {
     error_log("Falha ao atualizar sensor: " . $erro->getMessage());
-    header("Location: crud_sensor.php?erro=1");
+
+    definir_flash("erro", "Erro ao atualizar sensor.");
+    header("Location: crud_sensor.php");
     exit;
 }
