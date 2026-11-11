@@ -63,7 +63,7 @@ $csrf = token_csrf();
                     <?= escapar($flash["mensagem"]) ?></p>
             <?php endif; ?>
 
-            <div class="planilha_dashboard">
+            <div class="btn-editar">
                 <div class="cabecalho-tabela">
                     <button type="button" onclick="abrirModalCadastro()">
                         <i class="bi bi-plus-circle-fill"></i>Cadastrar novo usuário</button>
