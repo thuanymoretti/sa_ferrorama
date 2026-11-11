@@ -2255,6 +2255,54 @@ body {
     }
 }
 
+<<<<<<< HEAD
+
+/* BOTÕES DA MODAL DE CADASTRO E EDIÇÃO */
+
+#modalCadastro .botoes-modal,
+#modalEdicao .botoes-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+#modalCadastro .botoes-modal button,
+#modalEdicao .botoes-modal button {
+    width: auto;
+    margin: 0;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 7px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+/* BOTÃO CANCELAR */
+
+#modalCadastro .btn-cancelar-modal,
+#modalEdicao .btn-cancelar-modal {
+    background-color: #881414;
+}
+
+#modalCadastro .btn-cancelar-modal:hover,
+#modalEdicao .btn-cancelar-modal:hover {
+    background-color: #A51F1F;
+}
+
+/* BOTÃO CADASTRAR E SALVAR */
+
+#modalCadastro .btn-salvar-modal,
+#modalEdicao .btn-salvar-modal {
+    background-color: #48884b;
+}
+
+#modalCadastro .btn-salvar-modal:hover,
+#modalEdicao .btn-salvar-modal:hover {
+    background-color: #1B5E20;
+}
+=======
 /* ========================================
    CLIMA E CONSULTA DE CEP
 ======================================== */
@@ -2349,3 +2397,4 @@ body {
         grid-template-columns: 1fr;
     }
 }
+>>>>>>> 3de251c8446d6927624b802f6d78711683cc8daa
