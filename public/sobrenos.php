@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../assets/style/style.css?v=20261109-sobrenos">
 </head>
 
-<body>
+<body class="pagina-sobrenos">
 
 <header>
     <div class="logo">FERRO<span>RAMA</span></div>
@@ -270,6 +270,7 @@
 </main>
 
 <footer>
+    
     © 2026 SA Ferrorama — Movendo cidades, conectando vidas.
     <br>
     Projeto desenvolvido pela equipe de Desenvolvimento de Sistemas.
