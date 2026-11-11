@@ -276,7 +276,6 @@ label {
 ======================================== */
 
 button {
-    display: block;
     width: 80%;
     margin: 20px auto;
     padding: 12px;
@@ -329,7 +328,7 @@ button:hover {
 }
 
 .btn-editar:hover {
-    background-color: var(--laranja-ferrugem);
+    background-color:#4EAEEC;
     color: var(--branco-creme);
 }
 
@@ -370,9 +369,14 @@ button:hover {
 
 .btn-voltar:hover,
 .btn-cancelar:hover {
-    background-color: var(--laranja-ferrugem-escuro);
+    background-color:#A51F1F;
     color: var(--branco-creme);
 }
+
+
+/* ========================================
+   8. TABELAS
+======================================== */
 
 
 /* ========================================
@@ -404,7 +408,7 @@ button:hover {
 
 .table th,
 .table td {
-    padding: 14px 12px;
+    padding: 10px 12px;
     border-bottom: 1px solid var(--cinza-trilho-escuro);
     background-color: var(--preto-fuligem);
     color: var(--branco-creme);
@@ -425,14 +429,9 @@ button:hover {
     border-bottom: none;
 }
 
-.table td:last-child,
-.table th:last-child {
+.table th:last-child,
+.table td:last-child {
     text-align: center;
-}
-
-.planilha_dashboard .table,
-.planilha_usuarios .table {
-    margin-bottom: 0;
 }
 
 .planilha_dashboard .table-responsive,
@@ -442,37 +441,41 @@ button:hover {
     border-radius: 10px;
 }
 
-.planilha_dashboard .table th,
-.planilha_dashboard .table td,
-.planilha_usuarios .table th,
-.planilha_usuarios .table td {
-    vertical-align: middle;
-}
-
 .planilha_dashboard .tabela-trens {
     min-width: 1100px;
 }
 
-.tabela-trens td {
+/* BOTÕES DE AÇÃO DOS USUÁRIOS */
+
+.planilha_usuarios .acoes {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.planilha_usuarios .acoes form {
+    display: inline-block;
+    margin: 0 0 0 6px;
     vertical-align: middle;
 }
 
-.acoes form {
-    display: inline-block;
-    margin: 0 0 0 6px;
-}
-
-.acoes form button {
+.planilha_usuarios .acoes a,
+.planilha_usuarios .acoes button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: auto;
     margin: 0;
+    padding: 7px 12px;
+    vertical-align: middle;
 }
+
+/* BOTÕES DO DASHBOARD */
 
 .planilha_dashboard button {
     width: auto;
     margin: 20px 0 0;
     padding: 10px 20px;
 }
-
 
 /* ========================================
    9. PESQUISA DE USUÁRIOS
@@ -513,11 +516,35 @@ button:hover {
 }
 
 .titulo_planilha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .titulo_planilha h1 {
+    margin: 0;
     text-align: left;
+}
+
+.titulo_planilha a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 0;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-color: var(--laranja-ferrugem);
+    color: var(--branco-creme);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.titulo_planilha a:hover {
+    background-color: var(--laranja-ferrugem-escuro);
 }
 
 
@@ -1622,4 +1649,160 @@ button:hover {
     .barra-pesquisa button {
         width: 100%;
     }
+}
+/* MODAL DE EDIÇÃO */
+
+#modalEdicao {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.65);
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 99999;
+}
+
+#modalEdicao[hidden] {
+    display: none;
+}
+
+#modalEdicao .conteudo-modal {
+    position: relative;
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: #2E3747;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+    color: #2E3747;
+    margin: auto;
+}
+/* BOTÕES DO MODAL DE EDIÇÃO */
+
+#modalEdicao .botoes-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+#modalEdicao .botoes-modal .btn-cancelar-modal {
+    background-color: #881414;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 20px;
+    cursor: pointer;
+}
+
+#modalEdicao .botoes-modal .btn-cancelar-modal:hover {
+    background-color: #A51F1F;
+}
+
+#modalEdicao .botoes-modal .btn-salvar-modal {
+    background-color: #48884b;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 20px;
+    cursor: pointer;
+}
+
+#modalEdicao .botoes-modal .btn-salvar-modal:hover {
+    background-color: #1B5E20;
+}
+
+/* Organização do botão e da pesquisa de usuários */
+.cabecalho-tabela {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.cabecalho-tabela .barra-pesquisa {
+    width: 280px;
+}
+
+.cabecalho-tabela .barra-pesquisa form {
+    margin: 0;
+}
+
+.cabecalho-tabela .barra-pesquisa input {
+    width: 100%;
+    box-sizing: border-box;
+}
+/* Alinhamento dos botões de ações */
+.acoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.acoes form {
+    margin: 0;
+}
+/* Diminuir espaçamento da tabela */
+.table th,
+.table td {
+    padding: 4px 6px;
+}
+/* Modal de cadastro e edição */
+#modalEdicao,
+#modalCadastro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+/* Esconder os modais quando estiverem fechados */
+#modalEdicao[hidden],
+#modalCadastro[hidden] {
+    display: none;
+}
+
+/* Conteúdo interno dos modais */
+#modalEdicao .conteudo-modal,
+#modalCadastro .conteudo-modal {
+    background-color: #2d3748;
+    width: 90%;
+    max-width: 550px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 25px;
+    border-radius: 12px;
+}
+/* Cores dos botões do modal */
+.planilha_dashboard .botoes-modal .btn-cancelar-modal {
+    background-color: #dc3545;
+    color: white;
+}
+
+.planilha_dashboard .botoes-modal .btn-salvar-modal {
+    background-color: #198754;
+    color: white;
+}
+
+/* Efeito ao passar o mouse */
+.planilha_dashboard .botoes-modal .btn-cancelar-modal:hover {
+    background-color: #bb2d3b;
+}
+
+.planilha_dashboard .botoes-modal .btn-salvar-modal:hover {
+    background-color: #157347;
 }

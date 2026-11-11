@@ -122,9 +122,7 @@ function e(string $texto): string
 
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="conteudo">
-
             <section class="formulario-usuario">
-
                 <h1>Cadastrar viagem</h1>
 
 
@@ -280,4 +278,3 @@ function e(string $texto): string
 </body>
 
 </html>
-```
