@@ -13,7 +13,6 @@
     --cinza-trilho-claro: #CDCDCD;
 
     --preto-fuligem: #0F172A;
-    --preto-fuligem-suave: #1A2233;
 
     --branco-creme: #F5F0E6;
     --branco-creme-suave: #FFECEC;
@@ -1673,6 +1672,7 @@ button:hover {
         width: 100%;
     }
 }
+
 /* MODAL DE EDIÇÃO */
 
 #modalEdicao {
@@ -1830,22 +1830,41 @@ button:hover {
     background-color: #157347;
 }
 
-body.pagina-sobrenos *
-{
+:root {
+    --laranja-ferrugem: #B87147;
+    --laranja-ferrugem-escuro: #8F5836;
+    --laranja-ferrugem-claro: #FFA263;
+
+    --cinza-trilho: #6E7580;
+    --cinza-trilho-escuro: #2E3747;
+    --cinza-trilho-claro: #CDCDCD;
+
+    --preto-fuligem: #0F172A;
+    --preto-fuligem-suave: #1A2233;
+
+    --branco-creme: #F5F0E6;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body.pagina-sobrenos
-{
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
     background: var(--preto-fuligem);
     color: var(--branco-creme);
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
 }
+
 /* CABEÇALHO */
-body.pagina-sobrenos header
-{
+
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1853,36 +1872,37 @@ body.pagina-sobrenos header
     background: var(--preto-fuligem);
     border-bottom: 1px solid rgba(255,255,255,.08);
 }
-body.pagina-sobrenos .logo
-{
+
+.logo {
     font-size: 23px;
     font-weight: bold;
     letter-spacing: 3px;
 }
-body.pagina-sobrenos .logo span
-{
+
+.logo span {
     color: var(--laranja-ferrugem-claro);
 }
-body.pagina-sobrenos nav
-{
+
+nav {
     display: flex;
     align-items: center;
     gap: 30px;
 }
-body.pagina-sobrenos nav a
-{
+
+nav a {
     color: var(--branco-creme);
     text-decoration: none;
     font-size: 14px;
     transition: .3s;
 }
-body.pagina-sobrenos nav a:hover
-{
+
+nav a:hover {
     color: var(--laranja-ferrugem-claro);
 }
+
 /* BOTÕES */
-body.pagina-sobrenos .botao
-{
+
+.botao {
     display: inline-block;
     background: var(--laranja-ferrugem);
     color: var(--branco-creme);
@@ -1892,84 +1912,103 @@ body.pagina-sobrenos .botao
     font-weight: bold;
     transition: .3s;
 }
-body.pagina-sobrenos .botao:hover
-{
+
+.botao:hover {
     background: var(--laranja-ferrugem-escuro);
     color: white;
 }
-body.pagina-sobrenos .subtitulo
-{
+
+/* APRESENTAÇÃO */
+
+.hero {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    padding: 80px 10%;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(15,23,42,.96),
+            rgba(15,23,42,.68)
+        ),
+        url('../images/ferrovia.jpg') center/cover;
+}
+
+.hero-conteudo {
+    max-width: 700px;
+}
+
+.subtitulo {
     color: var(--laranja-ferrugem-claro);
     font-size: 13px;
     font-weight: bold;
     letter-spacing: 3px;
     text-transform: uppercase;
 }
-body.pagina-sobrenos .hero h1
-{
+
+.hero h1 {
     font-size: clamp(38px, 5vw, 62px);
     line-height: 1.12;
     margin: 20px 0;
 }
-body.pagina-sobrenos .hero h1 span, body.pagina-sobrenos .titulo-secao span
-{
+
+.hero h1 span,
+.titulo-secao span {
     color: var(--laranja-ferrugem-claro);
 }
-body.pagina-sobrenos .hero p
-{
+
+.hero p {
     color: var(--cinza-trilho-claro);
     font-size: 17px;
     max-width: 570px;
 }
+
 /* SEÇÕES */
-body.pagina-sobrenos section
-{
-    padding: 85px 10%;
-}
-body.pagina-sobrenos .titulo-secao
-{
+
+.titulo-secao {
     font-size: 32px;
     margin-bottom: 18px;
 }
-body.pagina-sobrenos .descricao
-{
+
+.descricao {
     color: #B9C0CC;
     max-width: 750px;
     font-size: 16px;
 }
+
 /* SOBRE NÓS */
-body.pagina-sobrenos .sobre
-{
+
+.sobre {
     background: var(--preto-fuligem-suave);
 }
-body.pagina-sobrenos .sobre-conteudo
-{
+
+.sobre-conteudo {
     display: grid;
     grid-template-columns: 1.2fr .8fr;
     gap: 60px;
     align-items: center;
 }
-body.pagina-sobrenos .destaque
-{
+
+.destaque {
     background: var(--cinza-trilho-escuro);
     border-left: 4px solid var(--laranja-ferrugem);
     padding: 30px;
     border-radius: 8px;
 }
-body.pagina-sobrenos .destaque h3
-{
+
+.destaque h3 {
     color: var(--laranja-ferrugem-claro);
     margin-bottom: 12px;
 }
-body.pagina-sobrenos .funcionalidades
-{
+.funcionalidades {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 22px;
     margin-top: 40px;
 }
-body.pagina-sobrenos .card
-{
+
+.card {
     background: var(--preto-fuligem-suave);
     border: 1px solid rgba(255,255,255,.08);
     border-radius: 10px;
@@ -1977,64 +2016,63 @@ body.pagina-sobrenos .card
     min-height: 165px;
     transition: .3s;
 }
-body.pagina-sobrenos .card:hover
-{
+
+.card:hover {
     transform: translateY(-5px);
     border-color: var(--laranja-ferrugem);
     background: var(--cinza-trilho-escuro);
 }
-body.pagina-sobrenos .card h3
-{
+
+.card h3 {
     color: var(--branco-creme);
     font-size: 18px;
     margin-bottom: 12px;
 }
-body.pagina-sobrenos .card p
-{
+
+.card p {
     color: #AEB7C5;
     font-size: 14px;
     line-height: 1.7;
 }
-body.pagina-sobrenos .card-conteudo
-{
+
+.card-conteudo {
     height: 100%;
 }
 
 
 
 @media (max-width: 850px) {
-    body.pagina-sobrenos .funcionalidades
-{
+    .funcionalidades {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 550px) {
-    body.pagina-sobrenos .funcionalidades
-{
+    .funcionalidades {
         grid-template-columns: 1fr;
     }
 }
 /* EQUIPE */
-body.pagina-sobrenos .equipe
-{
+
+.equipe {
     background: var(--preto-fuligem-suave);
     text-align: center;
 }
-body.pagina-sobrenos .equipe-descricao
-{
+
+.equipe-descricao {
     margin: auto;
 }
-body.pagina-sobrenos .equipe-lista
-{
+
+.equipe-lista {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 18px;
     margin-top: 40px;
 }
+
 /* FOTOS DA EQUIPE */
-body.pagina-sobrenos .foto-integrante
-{
+
+.foto-integrante {
     width: 110px;
     height: 110px;
     object-fit: cover;
@@ -2044,13 +2082,13 @@ body.pagina-sobrenos .foto-integrante
     display: block;
     transition: .3s ease;
 }
-body.pagina-sobrenos .integrante:hover .foto-integrante
-{
+
+.integrante:hover .foto-integrante {
     transform: scale(1.06);
     border-color: var(--laranja-ferrugem-claro);
 }
-body.pagina-sobrenos .integrante
-{
+
+.integrante {
     text-align: center;
     background: var(--cinza-trilho-escuro);
     padding: 30px 18px;
@@ -2058,48 +2096,52 @@ body.pagina-sobrenos .integrante
     border-bottom: 3px solid var(--laranja-ferrugem);
     transition: .3s ease;
 }
-body.pagina-sobrenos .integrante:hover
-{
+
+.integrante:hover {
     transform: translateY(-5px);
 }
-body.pagina-sobrenos .integrante h3
-{
+
+
+.integrante h3 {
     font-size: 15px;
 }
-body.pagina-sobrenos .integrante p
-{
+
+.integrante p {
     color: #AEB7C5;
     font-size: 13px;
     margin-top: 5px;
 }
+
 /* CHAMADA FINAL */
-body.pagina-sobrenos .final
-{
+
+.final {
     text-align: center;
     padding: 75px 10%;
 }
-body.pagina-sobrenos .final h2
-{
+
+.final h2 {
     font-size: 32px;
     margin: 15px 0;
 }
-body.pagina-sobrenos .final p
-{
+
+.final p {
     color: #B9C0CC;
     margin-bottom: 25px;
 }
+
 /* RODAPÉ */
-body.pagina-sobrenos footer
-{
+
+footer {
     text-align: center;
     padding: 25px;
     background: #0B1220;
     color: #8993A3;
     font-size: 13px;
 }
+
 /* FUNCIONALIDADES - LARGURA TOTAL DA TELA */
-body.pagina-sobrenos .funcionalidades-section
-{
+
+.funcionalidades-section {
     position: relative;
 
     width: 100vw;
@@ -2116,55 +2158,60 @@ body.pagina-sobrenos .funcionalidades-section
     border-radius: 0;
     box-shadow: none;
 }
+
 /* CONTEÚDO CENTRALIZADO */
-body.pagina-sobrenos .funcionalidades-cabecalho, body.pagina-sobrenos .funcionalidades
-{
+
+.funcionalidades-cabecalho,
+.funcionalidades {
     width: 100%;
     max-width: 100%;
 }
+
 /* CARDS */
-body.pagina-sobrenos .funcionalidades
-{
+
+.funcionalidades {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 25px;
 }
-body.pagina-sobrenos .card
-{
+
+.card {
     background: #1A2233;
     border: 1px solid rgba(205, 205, 205, 0.12);
     border-radius: 12px;
     padding: 32px;
     min-height: 175px;
 }
+
 /* FUNDO DA PÁGINA */
-body.pagina-sobrenos, body.pagina-sobrenos
-{
+
+html,
+body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
 
 @media (max-width: 850px) {
-    body.pagina-sobrenos .funcionalidades
-{
+    .funcionalidades {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 550px) {
-    body.pagina-sobrenos .funcionalidades-section
-{
+    .funcionalidades-section {
         padding: 70px 7%;
     }
-body.pagina-sobrenos .funcionalidades
-{
+
+    .funcionalidades {
         grid-template-columns: 1fr;
     }
 }
+
+
 /* APRESENTAÇÃO COM IMAGEM */
-body.pagina-sobrenos .hero
-{
+
+.hero {
     min-height: 520px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -2173,16 +2220,16 @@ body.pagina-sobrenos .hero
     padding: 80px 8%;
     background: var(--preto-fuligem);
 }
-body.pagina-sobrenos .hero-conteudo
-{
+
+.hero-conteudo {
     max-width: 600px;
 }
-body.pagina-sobrenos .hero-imagem
-{
+
+.hero-imagem {
     position: relative;
 }
-body.pagina-sobrenos .hero-imagem img
-{
+
+.hero-imagem img {
     width: 100%;
     height: 380px;
     object-fit: cover;
@@ -2192,17 +2239,17 @@ body.pagina-sobrenos .hero-imagem img
 }
 
 @media (max-width: 850px) {
-    body.pagina-sobrenos .hero
-{
+    .hero {
         grid-template-columns: 1fr;
         gap: 35px;
     }
-body.pagina-sobrenos .hero-imagem img
-{
+
+    .hero-imagem img {
         height: 280px;
     }
 }
 
+<<<<<<< HEAD
 
 /* BOTÕES DA MODAL DE CADASTRO E EDIÇÃO */
 
@@ -2249,3 +2296,99 @@ body.pagina-sobrenos .hero-imagem img
 #modalEdicao .btn-salvar-modal:hover {
     background-color: #1B5E20;
 }
+=======
+/* ========================================
+   CLIMA E CONSULTA DE CEP
+======================================== */
+
+.conteudo .dashboard-recursos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+    margin-bottom: 24px;
+    align-items: stretch;
+}
+
+.conteudo .dashboard-recursos .dashboard-clima {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+    box-sizing: border-box;
+}
+
+.dashboard-cep {
+    width: 100%;
+    min-width: 0;
+    padding: 22px 24px;
+    border: 1px solid var(--cinza-trilho);
+    border-radius: 12px;
+    background: linear-gradient(125deg, var(--cinza-trilho-escuro), #1b2b40);
+    box-sizing: border-box;
+}
+
+.dashboard-cep h2 {
+    margin: 0;
+    color: var(--branco-creme);
+    font-size: 21px;
+}
+
+.dashboard-cep-descricao {
+    margin: 5px 0 18px;
+    color: var(--cinza-trilho-claro);
+    font-size: 13px;
+}
+
+.dashboard-cep label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--branco-creme);
+}
+
+.dashboard-cep-campo {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.dashboard-cep-campo input {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    height: 43px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.dashboard-cep-campo button {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0;
+    padding: 10px 16px;
+    white-space: nowrap;
+}
+
+.resultado-cep {
+    min-height: 55px;
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--branco-creme);
+    font-size: 13px;
+}
+
+.resultado-cep p {
+    margin: 4px 0;
+    color: var(--cinza-trilho-claro);
+}
+
+.resultado-cep strong {
+    color: var(--branco-creme);
+}
+
+@media (max-width: 950px) {
+    .conteudo .dashboard-recursos {
+        grid-template-columns: 1fr;
+    }
+}
+>>>>>>> 3de251c8446d6927624b802f6d78711683cc8daa

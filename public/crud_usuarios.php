@@ -107,7 +107,7 @@ $csrf = token_csrf();
                                     <td><?= escapar($usuario["tipo_usuario"]) ?></td>
                                     <td class="acoes">
 
-                                        <button type="button" class="btn btn-sm btn-warning" onclick="abrirModalEdicao(this)" data-id="<?= (int) $usuario["id"] ?>" data-nome="<?= escapar($usuario["nome"]) ?>" data-email="<?= escapar($usuario["email"]) ?>" data-telefone="<?= escapar($usuario["telefone"] ?? "") ?>" data-perfil="<?= escapar($usuario["tipo_usuario"]) ?>">
+                                        <button type="button" class="btn-editar" onclick="abrirModalEdicao(this)" data-id="<?= (int) $usuario["id"] ?>" data-nome="<?= escapar($usuario["nome"]) ?>" data-email="<?= escapar($usuario["email"]) ?>" data-telefone="<?= escapar($usuario["telefone"] ?? "") ?>" data-perfil="<?= escapar($usuario["tipo_usuario"]) ?>">
                                             <i class="bi bi-pencil-fill">Editar</i> 
                                         </button>
 
