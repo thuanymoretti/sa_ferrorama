@@ -188,31 +188,66 @@
 
     <div class="equipe-lista">
 
-        <div class="integrante">
-            <img src="../assets/arthur.png" alt="Arthur Roberto Gomes" class="foto-integrante">
+        <a href="https://github.com/arthurrgomess"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="integrante">
+
+            <img src="../assets/arthur.png"
+                 alt="Arthur Roberto Gomes"
+                 class="foto-integrante">
+
             <h3>Arthur Roberto Gomes</h3>
             <p>Desenvolvedor</p>
-        </div>
 
-        <div class="integrante">
-            <img src="../assets/julia.png" alt="Julia Tsushima Muller" class="foto-integrante">
+        </a>
+
+        <a href="https://github.com/juliatmuller"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="integrante">
+
+            <img src="../assets/julia.png"
+                 alt="Julia Tsushima Muller"
+                 class="foto-integrante">
+
             <h3>Julia Tsushima Muller</h3>
             <p>Desenvolvedora</p>
-        </div>
 
-        <div class="integrante">
-            <img src="../assets/kamily.png" alt="Kamily Gabrieli da Rosa" class="foto-integrante">
+        </a>
+
+        <a href="https://github.com/kamigdr"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="integrante">
+
+            <img src="../assets/kamily.png"
+                 alt="Kamily Gabrieli da Rosa"
+                 class="foto-integrante">
+
             <h3>Kamily Gabrieli da Rosa</h3>
             <p>Desenvolvedora</p>
-        </div>
 
-        <div class="integrante">
-            <img src="../assets/thuany.png" alt="Thuany Moretti" class="foto-integrante">
+        </a>
+
+        <a href="https://github.com/thuanymoretti"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="integrante">
+
+            <img src="../assets/thuany.png"
+                 alt="Thuany Moretti"
+                 class="foto-integrante">
+
             <h3>Thuany Moretti</h3>
             <p>Desenvolvedora</p>
-        </div>
+
+        </a>
 
     </div>
+
+</section>
+
 
 </section>
 
