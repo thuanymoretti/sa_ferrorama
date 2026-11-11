@@ -350,24 +350,30 @@ if (
 
     <title>Trens cadastrados | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-modal-trens-centro">
 
     <style>
         /* Fundo escurecido do modal */
         .modal-trens {
-            width: 90%;
-            max-width: 500px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            box-sizing: border-box;
+            width: min(550px, calc(100vw - 40px));
+            max-width: 550px;
             max-height: 90vh;
             padding: 0;
             border: none;
             border-radius: 12px;
-            background: #2d394d;
-            color: white;
+            background: #2E3747;
+            color: #F5F0E6;
             overflow-y: auto;
         }
 
         .modal-trens::backdrop {
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.65);
         }
 
         .modal-trens-conteudo {
@@ -376,7 +382,7 @@ if (
 
         .modal-trens h2 {
             margin: 0 0 15px;
-            color: white;
+            color: #F5F0E6;
             font-size: 22px;
         }
 
@@ -387,7 +393,7 @@ if (
         .modal-trens label {
             display: block;
             margin-bottom: 5px;
-            color: white;
+            color: #F5F0E6;
             font-weight: 600;
         }
 
@@ -398,8 +404,8 @@ if (
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 7px;
-            background: #f5f0e7;
-            color: #263246;
+            background: #F5F0E6;
+            color: #0F172A;
         }
 
         .modal-trens .lista-sensores-vinculados {
@@ -431,7 +437,12 @@ if (
         }
 
         .modal-trens .opcao-sensor-vinculado input {
-            margin-top: 3px;
+            flex: 0 0 auto;
+            width: 16px;
+            height: 16px;
+            margin: 3px 0 0;
+            padding: 0;
+            accent-color: #B87147;
         }
 
         .modal-trens-acoes {
@@ -450,11 +461,11 @@ if (
         }
 
         .modal-trens .btn-cancelar-modal {
-            background: #a51d1d;
+            background: #A51F1F;
         }
 
         .modal-trens .btn-salvar-modal {
-            background: #438b50;
+            background: #438B50;
         }
 
         .modal-trens .mensagem-erro {
@@ -467,7 +478,7 @@ if (
 
         @media (max-width: 600px) {
             .modal-trens {
-                width: 95%;
+                width: calc(100vw - 30px);
             }
 
             .modal-trens-conteudo {

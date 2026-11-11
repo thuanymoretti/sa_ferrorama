@@ -1784,37 +1784,88 @@ button:hover {
 .table td {
     padding: 4px 6px;
 }
-/* Modal de cadastro e edição */
-#modalEdicao,
-#modalCadastro {
+/* Modal de cadastro e edição: padrão compartilhado entre os módulos */
+.modal-edicao {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.65);
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
     z-index: 99999;
 }
 
-/* Esconder os modais quando estiverem fechados */
-#modalEdicao[hidden],
-#modalCadastro[hidden] {
+.modal-edicao[hidden] {
     display: none;
 }
 
-/* Conteúdo interno dos modais */
-#modalEdicao .conteudo-modal,
-#modalCadastro .conteudo-modal {
-    background-color: #2d3748;
-    width: 90%;
+.modal-edicao .conteudo-modal {
+    position: relative;
+    background-color: #2E3747;
+    color: var(--branco-creme);
+    width: min(100%, 550px);
     max-width: 550px;
     max-height: 90vh;
     overflow-y: auto;
     padding: 25px;
     border-radius: 12px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+}
+
+.modal-edicao .cabecalho-modal h2 {
+    margin: 0 0 20px;
+    color: var(--branco-creme);
+    text-align: left;
+}
+
+.modal-edicao .campo-modal {
+    margin-bottom: 15px;
+}
+
+.modal-edicao .campo-modal label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--branco-creme);
+    font-weight: 600;
+}
+
+.modal-edicao .campo-modal input,
+.modal-edicao .campo-modal select,
+.modal-edicao .campo-modal textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    padding: 10px 12px;
+    border: 1px solid #9AA3B2;
+    border-radius: 7px;
+    background: var(--branco-creme);
+    color: var(--preto-fuligem);
+}
+
+.modal-edicao .botoes-modal {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.modal-edicao .botoes-modal button {
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.modal-edicao .botoes-modal .btn-cancelar-modal {
+    background-color: #A51F1F;
+}
+
+.modal-edicao .botoes-modal .btn-salvar-modal {
+    background-color: #438B50;
 }
 /* Cores dos botões do modal */
 .planilha_dashboard .botoes-modal .btn-cancelar-modal {
@@ -1987,6 +2038,7 @@ nav a:hover {
 
 .sobre {
     background: var(--preto-fuligem-suave);
+    padding: 80px 8%;
 }
 
 .sobre-conteudo {
@@ -2206,6 +2258,10 @@ body {
 
 @media (max-width: 550px) {
     .funcionalidades-section {
+        padding: 70px 7%;
+    }
+
+    .sobre {
         padding: 70px 7%;
     }
 

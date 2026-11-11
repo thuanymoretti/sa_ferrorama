@@ -39,7 +39,7 @@ $trens = $conexao->query("
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sensores cadastrados</title>
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-modal-uniforme">
 </head>
 <body>
     <header class="cabecalho">
