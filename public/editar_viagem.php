@@ -196,7 +196,7 @@ $csrf = token_csrf();
 
     <title>Editar viagem | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261104-editar-viagem">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
 
 </head>
 

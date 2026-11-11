@@ -58,7 +58,7 @@ if (
 
     <title>Trens cadastrados | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
 </head>
 
 <body>
