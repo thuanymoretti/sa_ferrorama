@@ -97,6 +97,12 @@ $csrf = token_csrf();
 
                 <button type="submit">Entrar no painel</button>
                 <p class="login-rodape">Sistema de gestão ferroviária</p>
+
+                <a href="sobrenos.php" class="link-sobre">
+    Conheça nosso projeto
+    <span>→</span>
+</a>
+
             </form>
         </section>
     </main>
