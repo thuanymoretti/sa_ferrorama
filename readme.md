@@ -231,11 +231,9 @@ https://canva.link/sar0cfaojf8rln7
 
 ## Status do projeto
 
-**Em desenvolvimento.**
+**Finalizado.**
 
-O Ferrorama encontra-se em processo de desenvolvimento e aperfeiçoamento. Durante essa etapa, são realizadas implementações de funcionalidades, ajustes na interface, correções de erros e melhorias na organização do código.
-
-Novas funcionalidades poderão ser adicionadas conforme o andamento do projeto e as necessidades identificadas durante os testes.
+Encerramos o processo de desenvolvimento do site.
 
 ## Objetivo acadêmico
 

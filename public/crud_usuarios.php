@@ -33,7 +33,7 @@ $csrf = token_csrf();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuário | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
+    <link rel="stylesheet" href="../assets/style/style.css">
 </head>
 
 <body>
@@ -44,11 +44,11 @@ $csrf = token_csrf();
 
     <div class="layout">
         <aside class="menu-lateral">
-            <a href="home.php" class="item"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i> Dashboard</a>
-            <a href="crud_sensor.php" class="item"><i class="bi bi-cpu-fill" aria-hidden="true"></i> Sensores</a>
-            <a href="crud_trens.php" class="item"><i class="bi bi-train-front-fill" aria-hidden="true"></i> Trens</a>
-            <a href="crud_usuarios.php" class="item ativo"><i class="bi bi-people-fill" aria-hidden="true"></i> Usuários</a>
-            <a href="crud_viagens.php" class="item"><i class="bi bi-calendar-check-fill" aria-hidden="true"></i> Viagens</a>
+            <a href="home.php" class="item">Dashboard</a>
+            <a href="crud_sensor.php" class="item">Sensores</a>
+            <a href="crud_trens.php" class="item">Trens</a>
+            <a href="crud_usuarios.php" class="item ativo">Usuários</a>
+            <a href="crud_viagens.php" class="item">Viagens</a>
         </aside>
 
         <main class="conteudo">
@@ -63,7 +63,7 @@ $csrf = token_csrf();
                     <?= escapar($flash["mensagem"]) ?></p>
             <?php endif; ?>
 
-            <div class="btn-editar">
+            <div class="planilha_dashboard">
                 <div class="cabecalho-tabela">
                     <button type="button" onclick="abrirModalCadastro()">
                         <i class="bi bi-plus-circle-fill"></i>Cadastrar novo usuário</button>
