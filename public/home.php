@@ -74,10 +74,10 @@ function e($texto) {
         Olá, <?= escapar($_SESSION["usuario"]["nome"]) ?>
     </h2>
 
-    <form method="post" action="logout.php">
-        <input type="hidden" name="token_csrf" value="<?= escapar(token_csrf()) ?>">
-        <button type="submit" class="item">Sair</button>
-    </form>
+    <form method="post" action="logout.php" onsubmit="return confirm('Tem certeza de que deseja sair do sistema?');">
+    <input type="hidden" name="token_csrf" value="<?= escapar(token_csrf()) ?>">
+    <button type="submit" class="item">Sair</button>
+</form>
 
 </header>
 
