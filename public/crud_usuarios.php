@@ -33,7 +33,7 @@ $csrf = token_csrf();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuário | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-usuarios">
 </head>
 
 <body>
@@ -44,11 +44,21 @@ $csrf = token_csrf();
 
     <div class="layout">
         <aside class="menu-lateral">
-            <a href="home.php" class="item">Dashboard</a>
-            <a href="crud_sensor.php" class="item">Sensores</a>
-            <a href="crud_trens.php" class="item">Trens</a>
-            <a href="crud_usuarios.php" class="item ativo">Usuários</a>
-            <a href="crud_viagens.php" class="item">Viagens</a>
+            <a href="home.php" class="item">
+                <i class="bi bi-grid-1x2-fill"></i> Dashboard
+            </a>
+            <a href="crud_sensor.php" class="item">
+                <i class="bi bi-cpu-fill"></i> Sensores
+            </a>
+            <a href="crud_trens.php" class="item">
+                <i class="bi bi-train-front-fill"></i> Trens
+            </a>
+            <a href="crud_usuarios.php" class="item ativo">
+                <i class="bi bi-people-fill"></i> Usuários
+            </a>
+            <a href="crud_viagens.php" class="item">
+                <i class="bi bi-calendar-check-fill"></i> Viagens
+            </a>
         </aside>
 
         <main class="conteudo">
