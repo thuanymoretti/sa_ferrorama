@@ -20,6 +20,23 @@
     --perigo: #C62828;
 }
 
+/* Diminuir a altura das linhas da tabela de sensores */
+.planilha_dashboard .table tbody td {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+/* Ajustes da tabela de cadastrar e titulo */
+
+.cabecalho-tabela {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+     
+}
+
 /* Uma única fonte para todo o sistema */
 
 *,
@@ -36,13 +53,7 @@ body {
     color: var(--branco-creme);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
+h1,h2,h3,h4,h5,h6,p {
     color: var(--branco-creme);
 }
 
@@ -346,6 +357,7 @@ button:hover {
     height: 45px;
     margin: 0;
     font-weight: bold;
+    
 }
 
 .btn-voltar,

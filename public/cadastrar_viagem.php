@@ -280,4 +280,3 @@ function e(string $texto): string
 </body>
 
 </html>
-```

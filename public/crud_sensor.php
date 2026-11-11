@@ -14,7 +14,18 @@ $stmt = $conexao->query("
 ");
 $ehAdministrador = $_SESSION["usuario"]["tipo_usuario"] === "Administrador";
 $csrf = token_csrf();
+$mensagem = "";
+$erro = "";
 
+$flash = obter_flash();
+
+if ($flash) {
+    if ($flash["tipo"] === "sucesso") {
+        $mensagem = $flash["mensagem"];
+    } else {
+        $erro = $flash["mensagem"];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -65,24 +76,38 @@ $csrf = token_csrf();
                     <h1 > Vizualização de Sensores  </h1>              
                 </div>
             </div>
+<!-- MENSAGENS -->
+<?php if ($mensagem !== ""): ?>
 
-     <?php if ($ehAdministrador): ?>
-    <a href="cadastrar_sensor.php">
-        <button type="button">
-            <i class="bi bi-plus-circle-fill"></i>
-            Cadastrar novo sensor
-        </button>
-    </a>
+    <p class="mensagem-sucesso" role="status">
+        <?= escapar($mensagem) ?>
+    </p>
+
 <?php endif; ?>
 
+
+<?php if ($erro !== ""): ?>
+
+    <p class="mensagem-erro" role="alert">
+        <?= escapar($erro) ?>
+    </p>
+
+<?php endif; ?>
+
+
 <div class="planilha_dashboard">
-    <h2 class="titulo-tabela">
-        <i class="bi bi-list-ul"></i>
-        Sensores cadastrados
-    </h2>
+
+    <div class="cabecalho-tabela">
+
+        <h2 class="titulo-tabela"> <i class="bi bi-list-ul"></i>  Sensores cadastrados  </h2>
+
+       <a href="cadastrar_sensor.php">  <button type="button"> <i class="bi bi-plus-circle-fill"></i>   Cadastrar novo sensor  </button> </a>
+    </div>
+
 
     <table class="table table-borderless">
          
+    
 
  <thead>
  <tr>
