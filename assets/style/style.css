@@ -2343,3 +2343,6 @@ body {
         grid-template-columns: 1fr;
     }
 }
+.conteudo h1 {
+    text-align: left;
+}
