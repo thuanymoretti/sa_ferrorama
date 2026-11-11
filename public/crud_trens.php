@@ -104,9 +104,7 @@ if (
 
             <?php if ($ehAdministrador): ?>
 
-                <a href="cadastrar_trens.php">
-                    <button type="button">Cadastrar novo trem</button>
-                </a>
+              
 
             <?php endif; ?>
             
@@ -119,10 +117,13 @@ if (
                 <?php endif; ?>
                 
                 <div class="planilha_dashboard">
-                 <h2>
-                    <i class="bi bi-list-ul"></i>
-                    Trens cadastrados
-                </h2>
+
+
+    <div class="cabecalho-tabela">
+        <h2 class="titulo-tabela"> <i class="bi bi-list-ul"></i>  Trens cadastrados  </h2>
+       <a href="cadastrar_trens.php">  <button type="button"> <i class="bi bi-plus-circle-fill">
+       </i>   Cadastrar novo trem  </button> </a>
+    </div>
                 
                     
                     <table class="table table-borderless tabela-trens">

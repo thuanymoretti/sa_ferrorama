@@ -25,16 +25,14 @@ $csrf = token_csrf();
 <main class="container-sensor">
 
 <?php if (isset($_GET["sucesso"])) { ?>
+    <p class="mensagem-sucesso">Sensor cadastrado com sucesso!</p>
+<?php } ?>
 
-    <h2 class="titulo-sensor">  Sensor cadastrado com sucesso! </h2>
-
-    <a href="crud_sensor.php">
-        <button type="button">Voltar para o início</button>
-    </a>
-
-<?php } else { ?>
-
-    <?php if (isset($_GET["erro"])) { ?><p role="alert">Não foi possível cadastrar o sensor. Confira os dados e tente novamente.</p><?php } ?>
+<?php if (isset($_GET["erro"])) { ?>
+    <p class="mensagem-erro" role="alert">
+        Não foi possível cadastrar o sensor. Confira os dados e tente novamente.
+    </p>
+<?php } ?>
 
     <h1 class="titulo-sensor">  Cadastre um novo Sensor  </h1>
 
@@ -103,7 +101,7 @@ $csrf = token_csrf();
  <a href="crud_sensor.php"> <button type="button"> Voltar para os sensores </button>  </a>
 
 
-<?php } ?>
+<?php ?>
 
 </main>
 
