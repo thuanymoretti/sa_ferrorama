@@ -76,7 +76,7 @@ $csrf = token_csrf();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar usuário | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261026-seguranca-usuarios">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
 </head>
 <body>
     <header class="cabecalho">

@@ -104,7 +104,7 @@ function e(string $texto): string
 
     <title>Cadastro de viagem | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261104-cadastro-viagem">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
 
 </head>
 

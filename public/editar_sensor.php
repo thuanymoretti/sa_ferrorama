@@ -25,7 +25,7 @@ $tipos = ["Temperatura", "Umidade", "Pressao", "Velocidade"];
 ?>
 <!doctype html>
 <html lang="pt-BR">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Editar sensor | Ferrorama</title><link rel="stylesheet" href="../assets/style/style.css"></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Editar sensor | Ferrorama</title><link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme"></head>
 <body class="pagina-cadastro">
     <header class="cabecalho"><h2>Editar sensor</h2><a href="crud_sensor.php" class="item">Voltar aos sensores</a></header>
     <main class="conteudo cadastro-conteudo"><section class="cadastro">

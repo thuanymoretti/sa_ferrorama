@@ -42,7 +42,7 @@ $csrf = token_csrf();
 <head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cadastro de usuário | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261026-cadastro-usuario">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
 </head>
 <body>
     <header class="cabecalho">

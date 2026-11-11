@@ -150,7 +150,7 @@ function e(string $texto): string
 
     <title>Viagens | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
 
 </head>
 

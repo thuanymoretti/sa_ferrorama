@@ -242,7 +242,7 @@ $csrf = token_csrf();
 
     <title>Editar trem | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261103">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
 </head>
 
 <body class="pagina-editar-trens">
