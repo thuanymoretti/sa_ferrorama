@@ -37,6 +37,7 @@
      
 }
 
+
 /* Uma única fonte para todo o sistema */
 
 *,
@@ -533,6 +534,7 @@ button:hover {
 }
 
 
+
 /* ========================================
    10. MENSAGENS
 ======================================== */
@@ -556,6 +558,14 @@ button:hover {
 .alert-success {
     background-color: rgba(87, 182, 95, 0.15);
     color: #A8E6AD;
+    animation: sumirMensagem 0.5s ease 5s forwards;
+}
+
+@keyframes sumirMensagem {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 
