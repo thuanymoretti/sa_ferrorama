@@ -66,7 +66,7 @@ $csrf = token_csrf();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Entrar | Ferrorama</title>
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261109-login">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
 </head>
 <body class="pagina-login">
     <main class="login-layout">
