@@ -2038,7 +2038,7 @@ nav a:hover {
 
 .sobre {
     background: var(--preto-fuligem-suave);
-    padding: 80px 8%;
+    padding: 80px 12%;
 }
 
 .sobre-conteudo {
@@ -2262,7 +2262,7 @@ body {
     }
 
     .sobre {
-        padding: 70px 7%;
+        padding: 70px 8%;
     }
 
     .funcionalidades {
@@ -2285,6 +2285,11 @@ body {
 
 .hero-conteudo {
     max-width: 600px;
+    text-align: left;
+}
+
+.hero-conteudo h1 {
+    text-align: left;
 }
 
 .hero-imagem {

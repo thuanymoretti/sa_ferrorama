@@ -100,7 +100,6 @@ $csrf = token_csrf();
 
                 <a href="sobrenos.php" class="link-sobre">
     Conheça nosso projeto
-    <span>→</span>
 </a>
 
             </form>

@@ -7,7 +7,7 @@
 
     <title>Sobre Nós | Ferrorama</title>
 
-    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-menu-uniforme">
+    <link rel="stylesheet" href="../assets/style/style.css?v=20261111-sobre-margens">
 </head>
 
 <body class="pagina-sobrenos">
@@ -90,7 +90,8 @@
             </div>
 
         </div>
-  
+    </section>
+
 <section class="funcionalidades-section" id="funcionalidades">
 
     <div class="funcionalidades-cabecalho">
