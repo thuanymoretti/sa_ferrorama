@@ -83,7 +83,7 @@ function e($texto) {
         </script>
     <?php endif; ?>
 
-    <!-- CABEÇALHO -->
+     //CABEÇALHO 
     <header class="cabecalho">
 
         <h2>
@@ -104,7 +104,7 @@ function e($texto) {
 
     <div class="layout">
 
-        <!-- MENU LATERAL -->
+       //MENU LATERAL
         <aside class="menu-lateral">
 
             <a href="home.php" class="item ativo">
@@ -131,10 +131,10 @@ function e($texto) {
 
         </aside>
 
-        <!-- CONTEÚDO PRINCIPAL -->
+       //CONTEÚDO PRINCIPAL 
         <main class="conteudo">
 
-            <!-- APRESENTAÇÃO -->
+      //APRESENTAÇÃO
             <section class="dashboard-apresentacao">
 
                 <div>
@@ -164,14 +164,14 @@ function e($texto) {
                     <span class="dashboard-ponto"></span>
 
                     <span id="ultima-atualizacao" aria-live="off">
-                        --:--:--
                     </span>
 
                 </div>
 
             </section>
 
-            <!-- RESUMO DE USUÁRIOS -->
+//RESUMO DE USUÁRIOS
+
             <?php if ($ehAdministrador): ?>
 
                 <section class="dashboard-usuarios">
@@ -228,7 +228,7 @@ function e($texto) {
 
             <?php endif; ?>
 
-            <!-- CARDS DE INFORMAÇÕES -->
+            //CARDS DE INFORMAÇÕES
             <section class="dashboard-cards">
 
                 <article class="dashboard-card dashboard-card-sensores">
@@ -287,10 +287,10 @@ function e($texto) {
 
             </section>
 
-            <!-- CLIMA E CONSULTA DE CEP -->
+         // CLIMA E CONSULTA DE CEP 
             <div class="dashboard-recursos">
 
-                <!-- CARD DO CLIMA -->
+           //CARD DO CLIMA 
                 <section class="dashboard-clima" aria-labelledby="clima-titulo">
 
                     <div class="dashboard-clima-cabecalho">
@@ -366,7 +366,7 @@ function e($texto) {
 
                 </section>
 
-                <!-- CARD DA CONSULTA DE CEP -->
+                //CARD DA CONSULTA DE CEP
                 <section class="dashboard-cep">
 
                     <div>
@@ -419,7 +419,7 @@ function e($texto) {
 
             </div>
 
-            <!-- TABELA DE SENSORES -->
+           // TABELA DE SENSORES
             <section class="planilha_dashboard">
 
                 <div class="dashboard-tabela-cabecalho">
@@ -508,7 +508,7 @@ function e($texto) {
 
     </div>
 
-    <!-- SCRIPTS -->
+
     <script src="../scripts/script_home.js?v=20261109-clima-sem-emoji"></script>
     <script src="../scripts/script_cep.js"></script>
 
