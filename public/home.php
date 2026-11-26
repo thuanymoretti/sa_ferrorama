@@ -131,7 +131,7 @@ function e($texto) {
 
         </aside>
 
-       //CONTEÚDO PRINCIPAL 
+      <!-- CONTEÚDO PRINCIPAL -->
         <main class="conteudo">
 
       <!-- APRESENTAÇÃO -->
@@ -287,7 +287,7 @@ function e($texto) {
 
             </section>
 
-         // CLIMA E CONSULTA DE CEP 
+        <!-- CLIMA E CONSULTA DE CEP -->
             <div class="dashboard-recursos">
 
            <!-- CARD DO CLIMA --> 
